@@ -25,7 +25,10 @@ SECRET_KEY = 'gar$mpzxvu7ac01ut2saokz^do&ly)td-gwy&vp5x1iadx3v2-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0']
+
+serverip='49.235.138.160'
+ALLOWED_HOSTS = [serverip]
+
 
 
 # Application definition
