@@ -18,8 +18,6 @@ class JSONResponse(HttpResponse):
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs) 
 
-
-
 def get_farmuser(request):
     farmuser = FarmUser.objects.all()
     farmuser_serializer = FarmUserSerializer(farmuser,many=True)
@@ -35,7 +33,7 @@ def get_item(request):
 
 
 def login(request):
-    appid= 'wxb3c126a3f39ffb03'
+    appid= 'wx48c0b0d820c4563d'
     secret='4acdae8837a2d8e8a6a675193394eed1'
     JSCODE = request.GET.get('code')
     if JSCODE:
