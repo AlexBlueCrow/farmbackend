@@ -1,5 +1,6 @@
 
 from django.shortcuts import render
+import requests
 from django.http import HttpResponse,HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
@@ -18,18 +19,7 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs) 
 
 
-def login(request):
-    appid= 'wxb3c126a3f39ffb03'
-    secret='4acdae8837a2d8e8a6a675193394eed1'
-    JSCODE = request.GET.get('code')
-    if JSCODE:
-        wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
-        r = requests.get(wxLoginURL)
-        print('response:',r.content)
-        data = requests.get
-        return HttpResponse(r)
-    else:
-        return HttpResponseNotFound
+
 def get_farmuser(request):
     farmuser = FarmUser.objects.all()
     farmuser_serializer = FarmUserSerializer(farmuser,many=True)
@@ -44,6 +34,18 @@ def get_item(request):
    
 
 
+def login(request):
+    appid= 'wxb3c126a3f39ffb03'
+    secret='4acdae8837a2d8e8a6a675193394eed1'
+    JSCODE = request.GET.get('code')
+    if JSCODE:
+        wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
+        r = requests.get(wxLoginURL)
+        print('response:',r.content)
+        data = requests.get
+        return HttpResponse(r)
+    else:
+        return HttpResponseNotFound
 #def get_questions():
 
 #def get_farmuser():
