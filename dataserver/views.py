@@ -23,10 +23,10 @@ def get_farmuser(request):
     farmuser_serializer = FarmUserSerializer(farmuser,many=True)
     return JSONResponse(farmuser_serializer.data)
 
-def get_item(request):
+def get_item(request,pk):
     pk=pk
     try:
-        item = Item.objects.get(pk=pk)
+        item = Item.objects.filter(pk=pk)
     except Item.DoesNotExist:
         pk=1
         item = Item.objects.get(pk=pk)
