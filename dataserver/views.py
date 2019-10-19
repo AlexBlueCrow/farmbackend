@@ -24,8 +24,8 @@ def get_farmuser(request):
     return JSONResponse(farmuser_serializer.data)
 
 def get_item(request):
-    get_farmuser(request)
-    item = Item.objects.all()
+    pk=request.data.itemnum
+    item = Item.objects.get(pk=pk)
     item_serializer = ItemSerializer(item,many=True)
     return JSONResponse(item_serializer.data)
 
