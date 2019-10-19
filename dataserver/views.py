@@ -23,7 +23,7 @@ def get_farmuser(request):
     farmuser_serializer = FarmUserSerializer(farmuser,many=True)
     return JSONResponse(farmuser_serializer.data)
 
-def get_item(request,pk):
+def get_item(request):
     pk=pk
     try:
         item = Item.objects.get(pk=pk)
