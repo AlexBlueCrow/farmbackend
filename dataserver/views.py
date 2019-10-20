@@ -30,6 +30,7 @@ def get_item(request):
     except Item.DoesNotExist:
         pk=1
         item = Item.objects.get(id=pk)
+    print(item)
     item_serializer = ItemSerializer(item,many=True)
     return JSONResponse(item_serializer.data)
 
