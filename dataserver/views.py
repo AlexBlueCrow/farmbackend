@@ -33,7 +33,7 @@ def get_item(request,pk):
     item_serializer = ItemSerializer(item,many=True)
     return JSONResponse(item_serializer.data)
 
-def get_questions(request,itemNum):
+def get_questions(request,item_id):
     try:
         questions = Question.objects.filter(itemNum=itemNum)
     except Question.DoesNotExist:
