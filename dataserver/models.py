@@ -84,13 +84,13 @@ class Order(models.Model):
 class Question(models.Model):
     question_id = models.IntegerField(primary_key=True,unique=True)
     Q_CHOICES = [('A','A'),('B','B'),('C','C'),('D','D')]
-    question_item = models.ForeignKey(Item,on_delete=models.CASCADE,default='')
+    question_item = models.ForeignKey(Item,on_delete=models.CASCADE,default='',)
     question_text = models.CharField(max_length = 50)
     option_A = models.CharField(max_length =10)
     option_B = models.CharField(max_length =10)
     option_C = models.CharField(max_length =10)
     option_D = models.CharField(max_length =10)
-    Answer = models.CharField(max_length=1,choices = Q_CHOICES, default = 'A')
+    correct_answer = models.CharField(max_length=1,choices = Q_CHOICES, default = 'A')
 
 class Comments(models.Model):
     comment_id = models.AutoField(primary_key = True)

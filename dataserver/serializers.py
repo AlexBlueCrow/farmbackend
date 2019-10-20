@@ -26,7 +26,8 @@ class FarmUserSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     model = Question
-    fields = ('question_num',
+    fields = ('question_id',
+    'question_item',
     'category',
     'question_text',
     'option_A',
