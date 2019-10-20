@@ -28,7 +28,6 @@ class QuestionSerializer(serializers.ModelSerializer):
     model = Question
     fields = ('question_id',
     'question_item',
-    'category',
     'question_text',
     'option_A',
     'option_B',
