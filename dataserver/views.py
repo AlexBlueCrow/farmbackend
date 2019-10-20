@@ -26,13 +26,13 @@ def get_farmuser(request):
 def get_item(request):
     pk=request.GET.get('pk')
     try:
-        item = Item.objects.filter(id=pk)
+        item = Item.objects.all()
     except Item.DoesNotExist:
         pk=1
         item = Item.objects.get(id=pk)
     print(item)
     item_serializer = ItemSerializer(item,many=True)
-    print(item_serializer)
+    print(item_serializer.data)
     return JSONResponse(item_serializer.data)
 
 def get_questions(request):
