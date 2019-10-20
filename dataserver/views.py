@@ -35,6 +35,7 @@ def get_item(request):
 
 def get_questions(request):
     id=request.GET.get('item_id')
+    print(id)
     try:
         item = Item.objects.get(id=id)
     except Item.DoesNotExist:
