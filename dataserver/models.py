@@ -83,7 +83,7 @@ class Order(models.Model):
 
 class Question(models.Model):
     Q_CHOICES = [('A','A'),('B','B'),('C','C'),('D','D')]
-    question_id = models.AutoField(primary_key = True)
+    question_Item = models.ForeignKey(Item,on_delete=models.CASCADE,default='')
     question_text = models.CharField(max_length = 50)
     option_A = models.CharField(max_length =10)
     option_B = models.CharField(max_length =10)
