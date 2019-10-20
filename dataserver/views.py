@@ -32,6 +32,7 @@ def get_item(request):
         item = Item.objects.get(id=pk)
     print(item)
     item_serializer = ItemSerializer(item,many=True)
+    print(item_serializer)
     return JSONResponse(item_serializer.data)
 
 def get_questions(request):
@@ -44,6 +45,7 @@ def get_questions(request):
     questions = item.question_set.all()
     print(questions)
     questions_serializer = QuestionSerializer(questions,many=True)
+    print(questions_serializer)
     return JSONResponse(questions_serializer.data)
     
 
