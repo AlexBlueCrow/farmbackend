@@ -33,7 +33,7 @@ def get_item(request):
     print(item)
     item_serializer = ItemSerializer(item,many=True)
     print(item_serializer)
-    return JSONResponse(item_serializer.data),JSONResponse(item_serializer.data)
+    return JSONResponse(item_serializer.data)
 
 def get_questions(request):
     id=request.GET.get('item_id')
