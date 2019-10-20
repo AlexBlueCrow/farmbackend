@@ -23,14 +23,13 @@ def get_farmuser(request):
     farmuser_serializer = FarmUserSerializer(farmuser,many=True)
     return JSONResponse(farmuser_serializer.data)
 
-def get_item(request,id):
-    id =id 
-    print(request.GET.get(pk))
+def get_item(request):
+    pk=request.GET.get('pk')
     try:
-        item = Item.objects.filter(id=id)
+        item = Item.objects.filter(id=pk)
     except Item.DoesNotExist:
-        id=1
-        item = Item.objects.get(id=id)
+        pk=1
+        item = Item.objects.get(id=pk)
     item_serializer = ItemSerializer(item,many=True)
     return JSONResponse(item_serializer.data)
 

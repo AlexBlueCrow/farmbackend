@@ -6,7 +6,7 @@ from dataserver import views
 
 
 urlpatterns = [
-    url(r'getItem/(?P<id>(\d+))$',views.get_item),
+    url(r'getItem/$',views.get_item),
     url(r'getQuestion/(?P<item_id>(\d+))$',views.get_questions),
     url(r'login',views.login),
     
