@@ -41,6 +41,7 @@ def get_questions(request):
     except Item.DoesNotExist:
         return HttpResponseNotFound
     questions = item.question_set.all()
+    print(questions)
     questions_serializer = QuestionSerializer(questions,many=True)
     return JSONResponse(questions_serializer.data)
     
