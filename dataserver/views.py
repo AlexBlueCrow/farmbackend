@@ -45,7 +45,6 @@ def get_questions(request):
     questions = Question.objects.filter(question_item=item)
     print(questions)
     questions_serializer = QuestionSerializer(questions,many=True)
-    print(questions_serializer)
     return JSONResponse(questions_serializer.data)
     
 
