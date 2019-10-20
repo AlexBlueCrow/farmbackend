@@ -82,8 +82,9 @@ class Order(models.Model):
     order_tree_ip = models.CharField(max_length=50)
 
 class Question(models.Model):
+    question_id = models.IntegerField(primary_key=True,unique=True)
     Q_CHOICES = [('A','A'),('B','B'),('C','C'),('D','D')]
-    question_Item = models.ForeignKey(Item,on_delete=models.CASCADE,default='')
+    question_item = models.ForeignKey(Item,on_delete=models.CASCADE,default='')
     question_text = models.CharField(max_length = 50)
     option_A = models.CharField(max_length =10)
     option_B = models.CharField(max_length =10)
