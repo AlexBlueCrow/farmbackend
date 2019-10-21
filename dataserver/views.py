@@ -66,7 +66,7 @@ def wx_login(request):
         user = WxUser.objects.get_or_create(
             user_openid=openid,
         )
-        print('user:'user)
+        print('user:',user)
         print('response:',res)
 
         
