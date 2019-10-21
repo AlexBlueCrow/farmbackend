@@ -8,6 +8,6 @@ from dataserver import views
 urlpatterns = [
     url(r'getItem/$',views.get_item),
     url(r'getQuestion/$',views.get_questions),
-    url(r'login',views.login),
+    url(r'login',views.wx_login),
     
 ]

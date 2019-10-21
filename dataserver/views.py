@@ -53,13 +53,13 @@ def get_questions(request):
    
 
 
-def login(request):
+def wx_login(request):
     appid= 'wx48c0b0d820c4563d'
     secret='4acdae8837a2d8e8a6a675193394eed1'
     JSCODE = request.GET.get('code')
     if JSCODE:
         wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
-        r = requests.get(wxLoginURL)
+        r = requests.get(wxLoginURL).json()
         print('response:',r.content)
         
         return HttpResponse(r)
