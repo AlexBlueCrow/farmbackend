@@ -62,7 +62,7 @@ def wx_login(request):
         r = requests.get(wxLoginURL).json()
         print('response:',r)
         
-        return HttpResponse(r)
+        return JSONResponse(r)
     else:
         return HttpResponseNotFound
 #def get_questions():
