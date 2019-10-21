@@ -36,14 +36,16 @@ def get_item(request):
     return JSONResponse(item_serializer.data)
 
 def get_questions(request):
-    id=request.GET.get('item_id')
-    print(id)
+    item_id=request.GET.get('item_id')
+    print(item_id)
     try:
-        item = Item.objects.get(id=id)
+        item = Item.objects.get(id=item_id)
     except Item.DoesNotExist:
         return HttpResponseNotFound
-    questions = Question.objects.filter(question_item=item)
+    print(item)
+    questions = Question.objects.all()
     print(questions)
+    
     questions_serializer = QuestionSerializer(questions,many=True)
     return JSONResponse(questions_serializer.data)
     
@@ -59,7 +61,7 @@ def login(request):
         wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
         r = requests.get(wxLoginURL)
         print('response:',r.content)
-        data = requests.get
+        
         return HttpResponse(r)
     else:
         return HttpResponseNotFound
