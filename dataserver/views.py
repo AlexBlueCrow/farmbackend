@@ -61,7 +61,7 @@ def wx_login(request):
         wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
         res = requests.get(wxLoginURL).json()
         openid=res['openid']
-        sessionkey=res['sessionkey']
+        sessionkey=res['session_key']
         print('openid:',open)
         user = WxUser.objects.get_or_create(
             user_openid=openid,
