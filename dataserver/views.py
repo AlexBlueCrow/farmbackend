@@ -59,10 +59,18 @@ def wx_login(request):
     JSCODE = request.GET.get('code')
     if JSCODE:
         wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
-        r = requests.get(wxLoginURL).json()
-        print('response:',r)
+        res = requests.get(wxLoginURL).json()
+        openid=res['openid']
+        sessionkey=res['sessionkey']
+        print('openid:',open)
+        user = WxUser.objects.get_or_create(
+            user_openid=openid,
+        )
+        print('user:'user)
+        print('response:',res)
+
         
-        return JSONResponse(r)
+        return JSONResponse(res)
     else:
         return HttpResponseNotFound
 #def get_questions():
