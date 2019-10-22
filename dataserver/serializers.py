@@ -26,11 +26,4 @@ class FarmUserSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     model = Question
-    fields = ('question_id',
-    'question_item',
-    'question_text',
-    'option_A',
-    'option_B',
-    'option_C',
-    'option_D',
-    'correct_answer')
+    fields = '__all__'

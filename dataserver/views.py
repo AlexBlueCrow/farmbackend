@@ -1,13 +1,19 @@
 
-from django.shortcuts import render
+import hashlib
+import json
 import requests
+from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
+from rest_framework import Response
 from dataserver.models import WxUser,Item,FarmUser,Question,Order
 from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer
+
+
+
 
 # Create your views here.
 
@@ -53,26 +59,7 @@ def get_questions(request):
    
 
 
-def wx_login(request):
-    appid= 'wx48c0b0d820c4563d'
-    secret='4acdae8837a2d8e8a6a675193394eed1'
-    JSCODE = request.GET.get('code')
-    if JSCODE:
-        wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
-        res = requests.get(wxLoginURL).json()
-        openid=res['openid']
-        sessionkey=res['session_key']
-        print('openid:',open)
-        user = WxUser.objects.get_or_create(
-            user_openid=openid,
-        )
-        print('user:',user)
-        print('response:',res)
 
-        
-        return JSONResponse(res)
-    else:
-        return HttpResponseNotFound
 #def get_questions():
 
 #def get_farmuser():
