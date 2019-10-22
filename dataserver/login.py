@@ -1,0 +1,57 @@
+
+
+import hashlib
+import json
+import requests
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import response
+from django_redis import get_redis_connection
+from .models import User
+from .serializers import WxUserSerializer
+from .models import WxUser
+
+
+
+def wx_login(request):
+    appid= 'wx48c0b0d820c4563d'
+    secret='4acdae8837a2d8e8a6a675193394eed1'
+    JSCODE = request.GET.get('code')
+    if JSCODE:
+        wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
+        res = requests.get(wxLoginURL).json()
+        openid=res['openid']
+        session_key=res['session_key']
+        print('openid:',openid)
+        user,created = WxUser.objects.get_or_create(
+            user_openid=openid,          
+        )
+        user_str = str(WxUserSerializer(user).data)
+        print('user_ste:',user_str)
+        print('user:',user)
+        print('response:',res)
+
+        ##定义登录态
+
+        sha=hashlib.sha1()
+        print(sha)
+        sha.update(openid.encode())
+        print(sha)
+        sha.update(session_key.encode())
+        print(sha)
+        digest = sha.hexdigest()
+        print(digest)
+
+        
+
+        #存入缓存，有效期2小时
+        conn = 　get_redis_connection('default')
+        conn.set(digest,user_str,ex=2*60*60)
+        return Response(data={'code':200,'msg':'ok','data':{'skey':digest}})
+
+
+
+        
+        return JSONResponse(res)
+    else:
+        return HttpResponseNotFound
