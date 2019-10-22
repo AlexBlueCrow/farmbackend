@@ -12,7 +12,7 @@ from .serializers import WxUserSerializer
 from .models import WxUser
 
 
-@api_vie(['POST'])
+@api_view(['POST'])
 def wx_login(request):
     appid= 'wx48c0b0d820c4563d'
     secret='4acdae8837a2d8e8a6a675193394eed1'
