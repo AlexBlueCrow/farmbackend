@@ -2,17 +2,16 @@ import hashlib
 import json
 import requests
 from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework.decorators import api_view,authentication_classes
+from rest_framework.response import esponse
 from django_redis import get_redis_connection
 from .models import WxUser
 from .serializers import WxUserSerializer
-from .authentication import WxUserAuthentication
 
 
 
 @api_view(['POST'])
-@WxUserAuthentication([]) # 添加
+@authentication_classes([]) # 添加
 
 def wx_login(request):
     appid= 'wx48c0b0d820c4563d'
