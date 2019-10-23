@@ -1,5 +1,5 @@
 
-
+import redis
 import hashlib
 import json
 import requests
@@ -17,7 +17,9 @@ def wx_login(request):
     appid= 'wx48c0b0d820c4563d'
     secret='4acdae8837a2d8e8a6a675193394eed1'
     JSCODE = request.GET.get('code')
+    print(JSCODE)
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
+    print(wxLoginURL)
     res = json.loads(requests.get(url).content)
     if 'errcode' in res:
         return Response(data={'code':response['errcode'],'msg':response['errmsg']})
