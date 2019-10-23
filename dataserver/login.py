@@ -3,7 +3,7 @@ import json
 import requests
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.response import response
+from rest_framework.response import Response
 from django_redis import get_redis_connection
 from .models import WxUser
 from .serializers import WxUserSerializer
