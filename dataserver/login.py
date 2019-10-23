@@ -7,11 +7,12 @@ from rest_framework.response import Response
 from django_redis import get_redis_connection
 from .models import WxUser
 from .serializers import WxUserSerializer
+from .authentication import WxUserAuthentication
 
 
 
 @api_view(['POST'])
-@authentication_classes([]) # 添加
+@WxUserAuthentication([]) # 添加
 
 def wx_login(request):
     appid= 'wx48c0b0d820c4563d'
