@@ -19,7 +19,7 @@ def wx_login(request):
     JSCODE = request.data['code']
     print(JSCODE)
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
-    res = json.loads(requests.get(url).content)
+    res = json.loads(requests.get(wxLoginURL).content)
     if 'errcode' in res:
         return Response(data={'code':response['errcode'],'msg':response['errmsg']})
     ##success
