@@ -131,7 +131,7 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
  'DEFAULT_AUTHENTICATION_CLASSES': (
- 'note.authentication.UserAuthentication', # 用自定义的认证类
+ 'dataserver.authentication.WxUserAuthentication', # 用自定义的认证类
  ),
  'DEFAULT_RENDERER_CLASSES': (
  'rest_framework.renderers.JSONRenderer',

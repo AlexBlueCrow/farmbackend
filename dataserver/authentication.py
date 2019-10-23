@@ -2,7 +2,7 @@ from rest_framework import exceptions
 from rest_framework.authentication import BaseAuthentication
 from django_redis import get_redis_connection
 
-class UserAuthentication(BaseAuthentication):
+class WxUserAuthentication(BaseAuthentication):
     def authenticate(self, request):
         if 'HTTP_SKEY' in request.META:
             skey = request.META['HTTP_SKEY']
