@@ -8,15 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from rest_framework import Response
 from dataserver.models import WxUser,Item,FarmUser,Question,Order
 from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer
-from rest_framework.decorators import api_view, authentication_classes
-from django_redis import get_redis_connection
-
-@api_view(['POST'])
-@authentication_classes([]) # 添加
-
 
 
 # Create your views here.
