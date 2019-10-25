@@ -29,12 +29,12 @@ def get_farmuser(request):
 def get_item(request):
     pk=request.GET.get('pk')
     try:
-        item = Item.objects.get(pk=pk)
+        item = Item.objects.get(id=pk)
     except Item.DoesNotExist:
         pk=1
         item = Item.objects.get(id=pk)
     print(item)
-    item_serializer = ItemSerializer(item,many=True)
+    item_serializer = ItemSerializer(item,many=False)
     print(item_serializer.data)
     return JSONResponse(item_serializer.data)
 
