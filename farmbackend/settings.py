@@ -129,6 +129,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = "/home/static_root/"
+
+STATIC_DIRS = "/home/statics_dir/"
+
+
+
+STATICFILES_FINDERS = {
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder"
+}
+
+
 REST_FRAMEWORK = {
  'DEFAULT_AUTHENTICATION_CLASSES': (
  'dataserver.authentication.WxUserAuthentication', # 用自定义的认证类
@@ -150,3 +162,5 @@ CACHES = {
         }
     }
 }
+
+

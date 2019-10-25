@@ -29,7 +29,7 @@ def get_farmuser(request):
 def get_item(request):
     pk=request.GET.get('pk')
     try:
-        item = Item.objects.all()
+        item = Item.objects.get(pk=pk)
     except Item.DoesNotExist:
         pk=1
         item = Item.objects.get(id=pk)
