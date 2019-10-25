@@ -131,7 +131,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = "/home/static_root/"
 
-STATIC_DIRS = "/home/static_dir/"
+STATIC_DIRS = "/home/static_dir"
 
 
 
