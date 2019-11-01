@@ -7,14 +7,14 @@ import datetime
 
 class WxUser(models.Model):
     user_openid = models.CharField(max_length =50,blank = False,default='',unique=True)
-    user_gender = models.CharField(choices=['female','male'])
+    user_gender = models.CharField(max_length=10,choices=[('female','female'),('male','male'),('null','null')],default = 'null')
     user_avatar = models.CharField(max_length=50,blank=True,default='')##头像地址
     user_nickname = models.CharField(max_length = 50,blank = False, default= '')
     user_address = models.CharField(max_length=100,blank=True,default='')
     user_phonenumber= models.BigIntegerField(blank=True,default=0) 
     user_addressee = models.CharField(max_length = 50,blank = False, default= '')
     user_membership = models.IntegerField(default=0)
-    user_region = models.CharField(max_length=50)
+    user_region = models.CharField(max_length=50,default='')
 
     def __str__(self):
         return self.user_openid
@@ -28,8 +28,8 @@ class FarmUser(models.Model):
     farm_logo_address = models.CharField(max_length = 100)
     farm_phonenumber = models.BigIntegerField(blank=True,default=0)
     farm_contact = models.CharField(max_length = 20)
-    farm_type = models.CharField()
-    farm_rank = models.IntegerField()
+    farm_type = models.CharField(max_length = 20,default='')
+    farm_rank = models.IntegerField(default=0)
 
     def __str__(self):
         return self.farm_name
@@ -45,7 +45,7 @@ class Item(models.Model):
     vedio_address = models.CharField(max_length=400)##vedio url
     pic_address = models.CharField(max_length=400)##pic url
     item_description = models.CharField(max_length=600,blank=True)
-    item_price = models.DecimalField(default=0)
+    item_price = models.DecimalField(default=0,max_digits=8,decimal_places=2)
     item_num_total = models.IntegerField(default=0)
     item_num_sold = models.IntegerField(default=0)
     item_guaranteed = models.FloatField(default=0)
@@ -63,7 +63,7 @@ class Region(models.Model):
     region_address = models.CharField(max_length = 100)
     num_rows = models.IntegerField()
     num_lines = models.IntegerField()
-    status = models.CharField(max_length = 500)
+    status = models.CharField(max_length = 500,default = 0)
 
 
     def __str__(self):
@@ -74,7 +74,7 @@ class Certification(models.Model):
     cer_type = models.CharField(max_length = 50)
     cer_name = models.CharField(max_length = 50)
     cer_pic_address = models.CharField(max_length = 50)
-    cer_discription = models.CharField(max_length = 50)
+    cer_discription = models.CharField(max_length = 50,default='')
 
     def __str__(self):
         return self.farm
@@ -88,11 +88,11 @@ class Order(models.Model):
     order_effect_time = models.DateTimeField(default=timezone.now)
     order_timespanse = models.IntegerField(default=1)
     order_is_active = models.BooleanField(default=True)
-    order_price_paid = models.DecimalField(default=0)
+    order_price_paid = models.DecimalField(default=0,max_digits=8,decimal_places=2)
     order_quantity = models.IntegerField(default=1)
-    order_price_origin = models.DecimalField()
+    order_price_origin = models.DecimalField(default=0,max_digits=8,decimal_places=2)
     order_tree_ip = models.CharField(max_length=50)
-    order_buyernickname = models.CharField(default='')
+    order_buyernickname = models.CharField(max_length=20,default='')
     order_benifits = models.CharField(max_length=50,default='')
     order_delivered = models.FloatField(default=0)
     order_guaranteed = models.FloatField(default=0)
@@ -106,10 +106,10 @@ class Question(models.Model):
     question_rank = models.IntegerField(default='1')  
     question_text = models.CharField(max_length = 50)
     question_reward = models.FloatField(default='0')
-    option_A = models.CharField(max_length =10)
-    option_B = models.CharField(max_length =10)
-    option_C = models.CharField(max_length =10)
-    option_D = models.CharField(max_length =10)
+    option_A = models.CharField(max_length =20)
+    option_B = models.CharField(max_length =20)
+    option_C = models.CharField(max_length =20)
+    option_D = models.CharField(max_length =20)
     correct_answer = models.CharField(max_length=1,choices = Q_CHOICES, default = 'A')
 
 class Comments(models.Model):
@@ -120,7 +120,7 @@ class Comments(models.Model):
 
 class Video(models.Model):
     ##video_id
-    video_address = models.CharField(max_legth = 80)
+    video_address = models.CharField(max_length = 80)
     video_class = models.CharField(max_length = 20,default='')
     video_description =  models.CharField(max_length = 50)
 
