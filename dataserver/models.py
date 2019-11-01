@@ -47,7 +47,7 @@ class Item(models.Model):
     item_description = models.CharField(max_length=600,blank=True)
     item_price = models.DecimalField(default=0)
     item_num_total = models.IntegerField(default=0)
-    item_num_sell = models.IntegerFIeld(default=0)
+    item_num_sold = models.IntegerField(default=0)
     item_guaranteed = models.FloatField(default=0)
     item_benefit = models.CharField(max_length=200)
     item_period = models.IntegerField(blank=True,default=1)
