@@ -102,7 +102,7 @@ class Question(models.Model):
     Q_CHOICES = [('A','A'),('B','B'),('C','C'),('D','D')]
 
     question_id = models.IntegerField(primary_key=True,unique=True)
-    question_class = models.CharField(maxlength=20,default="无") 
+    question_class = models.CharField(max_length=20,default="无") 
     question_rank = models.IntegerField(default='1')  
     question_text = models.CharField(max_length = 50)
     question_reward = models.FloatField(default='0')
