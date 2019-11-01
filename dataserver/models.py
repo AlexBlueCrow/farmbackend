@@ -8,7 +8,7 @@ import datetime
 class WxUser(models.Model):
     user_openid = models.CharField(max_length =50,blank = False,default='',unique=True)
     user_gender = models.CharField(choices=['female','male'])
-    user_avatar = models.CharField(max_length=50,blank=true,default='')##头像地址
+    user_avatar = models.CharField(max_length=50,blank=True,default='')##头像地址
     user_nickname = models.CharField(max_length = 50,blank = False, default= '')
     user_address = models.CharField(max_length=100,blank=True,default='')
     user_phonenumber= models.BigIntegerField(blank=True,default=0) 
@@ -118,15 +118,11 @@ class Comments(models.Model):
     comment_text = models.CharField(max_length = 100)
     wxuser = models.ForeignKey(WxUser,on_delete=models.CASCADE)
 
-
-
-
-
-
-
-
-
-
+class Video(models.Model):
+    ##video_id
+    video_address = models.CharField(max_legth = 80)
+    video_class = models.CharField(max_length = 20,default='')
+    video_description =  models.CharField(max_length = 50)
 
 
 
