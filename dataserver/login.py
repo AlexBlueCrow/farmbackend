@@ -35,7 +35,7 @@ def wx_login(request):
 
         ##定义登录态
 
-    sha=hashlib.sha1()
+    sha=hashlib.sha1()  
     print(sha)
     sha.update(openid.encode())
     print(sha)
