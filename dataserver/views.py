@@ -39,15 +39,11 @@ def get_item(request):
     return JSONResponse(item_serializer.data)
 
 def get_questions(request):
-    item_id=request.GET.get('item_id')
-    print(item_id)
+    category=request.GET.get('cate')
     try:
-        item = Item.objects.get(id=item_id)
-    except Item.DoesNotExist:
+        questions = Question.objects.get(question_category=category)
+    except Question.DoesNotExist:
         return HttpResponseNotFound
-    print(item)
-    questions = Question.objects.all()
-    print(questions)
     
     questions_serializer = QuestionSerializer(questions,many=True)
     return JSONResponse(questions_serializer.data)
