@@ -42,7 +42,7 @@ class Item(models.Model):
     item_name = models.CharField(max_length = 100,blank=False,default='')
     owner = models.ForeignKey(FarmUser,on_delete=models.PROTECT)
     category = models.CharField(max_length= 100,blank=False,default='')
-    vedio_address = models.CharField(max_length=400)##vedio url
+    video_address = models.CharField(max_length=400)##video url
     pic_address = models.CharField(max_length=400)##pic url
     item_description = models.CharField(max_length=600,blank=True)
     item_price = models.DecimalField(default=0,max_digits=8,decimal_places=2)
