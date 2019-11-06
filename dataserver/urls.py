@@ -8,7 +8,7 @@ from dataserver import login
 
 urlpatterns = [
     url(r'getItem/$',views.get_item),
-    url(r'getQuestion/$',views.get_questions),
+    url(r'getQuestions/$',views.get_questions),
     url(r'login',login.wx_login),
     
 ]
