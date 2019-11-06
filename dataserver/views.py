@@ -42,7 +42,7 @@ def get_questions(request):
     category=request.GET.get('cate')
     print("cate:",category)
     try:
-        questions = Question.objects.all(question_category=category,many = True)
+        questions = Question.objects.filer(question_category=category)
         print(questions)
     except Question.DoesNotExist:
 
