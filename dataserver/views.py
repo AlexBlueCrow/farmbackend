@@ -40,9 +40,12 @@ def get_item(request):
 
 def get_questions(request):
     category=request.GET.get('cate')
+    print("cate:",category)
     try:
         questions = Question.objects.get(question_category=category)
+        print(questions)
     except Question.DoesNotExist:
+
         return HttpResponseNotFound
     
     questions_serializer = QuestionSerializer(questions,many=True)
