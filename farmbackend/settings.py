@@ -27,7 +27,7 @@ DEBUG = True
 
 
 serverip='49.235.138.160'
-ALLOWED_HOSTS = [serverip,'127.0.0.1']
+ALLOWED_HOSTS = [serverip,'127.0.0.1','www.qingjiao.shop','qingjiao.shop']
 
 
 
