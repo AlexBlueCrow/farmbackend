@@ -84,7 +84,7 @@ def get_bodyData(openid,client_ip,price):
     bodyData += '<openid>' + openid + '</openid>'                   #用户标识
     bodyData += '<out_trade_no>' + out_trade_no + '</out_trade_no>'#商户订单号
     bodyData += '<spbill_create_ip>' + client_ip + '</spbill_create_ip>'#客户端终端IP
-    bodyData += '<total_fee type='int'>'+　total_fee +'</total_fee>'         #总金额 单位为分
+    bodyData += '<total_fee type="int">'+　total_fee +'</total_fee>'         #总金额 单位为分
     bodyData += '<trade_type>'+'JSAPI'+'</trade_type>'                   #交易类型 小程序取值如下：JSAPI
     bodyData += '<sign>' + sign + '</sign>'
     bodyData += '</xml>'
