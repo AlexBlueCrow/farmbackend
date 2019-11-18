@@ -41,17 +41,16 @@ def get_item(request):
     except Item.DoesNotExist:
         pk=1
         item = Item.objects.get(id=pk)
-    print(item)
+    
     item_serializer = ItemSerializer(item,many=False)
-    print(item_serializer.data)
+    
     return JSONResponse(item_serializer.data)
 
 def get_questions(request):
     category=request.GET.get('cate')
-    print("cate:",category)
+    
     try:
         questions = Question.objects.filter(question_category=category)
-        print(questions)
     except Question.DoesNotExist:
 
         return HttpResponseNotFound
@@ -104,7 +103,7 @@ def payOrder(request):
  
         #回复数据为xml,将其转为字典
         content=pay.xml_to_dict(respone.content)
-        print(content)
+        
  
         if content["return_code"]=='SUCCESS':
             #获取预支付交易会话标识
