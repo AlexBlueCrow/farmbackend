@@ -10,12 +10,12 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 from dataserver.models import WxUser,Item,FarmUser,Question,Order
 from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer
-from login import wx_login
+from dataserver.login import wx_login
 import random
 import time
 import datetime
 import xml.etree.ElementTree as ET
-from . import pay
+from dataserver import pay
 
 
 # Create your views here.
@@ -72,8 +72,8 @@ def payOrder(request):
  
         #获取小程序openid
         JSCODE = request.POST.get('code')
-        appid= 'wx48c0b0d820c4563d'
-        secret='4acdae8837a2d8e8a6a675193394eed1'
+        appid= 'wxd647f4c25673f368'
+        secret='7de75de46a3d82dcc0bed374407f310f'
         wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
         res = json.loads(requests.get(wxLoginURL).content)
         if 'errcode' in res:
