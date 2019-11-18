@@ -128,6 +128,8 @@ def payOrder(request):
  
             #获取paySign签名，这个需要我们根据拿到的prepay_id和nonceStr进行计算签名
             paySign=pay.get_paysign(prepay_id,timeStamp,nonceStr)
+
+            print("paysign",paySign)
  
             #封装返回给前端的数据
             data={"prepay_id":prepay_id,"nonceStr":nonceStr,"paySign":paySign,"timeStamp":timeStamp}
@@ -135,6 +137,7 @@ def payOrder(request):
             return HttpResponse(packaging_list(data))
  
         else:
+            print('支付失败')
             return HttpResponse("请求支付失败")
 
 #def get_questions():
