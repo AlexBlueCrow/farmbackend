@@ -65,24 +65,24 @@ def get_questions(request):
 
 
 @csrf_exempt 
-@api_view(['POST'])
+@api_view(['GET'])
 @authentication_classes([])
 def payOrder(request):
     import time
     JSCODE=''
-    if request.method == 'POST':
+    if request.method == 'GET':
         #获取价格
         print('request',request)
 
-        print('request.POST',request.POST)
-        price = request.POST.get('total_fee')
+        print('request.GET',request.GET)
+        price = request.GET.get('total_fee')
         #获取客户端ip
         print('price:',price)
         client_ip,port=request.get_host().split(":")
         print('client_ip:',client_ip,port)
  
         #获取小程序openid
-        JSCODE = request.POST.get('code')
+        JSCODE = request.GET.get('code')
         print('JSCODE',JSCODE)
         appid= 'wxd647f4c25673f368'
         secret='7de75de46a3d82dcc0bed374407f310f'
@@ -105,7 +105,7 @@ def payOrder(request):
         timeStamp=str(int(time.time()))
  
         #请求微信接口下单
-        respone=requests.post(url,body_data.encode("utf-8"),headers={'Content-Type': 'application/xml'})
+        respone=requests.GET(url,body_data.encode("utf-8"),headers={'Content-Type': 'application/xml'})
  
         #回复数据为xml,将其转为字典
         content=pay.xml_to_dict(respone.content)
