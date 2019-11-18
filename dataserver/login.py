@@ -10,17 +10,18 @@ from .serializers import WxUserSerializer
 
 
 
+
 @api_view(['POST'])
 @authentication_classes([]) # 添加
 
 def wx_login(request):
-    appid= 'wx48c0b0d820c4563d'
-    secret='4acdae8837a2d8e8a6a675193394eed1'
+    appid= 'wxd647f4c25673f368'
+    secret='7de75de46a3d82dcc0bed374407f310f'
     JSCODE = request.data['code']
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     if 'errcode' in res:
-        return Response(data={'code':response['errcode'],'msg':response['errmsg']})
+        return Response(data={'code':res['errcode'],'msg':res['errmsg']})
     ##success
     openid=res['openid']
     session_key=res['session_key']
