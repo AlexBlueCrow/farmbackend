@@ -67,12 +67,14 @@ def payOrder(request):
     JSCODE=''
     if request.method == 'POST':
         #获取价格
-        
-        price = request.POST.get("total_fee")
+        print('request',request)
+
+        print('request.POST',request.POST)
+        price = request.POST.get('total_fee')
         #获取客户端ip
         print('price:',price)
         client_ip,port=request.get_host().split(":")
-        print('client_ip:',client_ip)
+        print('client_ip:',client_ip,port)
  
         #获取小程序openid
         JSCODE = request.POST.get('code')
