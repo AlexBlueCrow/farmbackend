@@ -20,8 +20,8 @@ def paysign(appid,body,mch_id,nonce_str,notify_url,openid,out_trade_no,spbill_cr
         
         "appid": appid,
         "body": body,
-        "attach":'test'
-        "mch_id": mch_id,
+        "attach":'test',
+        "mch_id":mch_id,
         "nonce_str": nonce_str,
        "notify_url":notify_url,
         "openid":openid,
