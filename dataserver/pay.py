@@ -56,7 +56,7 @@ def getWxPayOrdrID():
 #获取全部参数信息，封装成xml
 def get_bodyData(openid,client_ip,price):
 
-    body = '青椒认领_商品认领'#商品描述
+    body = 'qingjiaofarm_rent'#商品描述
     notify_url = 'https://qingjiao.shop:8000/payOrder/' #支付成功的回调地址  可访问 不带参数
     nonce_str =getNonceStr()#随机字符串
     out_trade_no =getWxPayOrdrID()#商户订单号
