@@ -1,11 +1,16 @@
-from myapp.configuration import client_appid,client_secret,Mch_id,Mch_key
+
 import hashlib
 import datetime
 import xml.etree.ElementTree as ET
 
 
 
-mch_id=1056463491
+Mch_id='1056463491'
+Mch_key=''
+appid= 'wxd647f4c25673f368'
+
+secret= '7de75de46a3d82dcc0bed374407f310f'
+
 
 
 #生成签名的函数
@@ -56,10 +61,10 @@ def get_bodyData(openid,client_ip,price):
     print('total_fee',total_fee)
 	
 	#获取签名
-    sign=paysign(client_appid,body,Mch_id,nonce_str,notify_url,openid,out_trade_no,client_ip,total_fee)
+    sign=paysign(appid,body,Mch_id,nonce_str,notify_url,openid,out_trade_no,client_ip,total_fee)
 
     bodyData = '<xml>'
-    bodyData += '<appid>' + client_appid + '</appid>'             # 小程序ID
+    bodyData += '<appid>' + appid + '</appid>'             # 小程序ID
     bodyData += '<body>' + body + '</body>'                         #商品描述
     bodyData += '<mch_id>' + Mch_id + '</mch_id>'          #商户号
     bodyData += '<nonce_str>' + nonce_str + '</nonce_str>'         #随机字符串
@@ -104,7 +109,7 @@ def dict_to_xml(dict_data):
 #获取返回给小程序的paySign
 def get_paysign(prepay_id,timeStamp,nonceStr):
     pay_data={
-                'appId': client_appid,
+                'appId': appid,
                 'nonceStr': nonceStr,
                 'package': "prepay_id="+prepay_id,
                 'signType': 'MD5',
