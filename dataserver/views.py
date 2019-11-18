@@ -16,7 +16,7 @@ import time
 import datetime
 import xml.etree.ElementTree as ET
 from dataserver import pay
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,authentication_classes
 
 
 
