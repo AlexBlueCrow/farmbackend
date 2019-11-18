@@ -75,9 +75,13 @@ def payOrder(request):
         print('request',request)
 
         print('request.GET',request.GET)
-        price = request.GET.get('total_fee')
+        item_price = request.GET.get('item_price')
+        num_buy = request.GET.get('num_buy')
+        reward = request.GET.get('reward')
+        total_fee = item_price*num_buy - reward
+
         #获取客户端ip
-        print('price:',price)
+        print('price:',total_fee)
         client_ip,port=request.get_host().split(":")
         print('client_ip:',client_ip,port)
  
