@@ -30,8 +30,11 @@ def paysign(appid,body,mch_id,nonce_str,notify_url,openid,out_trade_no,spbill_cr
 
     #处理函数，对参数按照key=value的格式，并按照参数名ASCII字典序排序
     stringA = '&'.join(["{0}={1}".format(k, ret.get(k))for k in sorted(ret)])
+    print('stringA:',stringA)
     stringSignTemp = '{0}&key={1}'.format(stringA,Mch_key)
+    print('Temp:',stringSignTemp)
     sign = hashlib.md5(stringSignTemp.encode("utf-8")).hexdigest()
+    print('sign:',sign)
     return sign.upper()
 
 
