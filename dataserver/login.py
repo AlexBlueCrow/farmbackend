@@ -15,9 +15,13 @@ from .serializers import WxUserSerializer
 @authentication_classes([]) # 添加
 
 def wx_login(request):
+    print('request',request)
     appid= 'wxd647f4c25673f368'
     secret='7de75de46a3d82dcc0bed374407f310f'
+
     JSCODE = request.data['code']
+
+    print('login.code',JSCODE)
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     if 'errcode' in res:
