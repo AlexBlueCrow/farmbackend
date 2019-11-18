@@ -112,6 +112,8 @@ def payOrder(request):
  
         #回复数据为xml,将其转为字典
         content=pay.xml_to_dict(respone.content)
+
+        print("content:",content)
         
  
         if content["return_code"]=='SUCCESS':
