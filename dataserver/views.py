@@ -65,23 +65,24 @@ def get_questions(request):
 
 
 @csrf_exempt 
-##@api_view(['POST'])
+@api_view(['POST'])
+@authentication_classes([])
 def payOrder(request):
     import time
     JSCODE=''
-    if request.method == 'GET':
+    if request.method == 'POST':
         #获取价格
         print('request',request)
 
-        print('request.GET',request.GET)
-        price = request.GET.get('total_fee')
+        print('request.POST',request.POST)
+        price = request.POST.get('total_fee')
         #获取客户端ip
         print('price:',price)
         client_ip,port=request.get_host().split(":")
         print('client_ip:',client_ip,port)
  
         #获取小程序openid
-        JSCODE = request.GET.get('code')
+        JSCODE = request.POST.get('code')
         print('JSCODE',JSCODE)
         appid= 'wxd647f4c25673f368'
         secret='7de75de46a3d82dcc0bed374407f310f'
