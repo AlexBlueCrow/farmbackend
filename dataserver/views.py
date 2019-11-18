@@ -77,7 +77,7 @@ def payOrder(request):
         print('client_ip:',client_ip,port)
  
         #获取小程序openid
-        JSCODE = request.POST.get('code')
+        JSCODE = request.data['code']
         print('JSCODE',JSCODE)
         appid= 'wxd647f4c25673f368'
         secret='7de75de46a3d82dcc0bed374407f310f'
