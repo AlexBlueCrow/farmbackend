@@ -61,7 +61,7 @@ def get_bodyData(openid,client_ip,price):
     notify_url = 'https://qingjiao.shop:8000/payOrder/' #支付成功的回调地址  可访问 不带参数
     nonce_str =getNonceStr()#随机字符串
     out_trade_no =getWxPayOrdrID()#商户订单号
-    total_fee =str(price) #订单价格 单位是 分
+    total_fee =int(price) #订单价格 单位是 分
     print('total_fee',total_fee)
     Mch_id='1056463491'
     Mch_key='qingjiaorenlinggoldfish201911118s'
