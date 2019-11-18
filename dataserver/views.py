@@ -27,7 +27,7 @@ class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs) 
+        super(JSONResponse, JSONResponse).__init__(content, **kwargs) 
 
 def get_farmuser(request):
     farmuser = FarmUser.objects.all()
@@ -73,6 +73,7 @@ def payOrder(request):
  
         #获取小程序openid
         JSCODE = request.POST.get('code')
+        print(JSCODE)
         appid= 'wxd647f4c25673f368'
         secret='7de75de46a3d82dcc0bed374407f310f'
         wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
