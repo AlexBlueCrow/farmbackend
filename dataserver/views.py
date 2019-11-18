@@ -21,7 +21,7 @@ from dataserver import pay
 # Create your views here.
 mch_id=1560463491
 
-@csrf_exempt 
+ 
 
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
