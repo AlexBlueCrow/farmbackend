@@ -95,6 +95,7 @@ def payOrder(request):
             return Response(data={'code':response['errcode'],'msg':response['errmsg']})
     ##success
         openid=res['openid']
+        print('openid',openid)
 
 
  
@@ -103,12 +104,15 @@ def payOrder(request):
  
         #拿到封装好的xml数据
         body_data=pay.get_bodyData(openid,client_ip,price)
+        print('body_data',body_data)
  
         #获取时间戳
         timeStamp=str(int(time.time()))
+        print('timeStamp',timeStamp)
  
         #请求微信接口下单
         respone=requests.post(url,body_data.encode("utf-8"),headers={'Content-Type': 'application/xml'})
+
  
         #回复数据为xml,将其转为字典
         content=pay.xml_to_dict(respone.content)
