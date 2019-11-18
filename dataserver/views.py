@@ -64,12 +64,15 @@ def get_questions(request):
 @csrf_exempt 
 def payOrder(request):
     import time
+    JSCODE=''
     if request.method == 'POST':
         #获取价格
         
         price = request.POST.get("total_fee")
         #获取客户端ip
+        print('price:',price)
         client_ip,port=request.get_host().split(":")
+        print('client_ip:',client_ip)
  
         #获取小程序openid
         JSCODE = request.POST.get('code')
