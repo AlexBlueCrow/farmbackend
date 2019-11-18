@@ -105,7 +105,7 @@ def payOrder(request):
         timeStamp=str(int(time.time()))
  
         #请求微信接口下单
-        respone=requests.GET(url,body_data.encode("utf-8"),headers={'Content-Type': 'application/xml'})
+        respone=requests.post(url,body_data.encode("utf-8"),headers={'Content-Type': 'application/xml'})
  
         #回复数据为xml,将其转为字典
         content=pay.xml_to_dict(respone.content)
