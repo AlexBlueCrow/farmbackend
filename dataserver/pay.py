@@ -59,6 +59,11 @@ def get_bodyData(openid,client_ip,price):
     out_trade_no =getWxPayOrdrID()#商户订单号
     total_fee =str(price) #订单价格 单位是 分
     print('total_fee',total_fee)
+    Mch_id='1056463491'
+    Mch_key=''
+    appid= 'wxd647f4c25673f368'
+    secret= '7de75de46a3d82dcc0bed374407f310f'
+
 	
 	#获取签名
     sign=paysign(appid,body,Mch_id,nonce_str,notify_url,openid,out_trade_no,client_ip,total_fee)
