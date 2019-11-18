@@ -63,7 +63,7 @@ def get_bodyData(openid,client_ip,price):
     notify_url = 'https://qingjiao.shop:8000/payOrder/' #支付成功的回调地址  可访问 不带参数
     nonce_str =getNonceStr()#随机字符串
     out_trade_no =getWxPayOrdrID()#商户订单号
-    total_fee =price #订单价格 单位是 分
+    total_fee = str(price) #订单价格 单位是 分
     print('total_fee:',total_fee)
     Mch_id='1056463491'
     Mch_key='qingjiaorenlinggoldfish201911118s'
@@ -84,7 +84,7 @@ def get_bodyData(openid,client_ip,price):
     bodyData += '<openid>' + openid + '</openid>'                   #用户标识
     bodyData += '<out_trade_no>' + out_trade_no + '</out_trade_no>'#商户订单号
     bodyData += '<spbill_create_ip>' + client_ip + '</spbill_create_ip>'#客户端终端IP
-    bodyData += '<total_fee>'+　total_fee +'</total_fee>'         #总金额 单位为分
+    bodyData += '<total_fee type='int'>'+　total_fee +'</total_fee>'         #总金额 单位为分
     bodyData += '<trade_type>'+'JSAPI'+'</trade_type>'                   #交易类型 小程序取值如下：JSAPI
     bodyData += '<sign>' + sign + '</sign>'
     bodyData += '</xml>'
