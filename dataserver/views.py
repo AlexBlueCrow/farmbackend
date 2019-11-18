@@ -27,7 +27,7 @@ class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
-        super(JSONResponse, JSONResponse).__init__(content, **kwargs) 
+        super(JSONResponse, self).__init__(content, **kwargs) 
 
 def get_farmuser(request):
     farmuser = FarmUser.objects.all()
