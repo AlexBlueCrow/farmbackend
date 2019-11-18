@@ -15,6 +15,7 @@ secret= '7de75de46a3d82dcc0bed374407f310f'
 
 #生成签名的函数
 def paysign(appid,body,mch_id,nonce_str,notify_url,openid,out_trade_no,spbill_create_ip,total_fee):
+    Mch_key='qingjiaorenlinggoldfish20191118s'
     ret= {
         "appid": appid,
         "body": body,
