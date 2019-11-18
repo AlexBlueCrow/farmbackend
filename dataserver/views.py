@@ -16,6 +16,10 @@ import time
 import datetime
 import xml.etree.ElementTree as ET
 from dataserver import pay
+from rest_framework.decorators import api_view
+
+
+
 
 
 # Create your views here.
@@ -61,6 +65,7 @@ def get_questions(request):
 
 
 @csrf_exempt 
+@api_view(['POST'])
 def payOrder(request):
     import time
     JSCODE=''
