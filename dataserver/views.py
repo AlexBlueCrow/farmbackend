@@ -67,7 +67,7 @@ def payOrder(request):
     if request.method == 'POST':
         #获取价格
         
-        price = request.POST.get('total_fee')
+        price = request.POST.get("total_fee")
         #获取客户端ip
         client_ip,port=request.get_host().split(":")
  
