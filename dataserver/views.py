@@ -21,6 +21,8 @@ from dataserver import pay
 # Create your views here.
 mch_id=1560463491
 
+@csrf_exempt 
+
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
@@ -59,7 +61,7 @@ def get_questions(request):
 
 
 
-
+@csrf_exempt 
 def payOrder(request):
     import time
     if request.method == 'POST':
