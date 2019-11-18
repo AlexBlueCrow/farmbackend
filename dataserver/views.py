@@ -103,6 +103,7 @@ def payOrder(request):
         url= 'https://api.mch.weixin.qq.com/pay/unifiedorder'
  
         #拿到封装好的xml数据
+        print('bodtdata_input:',openid,'ip',client_ip,'price:',price)
         body_data=pay.get_bodyData(openid,client_ip,price)
         print('body_data',body_data)
  
