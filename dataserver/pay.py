@@ -17,8 +17,10 @@ secret= '7de75de46a3d82dcc0bed374407f310f'
 def paysign(appid,body,mch_id,nonce_str,notify_url,openid,out_trade_no,spbill_create_ip,total_fee):
     Mch_key='qingjiaorenlingshop2019111820000'
     ret= {
+        
         "appid": appid,
         "body": body,
+        "attach":'test'
         "mch_id": mch_id,
         "nonce_str": nonce_str,
        "notify_url":notify_url,
