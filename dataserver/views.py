@@ -63,6 +63,44 @@ def get_questions(request):
     return JSONResponse(questions_serializer.data)
 
 
+def get_comments(request):
+    item_id = request.GET.get(item_id)
+
+    comments = Comments.objects.filter(wxuser=item_id)
+
+    comments_serializer = CommentsSerializer(comments,many=True)
+    return JSONResponse(comments_serializer.data)
+
+
+def post_comment(request):
+    code = request.GET.get(code)
+    comment_text = request.GET.get(comment)
+    item_id = request.GET.get(item_id)
+    
+    appid= 'wxd647f4c25673f368'
+    secret='7de75de46a3d82dcc0bed374407f310f'
+    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
+    res = json.loads(requests.get(wxLoginURL).content)
+    if 'errcode' in res:
+        return Response(data={'code':response['errcode'],'msg':response['errmsg']})
+    ##success
+    openid=res['openid']
+    
+    created = Comments.objects.create(
+        WxUser=openid,
+        comment_text=comment_text,
+        item=item_id,
+    )
+
+    return Response(data={'code':200,'msg':'ok','data':{}})
+
+
+
+
+
+
+
+
 
 @csrf_exempt 
 @api_view(['GET'])
@@ -140,6 +178,9 @@ def payOrder(request):
         else:
             print('支付失败')
             return HttpResponse("请求支付失败")
+
+
+def pay_res(request):
 
 #def get_questions():
 
