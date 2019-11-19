@@ -64,7 +64,7 @@ def get_questions(request):
 
 
 def get_comments(request):
-    item_id = request.GET.get(item_id)
+    item_id = request.GET.get('item_id')
 
     comments = Comments.objects.filter(wxuser=item_id)
 
@@ -73,9 +73,9 @@ def get_comments(request):
 
 
 def post_comment(request):
-    code = request.GET.get(code)
-    comment_text = request.GET.get(comment)
-    item_id = request.GET.get(item_id)
+    code = request.GET.get('code')
+    comment_text = request.GET.get('comment')
+    item_id = request.GET.get('item_id')
     
     appid= 'wxd647f4c25673f368'
     secret='7de75de46a3d82dcc0bed374407f310f'
