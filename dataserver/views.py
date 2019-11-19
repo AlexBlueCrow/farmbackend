@@ -9,7 +9,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments
-from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer
+from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer
 from dataserver.login import wx_login
 import random
 import time
@@ -65,10 +65,10 @@ def get_questions(request):
 
 def get_comments(request):
     item_id = request.GET.get('item_id')
-
-    comments = Comments.objects.filter(wxuser=item_id)
-
+    comments = Comments.objects.filter(item_id=item_id)
+    print(comments)
     comments_serializer = CommentsSerializer(comments,many=True)
+    print(comments_serializer)
     return JSONResponse(comments_serializer.data)
 
 @api_view(['GET'])
