@@ -71,7 +71,8 @@ def get_comments(request):
     comments_serializer = CommentsSerializer(comments,many=True)
     return JSONResponse(comments_serializer.data)
 
-
+@api_view(['GET'])
+@authentication_classes([]) 
 def post_comment(request):
     code = request.GET.get('code')
     comment_text = request.GET.get('comment')
