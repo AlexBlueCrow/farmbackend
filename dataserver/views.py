@@ -89,8 +89,9 @@ def post_comment(request):
     created = Comments.objects.create(
         wxuser=WxUser.objects.get(user_openid=openid),
         comment_text=comment_text,
-        item=item_id,
+        item_id=item_id,
     )
+    print('created:',created)
 
     return Response(data={'code':200,'msg':'ok','data':{}})
 
