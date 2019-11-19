@@ -13,5 +13,7 @@ urlpatterns = [
     url(r'login',login.wx_login),
     url(r'payOrder/res/',views.pay_res),
     url(r'payOrder/$',views.payOrder),
+    url(r'getComments/',views.getComments),
+    url(r'creatComment/',views.post_comment)
     
 ]
