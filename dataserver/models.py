@@ -114,7 +114,7 @@ class Question(models.Model):
 
 class Comments(models.Model):
     comment_id = models.AutoField(primary_key = True)
-    item = models.ForeignKey(Item,on_delete=models.CASCADE)
+    item_id = models.ForeignKey(Item.id,on_delete=models.CASCADE)
     comment_text = models.CharField(max_length = 100)
     wxuser = models.ForeignKey(WxUser,on_delete=models.CASCADE)
     comment_time = models.DateTimeField(default= timezone.now)
