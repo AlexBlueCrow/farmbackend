@@ -179,9 +179,6 @@ def payOrder(request):
             print('支付失败')
             return HttpResponse("请求支付失败")
 
-
-def pay_res(request):
-
 #def get_questions():
 
 #def get_farmuser():
@@ -189,4 +186,4 @@ def pay_res(request):
 #def data_response():
 
 #def get_wxuser(request):
-    
+

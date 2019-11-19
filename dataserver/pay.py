@@ -59,7 +59,7 @@ def getWxPayOrdrID():
 def get_bodyData(openid,client_ip,price):
 
     body = 'qingjiaofarm_rent'#商品描述
-    notify_url = 'https://qingjiao.shop:8000/payOrder/res/' #支付成功的回调地址  可访问 不带参数
+    notify_url = 'https://qingjiao.shop:8000/payOrder/' #支付成功的回调地址  可访问 不带参数
     nonce_str =getNonceStr()#随机字符串
     out_trade_no =getWxPayOrdrID()#商户订单号
     total_fee = int(price) #订单价格 单位是 分
