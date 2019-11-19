@@ -38,12 +38,12 @@ class CertificationSerializer(serializers.ModelSerializer):
         model=Certification
         fields='__all__'
 
-class VideoSerializers(serializers.ModelSerializer):
+class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Certification
         fields='__all__'
 
-class CommentsSerializers(serializers.ModelSerializer):
+class CommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = '__all__'
