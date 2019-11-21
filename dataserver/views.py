@@ -183,13 +183,16 @@ def payOrder(request):
 def pay_res(request):
     print("Pay_success",request)
 
+
+
+
 @csrf_exempt 
 @api_view(['GET'])
 @authentication_classes([])
 def weChatPay(request):
     mch_id='1560463491'
     mch_key='qingjiaorenlingshop2019111820000'
-    code= request.Get.get('code')
+    code= request.GET.get('code')
     item_id=request.GET.get('item_id')
     item_name = request.GET.get('item_name')
     item_price = request.GET.get('item_price')
