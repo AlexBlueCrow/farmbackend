@@ -183,7 +183,9 @@ def payOrder(request):
 def pay_res(request):
     print("Pay_success",request)
 
-
+@csrf_exempt 
+@api_view(['GET'])
+@authentication_classes([])
 def weChatPay(request):
     mch_id='1560463491'
     mch_key='qingjiaorenlingshop2019111820000'
