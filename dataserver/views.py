@@ -20,7 +20,7 @@ from rest_framework.decorators import api_view,authentication_classes
 
 from wechatpy.utils import check_signature
 from wechatpy.pay.api import WeChatOrder
-from wechatpy.pay import weChatPay
+from wechatpy.pay import WeChatPay
 
 
 
