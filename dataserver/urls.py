@@ -11,9 +11,10 @@ urlpatterns = [
     url(r'getItem/$',views.get_item),
     url(r'getQuestions/$',views.get_questions),
     url(r'login',login.wx_login),
-    url(r'payOrder/res/',views.pay_res),
+    url(r'pay_res',views.pay_res),
     url(r'payOrder/$',views.payOrder),
     url(r'getComments/',views.get_comments),
-    url(r'postComment/',views.post_comment)
+    url(r'postComment/',views.post_comment),
+    url(r'weChatPay/',views.weChatPay),
     
 ]

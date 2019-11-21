@@ -17,13 +17,13 @@ import datetime
 import xml.etree.ElementTree as ET
 from dataserver import pay
 from rest_framework.decorators import api_view,authentication_classes
-
+from wechatpy import WeChatPay,WeChatOrder
 
 
 
 
 # Create your views here.
-mch_id=1560463491
+
 
  
 
@@ -67,7 +67,7 @@ def get_comments(request):
     item_id = request.GET.get('item_id')
     comments = Comments.objects.filter(item_id=item_id)
     print(comments)
-    comments_serializer = CommentsSerializer(comments,many=True)
+    comments_serializer = Comment   sSerializer(comments,many=True)
     print(comments_serializer)
     return JSONResponse(comments_serializer.data)
 
@@ -111,10 +111,7 @@ def payOrder(request):
     import time
     JSCODE=''
     if request.method == 'GET':
-        #获取价格
-        print('request',request)
-
-        print('request.GET',request.GET)
+        
         item_price = request.GET.get('item_price')
         num_buy = int(request.GET.get('num_buy'))
         reward =  request.GET.get('reward')
@@ -181,8 +178,58 @@ def payOrder(request):
             print('支付失败')
             return HttpResponse("请求支付失败")
 
-def pay_res():
-    print("Pay_success")
+def pay_res(request):
+    print("Pay_success",request)
+
+
+def weChatPay(request):
+    mch_id='1560463491'
+    mch_key='qingjiaorenlingshop2019111820000'
+    code= res.code
+    item_id=request.GET.get('item_id')
+    item_name = request.GET.get('item_name')
+    item_price = request.GET.get('item_price')
+    num_buy = int(request.GET.get('num_buy'))
+    reward =  request.GET.get('reward')
+    price = request.GET.get('total_fee')*100
+    address= request.GET.get('address')
+    nickname=request.GET.get('nickname')
+    post_sign =request.GET.get('post_sign')
+    name_rec=request.GET.get('name_rec')
+    phone_num = request.GET.get('phone_num')
+    appid= 'wxd647f4c25673f368'
+    secret='7de75de46a3d82dcc0bed374407f310f'
+    NOTIFY_URL='https://qingjiao.shop/dataserver/pay_res'
+    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
+    res = json.loads(requests.get(wxLoginURL).content)
+    if 'errcode' in res:
+        return Response(data={'code':response['errcode'],'msg':response['errmsg']})
+    ##success
+    openid=res['openid']
+
+    wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
+    res = pay.order.create(
+        trade_type="JSAPI",
+        body=item_name,
+        total_fee=price,
+        notify_url=NOTIFY_URL,
+        user_id=openid,
+        out_trade_no=getWxPayOrdrID(),
+    )
+    print(res)
+    prepay_id = res.get("prepay_id")
+    params = {
+                    "appId": appid,
+                    "timeStamp": timestamp,
+                    "nonceStr": nonce_str,
+                    "package": package,
+                    "signType": "MD5",
+                }
+    strs = '&'.join(['{}={}'.format(key, params.get(key))
+                    for key in sorted(params.keys()) if params.get(key)]) + "&key={}".format(CurrentConfig.MNT_KEY)
+    paySign = md5(strs.encode("utf-8")).hexdigest().upper()
+    
+
 
 #def get_questions():
 
