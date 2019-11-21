@@ -17,8 +17,10 @@ import datetime
 import xml.etree.ElementTree as ET
 from dataserver import pay
 from rest_framework.decorators import api_view,authentication_classes
-from wechatpy.pay import weChatPay
+
+from wechatpy.utils import check_signature
 from wechatpy.pay.api import WeChatOrder
+from wechatpy.pay import weChatPay
 
 
 
