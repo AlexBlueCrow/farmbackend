@@ -67,7 +67,7 @@ def get_comments(request):
     item_id = request.GET.get('item_id')
     comments = Comments.objects.filter(item_id=item_id)
     print(comments)
-    comments_serializer = Comment   sSerializer(comments,many=True)
+    comments_serializer = CommentsSerializer(comments,many=True)
     print(comments_serializer)
     return JSONResponse(comments_serializer.data)
 
@@ -228,7 +228,7 @@ def weChatPay(request):
     strs = '&'.join(['{}={}'.format(key, params.get(key))
                     for key in sorted(params.keys()) if params.get(key)]) + "&key={}".format(CurrentConfig.MNT_KEY)
     paySign = md5(strs.encode("utf-8")).hexdigest().upper()
-    
+
 
 
 #def get_questions():
