@@ -187,7 +187,7 @@ def pay_res(request):
 def weChatPay(request):
     mch_id='1560463491'
     mch_key='qingjiaorenlingshop2019111820000'
-    code= res.code
+    code= request.Get.get('code')
     item_id=request.GET.get('item_id')
     item_name = request.GET.get('item_name')
     item_price = request.GET.get('item_price')
@@ -210,7 +210,7 @@ def weChatPay(request):
     openid=res['openid']
 
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
-    res = pay.order.create(
+    pay_res = pay.order.create(
         trade_type="JSAPI",
         body=item_name,
         total_fee=price,
@@ -218,8 +218,8 @@ def weChatPay(request):
         user_id=openid,
         out_trade_no=getWxPayOrdrID(),
     )
-    print(res)
-    prepay_id = res.get("prepay_id")
+    print(pay_res)
+    prepay_id = pay_res.get("prepay_id")
     params = {
                     "appId": appid,
                     "timeStamp": timestamp,
