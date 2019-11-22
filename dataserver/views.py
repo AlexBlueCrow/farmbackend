@@ -225,15 +225,15 @@ def weChatPay(request):
         user_id=openid,
         out_trade_no=pay.getWxPayOrdrID(),
     )
-    print("pay_res",pay_res)
+    print("------pay_res",pay_res)
     prepay_id = pay_res.get("prepay_id")
     
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
-    print('wepy_sign:',wepy_sign)
+    print('------wepy_sign:',wepy_sign)
 
 
     paySign=pay.get_paysign(prepay_id=prepay_id,timeStamp=str(int(time.time())),nonceStr=pay_res['nonce_str'])
-    print("paySign:",paySign)
+    print("------paySign:",paySign)
 
     return Response(data={'wepy_sign':wepy_sign,'status':100,'paySign':paySign})
 
