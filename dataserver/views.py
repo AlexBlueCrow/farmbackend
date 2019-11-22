@@ -228,10 +228,12 @@ def weChatPay(request):
     print("pay_res",pay_res)
     prepay_id = pay_res.get("prepay_id")
     print("prepay_id",prepay_id)
-    wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id,)
-    print('wepy_sign',wepy_sign)
+    wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
+    print('wepy_sign:',wepy_sign)
+    paySign=pay.get_paysign(prepay_id=prepay_id,timeStamp=wepy_sign.timestamp,nonceStr=wepy_sign.noncestr)
+    print("paySign:,paySign)
 
-    return Response(data={'wepy_sign':wepy_sign,'status':100,'total_fee':price})
+    return Response(data={'wepy_sign':wepy_sign,'status':100})
 
 
 
