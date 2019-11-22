@@ -231,7 +231,7 @@ def weChatPay(request):
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
     print('wepy_sign',wepy_sign)
 
-    return Response(data={'wepy_sign':wepy_sign,status:100})
+    return Response(data={'wepy_sign':wepy_sign,'status':100})
 
 
 
