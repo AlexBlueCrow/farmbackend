@@ -210,6 +210,7 @@ def weChatPay(request):
     NOTIFY_URL='https://qingjiao.shop/dataserver/pay_res'
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
+    nonceStr = pay.getNonceStr()
     if 'errcode' in res:
         return Response(data={'code':response['errcode'],'msg':response['errmsg']})
     ##success
@@ -224,18 +225,15 @@ def weChatPay(request):
         user_id=openid,
         out_trade_no=pay.getWxPayOrdrID(),
     )
-    print(pay_res)
+    print("pay_res",pay_res)
     prepay_id = pay_res.get("prepay_id")
-    params = {
-                    "appId": appid,
-                    "timeStamp": timestamp,
-                    "nonceStr": nonce_str,
-                    "package": package,
-                    "signType": "MD5",
-                }
-    strs = '&'.join(['{}={}'.format(key, params.get(key))
-                    for key in sorted(params.keys()) if params.get(key)]) + "&key={}".format(CurrentConfig.MNT_KEY)
-    paySign = md5(strs.encode("utf-8")).hexdigest().upper()
+
+    wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
+    print('wepy_sign',wepy_sign)
+
+
+
+    
 
 
 
