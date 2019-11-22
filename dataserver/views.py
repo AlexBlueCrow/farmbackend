@@ -232,7 +232,7 @@ def weChatPay(request):
     print('wepy_sign:',wepy_sign)
 
 
-    paySign=pay.get_paysign(prepay_id=prepay_id,timeStamp=str(int(time.time())),nonceStr=pay_res['noncestr'])
+    paySign=pay.get_paysign(prepay_id=prepay_id,timeStamp=str(int(time.time())),nonceStr=pay_res['nonce_str'])
     print("paySign:",paySign)
 
     return Response(data={'wepy_sign':wepy_sign,'status':100,'paySign':paySign})
