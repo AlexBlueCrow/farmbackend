@@ -199,7 +199,7 @@ def weChatPay(request):
     item_price = request.GET.get('item_price')
     num_buy = int(request.GET.get('num_buy'))
     reward =  request.GET.get('reward')
-    price = str(int(request.GET.get('total_fee'))*100)
+    price = int(request.GET.get('total_fee'))*100
     address= request.GET.get('address')
     nickname=request.GET.get('nickname')
     post_sign =request.GET.get('post_sign')
@@ -231,7 +231,7 @@ def weChatPay(request):
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
     print('wepy_sign',wepy_sign)
 
-    return Response(data={'wepy_sign':wepy_sign,'status':100})
+    return Response(data={'wepy_sign':wepy_sign,'status':100,'total_fee':price})
 
 
 
