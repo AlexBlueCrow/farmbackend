@@ -231,11 +231,12 @@ def weChatPay(request):
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
     print('------wepy_sign:',wepy_sign)
 
-
-    paySign=pay.get_paysign(prepay_id=prepay_id,timeStamp=str(int(time.time())),nonceStr=pay_res['nonce_str'])
+    timeStamp=str(int(time.time()))
+    nonceStr=pay_res['nonce_str']
+    paySign=pay.get_paysign(prepay_id=prepay_id,timeStamp=timeStamp,nonceStr=nonceStr)
     print("------paySign:",paySign)
 
-    return Response(data={'wepy_sign':wepy_sign,'status':100,'paySign':paySign})
+    return Response(data={'wepy_sign':wepy_sign,'status':100,'paySign':paySign,'timeStamp':timeStamp,'nonceStr':nonceStr})
 
 
 
