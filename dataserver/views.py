@@ -216,13 +216,13 @@ def weChatPay(request):
     openid=res['openid']
 
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
-    pay_res = pay.order.create(
+    pay_res = wepy_order.order.create(
         trade_type="JSAPI",
         body=item_name,
         total_fee=price,
         notify_url=NOTIFY_URL,
         user_id=openid,
-        out_trade_no=getWxPayOrdrID(),
+        out_trade_no=pay.getWxPayOrdrID(),
     )
     print(pay_res)
     prepay_id = pay_res.get("prepay_id")
