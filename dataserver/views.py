@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParsdd
+from rest_framework.parsers import JSONParser
 from rest_framework import status
 from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments
 from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer
