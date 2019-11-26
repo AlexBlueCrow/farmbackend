@@ -181,6 +181,7 @@ def payOrder(request):
             return HttpResponse("请求支付失败")
 
 def pay_res(request):
+    return HttpResponse('test')
     #print("Pay_success",request)
 
 
