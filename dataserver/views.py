@@ -42,16 +42,13 @@ def get_farmuser(request):
     return JSONResponse(farmuser_serializer.data)
 
 def get_item(request):
-    pk=request.GET.get('pk')
+    
     try:
-        item = Item.objects.get(id=pk)
-    except Item.DoesNotExist:
-        pk=1
-        item = Item.objects.get(id=pk)
+        items = Item.objects.all()
     
-    item_serializer = ItemSerializer(item,many=False)
+    items_serializer = ItemSerializer(items,many=True)
     
-    return JSONResponse(item_serializer.data)
+    return JSONResponse(items_serializer.data)
 
 def get_questions(request):
     category=request.GET.get('cate')
@@ -180,7 +177,10 @@ def payOrder(request):
             #print('支付失败')
             return HttpResponse("请求支付失败")
 
-def pay_res(request):
+def pay_feedback(request):
+    
+
+
     return HttpResponse('test')
     #print("Pay_success",request)
 
@@ -207,7 +207,7 @@ def weChatPay(request):
     phone_num = request.GET.get('phone_num')
     appid= 'wxd647f4c25673f368'
     secret='7de75de46a3d82dcc0bed374407f310f'
-    NOTIFY_URL='https://qingjiao.shop/dataserver/pay_res'
+    NOTIFY_URL='https://qingjiao.shop/dataserver/pay_feedback'
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     nonceStr = pay.getNonceStr()
