@@ -43,8 +43,7 @@ def get_farmuser(request):
 
 def get_item(request):
     
-    try:
-        items = Item.objects.all()
+    items = Item.objects.all()
     
     items_serializer = ItemSerializer(items,many=True)
     
