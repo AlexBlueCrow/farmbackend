@@ -44,10 +44,12 @@ def get_farmuser(request):
 def get_item(request):
     
     items = Item.objects.all()
+    farms = FarmUser.objects.all()
     
     items_serializer = ItemSerializer(items,many=True)
+    farms_serializer = FarmUserSerializer(farms,many=True)
     
-    return JSONResponse(items_serializer.data)
+    return JSONResponse(items_serializer.data,farms_serializer.data)
 
 def get_questions(request):
     category=request.GET.get('cate')
