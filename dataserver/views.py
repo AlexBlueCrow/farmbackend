@@ -50,7 +50,7 @@ def get_item(request):
 
 def get_farmInfo(request):
     id = request.GET.get('farm')
-    farm =FarmUser.objects.get(id=id)
+    farm =FarmUser.objects.filter(id=id)
     farm_serializer = FarmUserSerializer(farm,many=True)
 
     return JSONResponse(farm_serializer.data)
