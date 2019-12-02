@@ -36,7 +36,7 @@ class JSONResponse(HttpResponse):
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs) 
 
-def get_farmuser(request):
+def get_farms(request):
     farmuser = FarmUser.objects.all()
     farmuser_serializer = FarmUserSerializer(farmuser,many=True)
     return JSONResponse(farmuser_serializer.data)
@@ -48,7 +48,7 @@ def get_item(request):
     
     return JSONResponse(items_serializer.data)
 
-def get_farm(request):
+def get_farmInfo(request):
     id = request.GET.get('farm')
     farm =FarmUser.objects.get(id=id)
     farm_serializer = FarmUserSerializer(farms,many=True)
@@ -251,7 +251,7 @@ def weChatPay(request):
 
 #def get_questions():
 
-#def get_farmuser():
+
 
 #def data_response():
 
