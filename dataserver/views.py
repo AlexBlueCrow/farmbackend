@@ -53,7 +53,7 @@ def get_orderInfo(request):
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     if 'errcode' in res:
-        return HttpResponse(res[errorcode])
+        return HttpResponse(res['errcode'])
     openid=res['openid']
     wxuser = WxUser.objects.filter(user_openid=openid)
     orders = Order.objects.filter(order_wxuser=wxuser)
