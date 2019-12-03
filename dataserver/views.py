@@ -57,9 +57,13 @@ def get_orderInfo(request):
     openid=res['openid']
 
     orders = Order.objects.filter(order_wxuser=openid)
+    print(orders)
+    if orders:
+        orders_serializer = OrderSerializer(orders,many=True)
+        return JSONResponse(orders_serializer.data)
+    else:
+        return HttpResponse("无有效订单")
 
-    orders_serializer = OrderSerializer(orders,many=True)
-    return JSONResponse(orders_serializer.data)
 
     
 
