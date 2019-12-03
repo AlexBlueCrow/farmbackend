@@ -42,11 +42,26 @@ def get_farms(request):
     return JSONResponse(farmuser_serializer.data)
 
 def get_item(request):
-    
     items = Item.objects.all()
     items_serializer = ItemSerializer(items,many=True)
-    
     return JSONResponse(items_serializer.data)
+
+def get_orderInfo(request):
+    code = request.GET.get('code')
+    appid= 'wxd647f4c25673f368'
+    secret='7de75de46a3d82dcc0bed374407f310f'
+    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
+    res = json.loads(requests.get(wxLoginURL).content)
+    if 'errcode' in res:
+        return Response(data={'code':response['errcode'],'msg':response['errmsg']})
+    openid=res['openid']
+
+    orders = Order.objects.filter(order_wxuser=openid)
+
+    orders_serializer = OrderSerializer(orders,many=True)
+    return JSONResponse(orders_serializer.data)
+
+    
 
 def get_farmInfo(request):
     id = request.GET.get('farm')
