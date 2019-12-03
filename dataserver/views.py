@@ -55,7 +55,7 @@ def get_orderInfo(request):
     if 'errcode' in res:
         return HttpResponse(res['errcode'])
     openid=res['openid']
-    wxuser = WxUser.objects.filter(user_openid=openid)
+    wxuser = WxUser.objects.get(user_openid=openid)
     orders = Order.objects.filter(order_wxuser=wxuser)
     print(orders)
     if orders:
