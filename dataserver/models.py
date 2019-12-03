@@ -37,7 +37,7 @@ class FarmUser(models.Model):
 
 
 class Item(models.Model):
-    #item_id = models.AutoField()
+    item_id = models.IntegerField(primary_key=True,unique=True)
     
     item_name = models.CharField(max_length = 100,blank=False,default='')
     owner = models.ForeignKey(FarmUser,on_delete=models.PROTECT)
@@ -83,6 +83,7 @@ class Certification(models.Model):
 class Order(models.Model):
     order_num = models.IntegerField(primary_key=True,unique=True)
     order_item = models.ForeignKey(Item,on_delete=models.PROTECT)
+    order_farm = modesl.ForeignKey(FarmUser,on_delete=models.PROTECT,default='')
     order_wxuser = models.ForeignKey(WxUser,on_delete=models.PROTECT,default='')
     order_deliver_address = models.CharField(max_length = 50,default='',blank=False)
     order_effect_time = models.DateTimeField(default=timezone.now)
@@ -96,6 +97,7 @@ class Order(models.Model):
     order_benifits = models.CharField(max_length=50,default='')
     order_delivered = models.FloatField(default=0)
     order_guaranteed = models.FloatField(default=0)
+    order_postsign = models.CharField(default='',max_length=50)
 
 
 class Question(models.Model):  
