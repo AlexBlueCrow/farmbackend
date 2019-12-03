@@ -55,8 +55,8 @@ def get_orderInfo(request):
     if 'errcode' in res:
         return Response(data={'code':response['errcode'],'msg':response['errmsg']})
     openid=res['openid']
-
-    orders = Order.objects.filter(order_wxuser=openid)
+    wxuser = WxUser.objects.filter(user_openid=openid)
+    orders = Order.objects.filter(order_wxuser=wxuser)
     print(orders)
     if orders:
         orders_serializer = OrderSerializer(orders,many=True)
