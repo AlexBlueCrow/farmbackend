@@ -83,7 +83,7 @@ class Certification(models.Model):
 class Order(models.Model):
     order_num = models.IntegerField(primary_key=True,unique=True)
     order_item = models.ForeignKey(Item,on_delete=models.PROTECT)
-    
+    order_farm = modesl.ForeignKey(FarmUser,on_delete=models.PROTECT,default='')
     order_wxuser = models.ForeignKey(WxUser,on_delete=models.PROTECT,default='')
     order_deliver_address = models.CharField(max_length = 50,default='',blank=False)
     order_effect_time = models.DateTimeField(default=timezone.now)
