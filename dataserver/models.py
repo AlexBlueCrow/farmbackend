@@ -37,7 +37,7 @@ class FarmUser(models.Model):
 
 
 class Item(models.Model):
-    item_id = models.IntegerField(primary_key=True,unique=True)
+    
     
     item_name = models.CharField(max_length = 100,blank=False,default='')
     owner = models.ForeignKey(FarmUser,on_delete=models.PROTECT)
