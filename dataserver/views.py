@@ -57,7 +57,6 @@ def get_orderInfo(request):
     openid=res['openid']
     wxuser = WxUser.objects.get(user_openid=openid)
     orders = Order.objects.filter(order_wxuser=wxuser)
-    print(orders)
     if orders:
         orders_serializer = OrderSerializer(orders,many=True)
         return JSONResponse(orders_serializer.data)
