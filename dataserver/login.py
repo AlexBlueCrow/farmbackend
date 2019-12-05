@@ -52,7 +52,7 @@ def wx_login(request):
  
 @api_view(['POST'])
 @authentication_classes([]) # 添加
- def wx_update(request):
+def wx_update(request):
     appid= 'wxd647f4c25673f368'
     secret='7de75de46a3d82dcc0bed374407f310f'
 
