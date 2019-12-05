@@ -50,7 +50,7 @@ def wx_login(request):
     conn.set(digest, user_str, ex=2*60*60)
     return Response(data={'code':200,'msg':'ok','data':{'skey':digest}})
  
-@api_view(['POST'])
+@api_view(['POST','GET'])
 @authentication_classes([]) # 添加
 def wx_update(request):
     appid= 'wxd647f4c25673f368'
@@ -74,7 +74,7 @@ def wx_update(request):
     detailInfo = request.data['detailInfo']
     provinceName = request.data['provinceName']
     
-    address = provinceName+countyName+cityName+detailInfo
+    address = provinceName+cityName+countyName+detailInfo
     phoneNum = request.data['phoneNum']
     addressee = request.data['userName']
     user.user_address = address
