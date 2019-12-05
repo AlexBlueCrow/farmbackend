@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'getItem/$',views.get_item),
     url(r'getQuestions/$',views.get_questions),
     url(r'login',login.wx_login),
+    url(r'login/update',login.wx_update),
     url(r'pay_feedback',views.pay_feedback),
     url(r'payOrder/$',views.payOrder),
     url(r'getComments/',views.get_comments),
