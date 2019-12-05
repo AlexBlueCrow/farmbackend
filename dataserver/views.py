@@ -73,6 +73,19 @@ def get_farmInfo(request):
 
     return JSONResponse(farm_serializer.data)
 
+def get_userInfo(request):
+    code = request.GET.get('code')
+    appid= 'wxd647f4c25673f368'
+    secret='7de75de46a3d82dcc0bed374407f310f'
+    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
+    res = json.loads(requests.get(wxLoginURL).content)
+    openid=res['openid']
+    wxuser = WxUser.objects.get(user_openid=openid)
+    wxuser_serializer = WxUserSerializer(wxuser,many=False)
+    return JSONResponse(wxuser_serializer.data)
+
+    
+
 def get_questions(request):
     category=request.GET.get('cate')
     
