@@ -87,14 +87,11 @@ def get_userInfo(request):
     
 
 def get_questions(request):
-    category=request.GET.get('cate')
-    
+    category=request.GET.get('cate') 
     try:
         questions = Question.objects.filter(question_category=category)
     except Question.DoesNotExist:
-
-        return HttpResponseNotFound
-    
+        return HttpResponseNotFound 
     questions_serializer = QuestionSerializer(questions,many=True)
     return JSONResponse(questions_serializer.data)
 
@@ -213,11 +210,15 @@ def payOrder(request):
             #print('支付失败')
             return HttpResponse("请求支付失败")
 
-def pay_feedback(request):
+
+@csrf_exempt 
+def pay_feedback(request): 
+    info = json.loads(request.body.decode('utf-8'))
+    xml = request.body.decode('utf-8')
+    result = parse_payment_result(xml)
+    print('pay_result:',result)
     
-
-
-    return HttpResponse('test')
+    return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     #print("Pay_success",request)
 
 
