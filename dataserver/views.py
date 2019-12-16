@@ -25,6 +25,7 @@ from wechatpy.pay import WeChatPay
 
 
 
+
 # Create your views here.
 
 
@@ -244,7 +245,7 @@ def weChatPay(request):
     phone_num = request.GET.get('phone_num')
     appid= 'wxd647f4c25673f368'
     secret='7de75de46a3d82dcc0bed374407f310f'
-    NOTIFY_URL='https://qingjiao.shop/dataserver/pay_feedback'
+    NOTIFY_URL='https://qingjiao.shop:8000/dataserver/pay_feedback'
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     nonceStr = pay.getNonceStr()
