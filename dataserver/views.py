@@ -285,13 +285,17 @@ def pay_feedback(request):
     info = json.loads(request.body.decode('utf-8'))
     print("info:------------------------",info)
     xml = request.body.decode('utf-8')
-    print("xml:-------------------------",xml)
+    print("xml:-------------------------",xml)  
     result = parse_payment_result(xml)
     print('pay_result:',result)
 
-    prepay = Prepay_Order.objects.filter(out_trade_no=)
+    prepay = Prepay_Order.objects.filter(out_trade_no=result['out_trade_no'])
+
+    if (prepay.sign == result['sign'] and prepay.fee ==result['total_fee'] ):
+        return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
+    else:
+        return HttpResponse('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     
-    return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     #print("Pay_success",request)
 
 
