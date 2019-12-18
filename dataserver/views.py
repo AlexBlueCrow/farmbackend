@@ -9,7 +9,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Prepay_Order
-from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer
+from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer,Prepay_OrderSerializer
 from dataserver.login import wx_login
 import random
 import time
@@ -84,6 +84,9 @@ def get_userInfo(request):
     wxuser = WxUser.objects.get(user_openid=openid)
     wxuser_serializer = WxUserSerializer(wxuser,many=False)
     return JSONResponse(wxuser_serializer.data)
+
+
+
 
     
 
@@ -296,10 +299,11 @@ def pay_feedback(request):
     print('pay_result:',result)
     
 
-    prepay = Prepay_Order.objects.filter(out_trade_no=result['out_trade_no'])
-    print(prepay)
+    prepay = Prepay_Order.objects.get(out_trade_no=result['out_trade_no'])
+    print(prepay.data)
+    prepay_serializer = Prepay_OrderSerializer(prepay,many=False)
 
-    if (prepay.sign == result['sign'] and prepay.fee ==result['total_fee'] ):
+    if (prepay_serializer.data['sign'] == result['sign'] and prepay_serializer.data['fee'] ==result['total_fee'] ):
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     else:
         return HttpResponse('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')

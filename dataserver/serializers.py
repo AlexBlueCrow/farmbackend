@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Video,Region,Certification
+from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Video,Region,Certification,Prepay_Order
 
 
 class WxUserSerializer(serializers.ModelSerializer):
@@ -16,6 +16,11 @@ class ItemSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
+        fields = '__all__'
+
+class Prepay_OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Prepay_Order
         fields = '__all__'
 
 class FarmUserSerializer(serializers.ModelSerializer):
@@ -47,3 +52,10 @@ class CommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = '__all__'
+
+
+class WxUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WxUser
+        fields = ''
+
