@@ -303,8 +303,12 @@ def pay_feedback(request):
     prepay_serializer = Prepay_OrderSerializer(prepay,many=False)
     print('prepay_serializer',prepay_serializer.data)
     if prepay_serializer.data['varified']==True:
+        
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
+    print('sign,',prepay_serializer.data['sign'],result['sign'])
+    print('fee,',prepay_serializer.data['fee'],result['total_fee'])
     if (prepay_serializer.data['sign'] == result['sign'] and prepay_serializer.data['fee'] ==result['total_fee'] ):
+        print('sign=sign&fee=fee')
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
         item_serializer = ItemSerializer(item,many=False)
         item_serializer.data['']
