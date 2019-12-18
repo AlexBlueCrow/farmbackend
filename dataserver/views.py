@@ -274,6 +274,7 @@ def weChatPay(request):
         quantity = num_buy,
         buyernickname = nickname,
         postsign = post_sign,
+        item_id = item_id,
     )
     #print("------paySign:",paySign)
 
