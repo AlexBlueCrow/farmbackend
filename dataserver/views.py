@@ -274,7 +274,7 @@ def weChatPay(request):
         quantity = num_buy,
         buyernickname = nickname,
         postsign = post_sign,
-        item_id = item_id,
+        item_id = int(item_id),
     )
     #print("------paySign:",paySign)
 
@@ -283,8 +283,8 @@ def weChatPay(request):
 
 @csrf_exempt 
 def pay_feedback(request): 
-    info = json.loads(request.body.decode('utf-8'))
-    print("info:------------------------",info)
+    
+    print("info:------------------------")
     xml = request.body.decode('utf-8')
     print("xml:-------------------------",xml)  
     result = parse_payment_result(xml)
