@@ -300,11 +300,38 @@ def pay_feedback(request):
     
 
     prepay = Prepay_Order.objects.get(out_trade_no=result['out_trade_no'])
-    
     prepay_serializer = Prepay_OrderSerializer(prepay,many=False)
-    print('prepay_serializer',prepay_serializer)
-
+    print('prepay_serializer',prepay_serializer.data)
+    if prepay_serializer.data['verified']==True:
+        return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     if (prepay_serializer.data['sign'] == result['sign'] and prepay_serializer.data['fee'] ==result['total_fee'] ):
+        item = Item.objects.get(id=prepay_serializer.data['item_id'])
+        item_serializer = ItemSerializer(item,many=False)
+        item_serializer.data['']
+
+
+        new_order = Order.objects.create(
+            order_num = prepay_serializer.data['out_trade_no'],
+            order_item = prepay_serializer.data['item_id'],
+            order_wxuser = prepay_serializer.data['openid'],
+            order_deliver_address = prepay_serializer.data['deliver_address'],
+            order_price_paid = prepay_serializer.data['fee'],
+            order_quantity = prepay_serializer.data['quantity'],
+            order_buyernickname = prepay_serializer.data['buyernickname'],
+            order_postsign = prepay_serializer.data['postsign'],
+
+            order_price_origin = item_serializer.data['item_price'],
+            ##order_tree_ip = get_treeip(),
+            order_benifits = item_serializer.data['item_benifit'],
+            order_guaranteed = item_serializer.data['item_guaranteed'],
+        )
+
+        print('order created:',new_order)
+
+        prepay.varified = True
+        prepay.save()
+
+        print('prepay varified')
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     else:
         return HttpResponse('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
