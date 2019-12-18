@@ -223,6 +223,8 @@ def payOrder(request):
 def weChatPay(request):
     mch_id='1560463491'
     mch_key='qingjiaorenlingshop2019111820000'
+    appid= 'wxd647f4c25673f368'
+    secret='7de75de46a3d82dcc0bed374407f310f'
     code= request.GET.get('code')
     item_id=request.GET.get('item_id')
     item_name = request.GET.get('item_name')
@@ -235,8 +237,7 @@ def weChatPay(request):
     post_sign =request.GET.get('post_sign')
     name_rec=request.GET.get('name_rec')
     phone_num = request.GET.get('phone_num')
-    appid= 'wxd647f4c25673f368'
-    secret='7de75de46a3d82dcc0bed374407f310f'
+    
     NOTIFY_URL='https://qingjiao.shop:8000/dataserver/pay_feedback'
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
@@ -266,7 +267,7 @@ def weChatPay(request):
     paySign=pay.get_paysign(prepay_id=prepay_id,timeStamp=timeStamp,nonceStr=nonceStr)
     prepay_order = Prepay_Order.objects.create(
         out_trade_no = out_trade_no,
-        sign = wepy_sign,
+        sign = paySign,
         noncestr=nonceStr,
         openid=openid,
         fee = price,##cents
@@ -283,12 +284,16 @@ def weChatPay(request):
 
 @csrf_exempt 
 def pay_feedback(request): 
-    
+    mch_key='qingjiaorenlingshop2019111820000'
+    appid= 'wxd647f4c25673f368'
     print("info:------------------------")
     xml = request.body.decode('utf-8')
     print("xml:-------------------------",xml)  
-    result = parse_payment_result(xml)
+
+    wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
+    result = wepy_order.parse_payment_result(xml)
     print('pay_result:',result)
+    
 
     prepay = Prepay_Order.objects.filter(out_trade_no=result['out_trade_no'])
 
