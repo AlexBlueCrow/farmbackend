@@ -229,7 +229,7 @@ def weChatPay(request):
     item_price = request.GET.get('item_price')
     num_buy = int(request.GET.get('num_buy'))
     reward =  request.GET.get('reward')
-    price = int(request.GET.get('total_fee')*100)
+    price = int(request.GET.get('total_fee'))*100
     address= request.GET.get('addRegion')+request.GET.get('addDetail')
     nickname=request.GET.get('nickname')
     post_sign =request.GET.get('post_sign')
