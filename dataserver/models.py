@@ -99,6 +99,14 @@ class Order(models.Model):
     order_guaranteed = models.FloatField(default=0)
     order_postsign = models.CharField(default='',max_length=50)
 
+class Prepay_Order(models.Model):
+    out_trade_no = models.CharField(primary_key=True, unique=True,max_length=20)
+    sign = models.CharField(max_length=50)
+    noncestr=models.CharField(max_length=50)
+    openid=models.CharField(max_length=40)
+    fee = models.CharField(max_digits=8,decimal_places=2,default=0)
+    
+
 
 class Question(models.Model):  
     Q_CHOICES = [('A','A'),('B','B'),('C','C'),('D','D')]

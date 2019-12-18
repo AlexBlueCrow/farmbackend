@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments
+from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Prepay_Order
 from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer
 from dataserver.login import wx_login
 import random
@@ -212,15 +212,7 @@ def payOrder(request):
             return HttpResponse("请求支付失败")
 
 
-@csrf_exempt 
-def pay_feedback(request): 
-    info = json.loads(request.body.decode('utf-8'))
-    xml = request.body.decode('utf-8')
-    result = parse_payment_result(xml)
-    print('pay_result:',result)
-    
-    return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
-    #print("Pay_success",request)
+
 
 
 
@@ -237,8 +229,8 @@ def weChatPay(request):
     item_price = request.GET.get('item_price')
     num_buy = int(request.GET.get('num_buy'))
     reward =  request.GET.get('reward')
-    price = int(request.GET.get('total_fee'))*100
-    address= request.GET.get('address')
+    price = int(request.GET.get('total_fee')*100)
+    address= request.GET.get('addRegion')+request.GET.get('addDetail')
     nickname=request.GET.get('nickname')
     post_sign =request.GET.get('post_sign')
     name_rec=request.GET.get('name_rec')
@@ -255,26 +247,53 @@ def weChatPay(request):
     openid=res['openid']
 
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
+    out_trade_no=pay.getWxPayOrdrID()
     pay_res = wepy_order.order.create(
         trade_type="JSAPI",
         body=item_name,
         total_fee=price,
         notify_url=NOTIFY_URL,
         user_id=openid,
-        out_trade_no=pay.getWxPayOrdrID(),
+        out_trade_no=out_trade_no,
     )
     #print("------pay_res",pay_res)
     prepay_id = pay_res.get("prepay_id")
-    
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
     #print('------wepy_sign:',wepy_sign)
 
     timeStamp=str(int(time.time()))
     nonceStr=pay_res['nonce_str']
     paySign=pay.get_paysign(prepay_id=prepay_id,timeStamp=timeStamp,nonceStr=nonceStr)
+    prepay_order = Prepay_Order.objects.create(
+        out_trade_no = out_trade_no
+        sign = wepy_sign
+        noncestr=nonceStr
+        openid=openid
+        fee = price##cents
+        deliver_address = address
+        quantity = num_buy
+        buyernickname = nickname
+        postsign = post_sign
+    )
     #print("------paySign:",paySign)
 
     return Response(data={'wepy_sign':wepy_sign,'status':100,'paySign':paySign,'timeStamp':timeStamp,'nonceStr':nonceStr})
+
+
+@csrf_exempt 
+def pay_feedback(request): 
+    info = json.loads(request.body.decode('utf-8'))
+    print("info:",info)
+    xml = request.body.decode('utf-8')
+    print("xml",xml)
+    result = parse_payment_result(xml)
+    print('pay_result:',result)
+    
+    return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
+    #print("Pay_success",request)
+
+
+
 
 
 
