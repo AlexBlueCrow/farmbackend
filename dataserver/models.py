@@ -106,7 +106,7 @@ class Prepay_Order(models.Model):
     noncestr=models.CharField(max_length=50)
     openid=models.CharField(max_length=40)
     fee = models.DecimalField(max_digits=8,decimal_places=2,default=0)
-    itme_id=models.IntegerField(blank=False)
+    item_id=models.IntegerField(blank=False)
     deliver_address = models.CharField(max_length = 50,default='',blank=False)
     
     
