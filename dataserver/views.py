@@ -265,15 +265,15 @@ def weChatPay(request):
     nonceStr=pay_res['nonce_str']
     paySign=pay.get_paysign(prepay_id=prepay_id,timeStamp=timeStamp,nonceStr=nonceStr)
     prepay_order = Prepay_Order.objects.create(
-        out_trade_no = out_trade_no
-        sign = wepy_sign
-        noncestr=nonceStr
-        openid=openid
-        fee = price##cents
-        deliver_address = address
-        quantity = num_buy
-        buyernickname = nickname
-        postsign = post_sign
+        out_trade_no = out_trade_no,
+        sign = wepy_sign,
+        noncestr=nonceStr,
+        openid=openid,
+        fee = price,##cents
+        deliver_address = address,
+        quantity = num_buy,
+        buyernickname = nickname,
+        postsign = post_sign,
     )
     #print("------paySign:",paySign)
 
@@ -288,6 +288,8 @@ def pay_feedback(request):
     print("xml",xml)
     result = parse_payment_result(xml)
     print('pay_result:',result)
+
+    prepay = Prepay_Order.objects.filter(out_trade_no=)
     
     return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     #print("Pay_success",request)
