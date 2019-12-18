@@ -300,8 +300,9 @@ def pay_feedback(request):
     
 
     prepay = Prepay_Order.objects.get(out_trade_no=result['out_trade_no'])
-    print(prepay.data)
+    
     prepay_serializer = Prepay_OrderSerializer(prepay,many=False)
+    print('prepay_serializer',prepay_serializer)
 
     if (prepay_serializer.data['sign'] == result['sign'] and prepay_serializer.data['fee'] ==result['total_fee'] ):
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
