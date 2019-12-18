@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import WxUser,FarmUser,Item,Order,Region,Question,Comments,Certification,Video
+from .models import WxUser,FarmUser,Item,Order,Region,Question,Comments,Certification,Video,Prepay_Order
 # Register your models here.
 
-admin.site.register([WxUser,FarmUser,Item,Order,Region,Question,Comments,Certification,Video])
+admin.site.register([WxUser,FarmUser,Item,Order,Region,Question,Comments,Certification,Video,Prepay_Order])
 
