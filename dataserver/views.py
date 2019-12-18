@@ -284,6 +284,7 @@ def weChatPay(request):
 
 @csrf_exempt 
 def pay_feedback(request): 
+    mch_id='1560463491'
     mch_key='qingjiaorenlingshop2019111820000'
     appid= 'wxd647f4c25673f368'
     print("info:------------------------")
