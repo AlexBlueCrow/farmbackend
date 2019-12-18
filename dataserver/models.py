@@ -115,6 +115,7 @@ class Prepay_Order(models.Model):
     
     
     postsign = models.CharField(default='',max_length=50)
+    varified = models.BooleanField(default=False)
 
     
     

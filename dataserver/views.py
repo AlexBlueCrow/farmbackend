@@ -296,6 +296,7 @@ def pay_feedback(request):
     
 
     prepay = Prepay_Order.objects.filter(out_trade_no=result['out_trade_no'])
+    print(prepay)
 
     if (prepay.sign == result['sign'] and prepay.fee ==result['total_fee'] ):
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
