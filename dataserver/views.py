@@ -273,7 +273,7 @@ def weChatPay(request):
         sign = paySign,
         noncestr=nonceStr,
         openid=openid,
-        fee = price,##cents
+        fee = int(price)/100,##cents
         deliver_address = address,
         quantity = num_buy,
         buyernickname = nickname,
