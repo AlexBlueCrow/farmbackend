@@ -307,7 +307,7 @@ def pay_feedback(request):
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
    
     print('fee,',float(prepay_serializer.data['fee']),float(result['total_fee']))
-    if (float(prepay_serializer.data['fee']*100) == float(result['total_fee'])):
+    if (float(prepay_serializer.data['fee'])*100 == float(result['total_fee'])):
         print('sign=sign&fee=fee')
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
         wxuser = WxUser.objects.get(user_openid=prepay_serializer.data['openid'])
