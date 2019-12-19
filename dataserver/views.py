@@ -310,6 +310,7 @@ def pay_feedback(request):
     if (float(prepay_serializer.data['fee']) == float(result['total_fee'])):
         print('sign=sign&fee=fee')
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
+        wxuser = WxUser.objects.get[user_openid='openid']
         item_serializer = ItemSerializer(item,many=False)
         
 
@@ -317,7 +318,7 @@ def pay_feedback(request):
         new_order = Order.objects.create(
             order_num = prepay_serializer.data['out_trade_no'],
             order_item = item,
-            order_wxuser = prepay_serializer.data['openid'],
+            order_wxuser = wxuser,
             order_deliver_address = prepay_serializer.data['deliver_address'],
             order_price_paid = prepay_serializer.data['fee'],
             order_quantity = prepay_serializer.data['quantity'],
