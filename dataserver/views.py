@@ -316,7 +316,7 @@ def pay_feedback(request):
 
 
         new_order = Order.objects.create(
-            order_num = prepay_serializer.data['out_trade_no'],
+            order_num = str(prepay_serializer.data['out_trade_no']),
             order_item = item,
             order_wxuser = wxuser,
             order_deliver_address = prepay_serializer.data['deliver_address'],

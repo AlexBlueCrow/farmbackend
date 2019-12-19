@@ -81,7 +81,7 @@ class Certification(models.Model):
 
 
 class Order(models.Model):
-    order_num = models.IntegerField(primary_key=True,unique=True)
+    order_num = models.CharField(primary_key=True,unique=True,maxlength=25)
     order_item = models.ForeignKey(Item,on_delete=models.PROTECT)
     
     order_wxuser = models.ForeignKey(WxUser,on_delete=models.PROTECT,default='')
