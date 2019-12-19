@@ -94,7 +94,7 @@ class Order(models.Model):
     order_price_origin = models.DecimalField(default=0,max_digits=8,decimal_places=2)
     order_tree_ip = models.CharField(max_length=50,default = '')
     order_buyernickname = models.CharField(max_length=20,default='')
-    order_benifits = models.CharField(max_length=50,default='')
+    order_benefit = models.CharField(max_length=50,default='')
     order_delivered = models.FloatField(default=0)
     order_guaranteed = models.FloatField(default=0)
     order_postsign = models.CharField(default='',max_length=50)

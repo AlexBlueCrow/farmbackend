@@ -326,7 +326,7 @@ def pay_feedback(request):
 
             order_price_origin = item_serializer.data['item_price'],
             ##order_tree_ip = get_treeip(),
-            order_benifits = item_serializer.data['item_benifit'],
+            order_benefit = item_serializer.data['item_benefit'],
             order_guaranteed = item_serializer.data['item_guaranteed'],
         )
 
