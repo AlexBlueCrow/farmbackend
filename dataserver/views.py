@@ -310,7 +310,7 @@ def pay_feedback(request):
     if (float(prepay_serializer.data['fee']) == float(result['total_fee'])):
         print('sign=sign&fee=fee')
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
-        wxuser = WxUser.objects.get[user_openid='openid']
+        wxuser = WxUser.objects.get(user_openid=prepay_serializer.data['openid'])
         item_serializer = ItemSerializer(item,many=False)
         
 
