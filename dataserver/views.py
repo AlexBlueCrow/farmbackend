@@ -306,8 +306,8 @@ def pay_feedback(request):
         print('varified==True')
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     print('sign,',prepay_serializer.data['sign'],result['sign'])
-    print('fee,',prepay_serializer.data['fee'],result['total_fee'])
-    if (int(prepay_serializer.data['fee']) == int(result['total_fee'])):
+    print('fee,',float(prepay_serializer.data['fee']),float(result['total_fee']))
+    if (float(prepay_serializer.data['fee']) == float(result['total_fee'])):
         print('sign=sign&fee=fee')
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
         item_serializer = ItemSerializer(item,many=False)
@@ -336,9 +336,10 @@ def pay_feedback(request):
         prepay.save()
 
         print('prepay varified')
+
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     else:
-        return HttpResponse('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
+        return HttpResponse('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[‘金额错误’]]></return_msg></xml>')
     
     #print("Pay_success",request)
 
