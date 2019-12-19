@@ -238,7 +238,7 @@ def weChatPay(request):
     address= request.GET.get('addRegion')+request.GET.get('addDetail')
     nickname=request.GET.get('nickname')
     post_sign =request.GET.get('post_sign')
-    name_rec=request.GET.get('name_rec')
+    name_rec= request.GET.get('name_rec')
     phone_num = request.GET.get('phone_num')
     
     NOTIFY_URL='https://qingjiao.shop:8000/dataserver/pay_feedback'
@@ -307,7 +307,7 @@ def pay_feedback(request):
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     print('sign,',prepay_serializer.data['sign'],result['sign'])
     print('fee,',prepay_serializer.data['fee'],result['total_fee'])
-    if (prepay_serializer.data['sign'] == result['sign'] and prepay_serializer.data['fee'] ==result['total_fee'] ):
+    if (int(prepay_serializer.data['fee']) == int(result['total_fee'])):
         print('sign=sign&fee=fee')
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
         item_serializer = ItemSerializer(item,many=False)
