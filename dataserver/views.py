@@ -316,14 +316,13 @@ def pay_feedback(request):
 
         new_order = Order.objects.create(
             order_num = prepay_serializer.data['out_trade_no'],
-            order_item = prepay_serializer.data['item_id'],
+            order_item = item
             order_wxuser = prepay_serializer.data['openid'],
             order_deliver_address = prepay_serializer.data['deliver_address'],
             order_price_paid = prepay_serializer.data['fee'],
             order_quantity = prepay_serializer.data['quantity'],
             order_buyernickname = prepay_serializer.data['buyernickname'],
             order_postsign = prepay_serializer.data['postsign'],
-
             order_price_origin = item_serializer.data['item_price'],
             ##order_tree_ip = get_treeip(),
             order_benefit = item_serializer.data['item_benefit'],
