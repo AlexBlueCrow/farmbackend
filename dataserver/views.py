@@ -362,7 +362,8 @@ def get_treeip(item_id):
         i=0 
         while i<rows*lines:
             if status[i]=='0':
-                region['status']=status[:i]+'1'+status[i:]
+                status=status[:i]+'1'+status[i:]
+                region['status']=status
                 print(region['status'])
                 status[i] = '1'
                 r = i//lines
