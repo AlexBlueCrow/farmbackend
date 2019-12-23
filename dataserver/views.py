@@ -21,6 +21,8 @@ from rest_framework.decorators import api_view,authentication_classes
 from wechatpy.utils import check_signature
 from wechatpy.pay.api import WeChatOrder
 from wechatpy.pay import WeChatPay
+from pprint import pprint
+from json import dumps 
 
 
 
@@ -349,9 +351,30 @@ def get_treeip(item_id):
     print('item_id',item_id)
     item = Item.objects.get(id=item_id)
     print('item',item)
-    region = Region.objects.filter(item=item)
+    regions = Region.objects.filter(item=item)
     print('region',region)
-    region_serializer = RegionSerializer(region,many=True)
+    regions_serializer = RegionSerializer(regions,many=True)
+    for region in regions_serializer.data:
+        rows = region.num_rows
+        lines = region.num_lines
+        status =  region.status
+        i=0 
+        while i<rows*lines:
+            if status[i]==0:
+                status[i] = 1
+                r = i//lines
+                l = i%lines
+                region_name=region.region_name
+                tree_ip={
+                    "region_name":region_name,
+                    "row":r,
+                    "line":l,
+                }
+                tree_ip=dumps(treeip,indent=4)
+                return JSONResponse(tree_ip)
+
+                    
+        
     
     print("region_ser.data:",region_serializer.data)
     return JSONResponse(region_serializer.data)
