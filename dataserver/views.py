@@ -8,8 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Prepay_Order
-from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer,Prepay_OrderSerializer
+from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Prepay_Order,Region
+from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer,Prepay_OrderSerializer.RegionSerializer
 from dataserver.login import wx_login
 import random
 import time
@@ -343,6 +343,21 @@ def pay_feedback(request):
         return HttpResponse('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[金额错误]]></return_msg></xml>')
     
     #print("Pay_success",request)
+
+def get_treeip(item_id,num):
+    item = Item.objects.get(id=item_id)
+    region = Region.objects.filter(item=item)
+    region_serializer = RegionSerializer
+    print("region_ser.data:",region_serializer.data)
+    return JSONResponse(region_serializer.data)
+
+
+
+
+
+
+    
+
 
 
 

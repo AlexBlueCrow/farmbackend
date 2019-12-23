@@ -19,5 +19,7 @@ urlpatterns = [
     url(r'postComment/',views.post_comment),
     url(r'weChatPay/',views.weChatPay),  
     url(r'getFarmInfo/',views.get_farmInfo),
-    url(r'getOrderInfo/',views.get_orderInfo) 
+    url(r'getOrderInfo/',views.get_orderInfo),
+    url(r'CreateOrder/',views.createOrder),
+    url(r'get_treeip/',views.get_treeip),
 ]
