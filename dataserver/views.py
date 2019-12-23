@@ -345,7 +345,7 @@ def pay_feedback(request):
     #print("Pay_success",request)
 
 def get_treeip(item_id):
-    item_id=request.GET.get('item_id')
+    item_id=item_id.GET.get('item_id')
     print('item_id',item_id)
     item = Item.objects.get(id=item_id)
     print('item',item)
