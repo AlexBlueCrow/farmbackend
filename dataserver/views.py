@@ -376,12 +376,7 @@ def get_treeip(item_id):
             else:
                 i=i+1
         
-
-                    
-        
-    
-    print("region_ser.data:",region_serializer.data)
-    return JSONResponse(region_serializer.data)
+    return HttpResponse("no tree avaiable")
 
 
 
