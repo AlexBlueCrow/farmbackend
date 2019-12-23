@@ -351,7 +351,7 @@ def get_treeip(item_id):
     print('item',item)
     region = Region.objects.filter(item=item)
     print('region',region)
-    region_serializer = RegionSerializer
+    region_serializer = RegionSerializer(region,many=True)
     
     print("region_ser.data:",region_serializer.data)
     return JSONResponse(region_serializer.data)
