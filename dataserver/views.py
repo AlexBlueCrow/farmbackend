@@ -345,9 +345,13 @@ def pay_feedback(request):
     #print("Pay_success",request)
 
 def get_treeip(item_id):
+    print('item_id',item_id)
     item = Item.objects.get(id=item_id)
+    print('item',item)
     region = Region.objects.filter(item=item)
+    print('region',region)
     region_serializer = RegionSerializer
+    
     print("region_ser.data:",region_serializer.data)
     return JSONResponse(region_serializer.data)
 
