@@ -358,7 +358,7 @@ def get_treeip(item_id):
         rows = region['num_rows']
         lines = region['num_lines']
         status =  region['status']
-        region_name=regions.region_name
+        region_name=region['region_name']
         i=0 
         while i<rows*lines:
             if status[i]==0:
