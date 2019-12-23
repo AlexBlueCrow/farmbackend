@@ -356,7 +356,7 @@ def get_treeip(item_id):
     regions_serializer = RegionSerializer(regions,many=True)
     for region in regions_serializer.data:
         rows = region['num_rows']
-        lines = region['num_lines'
+        lines = region['num_lines']
         status =  region['status']
         i=0 
         while i<rows*lines:
