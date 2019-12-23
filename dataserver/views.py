@@ -9,7 +9,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Prepay_Order,Region
-from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer,Prepay_OrderSerializer.RegionSerializer
+from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer,Prepay_OrderSerializer,RegionSerializer
 from dataserver.login import wx_login
 import random
 import time
@@ -344,7 +344,7 @@ def pay_feedback(request):
     
     #print("Pay_success",request)
 
-def get_treeip(item_id,num):
+def get_treeip(item_id):
     item = Item.objects.get(id=item_id)
     region = Region.objects.filter(item=item)
     region_serializer = RegionSerializer
