@@ -348,11 +348,11 @@ def pay_feedback(request):
 
 def get_treeip(item_id):
     item_id=item_id.GET.get('item_id')
-    print('item_id',item_id)
+    
     item = Item.objects.get(id=item_id)
-    print('item',item)
+   
     regions = Region.objects.filter(item=item)
-    print('region',region)
+    
     regions_serializer = RegionSerializer(regions,many=True)
     for region in regions_serializer.data:
         rows = region.num_rows
@@ -371,6 +371,7 @@ def get_treeip(item_id):
                     "line":l,
                 }
                 tree_ip=dumps(treeip,indent=4)
+                print(tree_ip)
                 return JSONResponse(tree_ip)
 
                     
