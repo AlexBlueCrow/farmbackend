@@ -355,9 +355,9 @@ def get_treeip(item_id):
     
     regions_serializer = RegionSerializer(regions,many=True)
     for region in regions_serializer.data:
-        rows = region.num_rows
-        lines = region.num_lines
-        status =  region.status
+        rows = region['num_rows']
+        lines = region['num_lines'
+        status =  region['status']
         i=0 
         while i<rows*lines:
             if status[i]==0:
@@ -373,6 +373,9 @@ def get_treeip(item_id):
                 tree_ip=dumps(treeip,indent=4)
                 print(tree_ip)
                 return JSONResponse(tree_ip)
+            else:
+                i=i+1
+        
 
                     
         
