@@ -37,7 +37,7 @@ class FarmUser(models.Model):
 
 
 class Item(models.Model):
-    
+    ##id ++
     
     item_name = models.CharField(max_length = 100,blank=False,default='')
     owner = models.ForeignKey(FarmUser,on_delete=models.PROTECT)
@@ -98,6 +98,7 @@ class Order(models.Model):
     order_delivered = models.FloatField(default=0)
     order_guaranteed = models.FloatField(default=0)
     order_postsign = models.CharField(default='',max_length=50)
+    order_imageUrl = modesl.CharField(default='',max_length=50)
     
 
 class Prepay_Order(models.Model):
@@ -148,6 +149,9 @@ class Video(models.Model):
     video_address = models.CharField(max_length = 80)
     video_class = models.CharField(max_length = 20,default='')
     video_description =  models.CharField(max_length = 50)
+
+
+
 
 
 

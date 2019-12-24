@@ -330,6 +330,7 @@ def pay_feedback(request):
             ##order_tree_ip = get_treeip(),
             order_benefit = item_serializer.data['item_benefit'],
             order_guaranteed = item_serializer.data['item_guaranteed'],
+            order_imageUrl = item_serializer.data['pic_address'],
         )
 
         print('order created:',new_order)
@@ -375,7 +376,7 @@ def get_treeip(item_id):
                 }
                 tree_ip=dumps(tree_ip,indent=4)
                 print(tree_ip)
-                if (regions_serializer.is_valid()):
+                if (regions_serializer.is_valid() is True):
                     regions_serializer.save()
                 return JSONResponse(tree_ip)
             else:
