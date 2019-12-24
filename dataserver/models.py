@@ -98,7 +98,7 @@ class Order(models.Model):
     order_delivered = models.FloatField(default=0)
     order_guaranteed = models.FloatField(default=0)
     order_postsign = models.CharField(default='',max_length=50)
-    order_imageUrl = modesl.CharField(default='',max_length=50)
+    order_imageUrl = models.CharField(default='',max_length=50)
     
 
 class Prepay_Order(models.Model):
