@@ -373,12 +373,12 @@ def get_treeip(item_id):
                     "row":r,
                     "line":l,
                 }
-                tree_ip="region_name"+str(l)+"x"+str(r)
+                tree_ip=region_name+str(l)+"x"+str(r)
                 print('tree_ip:',tree_ip)
                 
                 update_region_status(region_name=region_name,i=i,new_status="1")
 
-                return tree_ip
+                return HttpResponse(tree_ip)
             else:
                 i=i+1
         
