@@ -366,29 +366,32 @@ def get_treeip(item_id):
                 status=status[:i-1]+'1'+status[i-1:]
                 region['status']=status
                 print(region['status'])            
-                r = i//lines+1
-                l = i%lines
+                r = i%lines 
+                l = i//lines+1
                 tree_ip={
                     "region_name":region_name,
                     "row":r,
                     "line":l,
                 }
-                tree_ip=dumps(tree_ip,indent=4)
+                tree_ip="region_name"+str(l)+"x"+str(r)
                 print('tree_ip:',tree_ip)
                 print('region:',region)
-                region_json_bytes =bytes(region,encoding= "UTF-8")
-                stream_for_region = BytesIO(region_json_bytes)
-                parser = JSONParser()
-                parsed_region = parser.parse(stream_for_region)
-                print(parsed_region)
-                target_region_serializer = RegionSerializer(data = parsed_region)
-                if target_region_serializer.is_valid():
-                    target_region_serializer.save()
-                    return JSONResponse(target_region_serializer)
-                else:
-                    i=i+1
+                update_region_status(region_name=region_name,i=i,new_status="1")
+                return 
+            else:
+                i=i+1
         
     return HttpResponse("no tree avaiable")
+
+    def update_region_status(region_name,i,new_status):
+        region = Region.objects.get(region_name=region_name)
+        old_code=region.status
+        new_code=old_code[:i-1]+new_status+old_code[i-1:]
+        region.status=new_code
+        region.save()
+        return region.save()
+        
+        
 
 
 
