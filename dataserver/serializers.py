@@ -57,5 +57,5 @@ class CommentsSerializer(serializers.ModelSerializer):
 class WxUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = WxUser
-        fields = ''
+        fields = '__all__'
 
