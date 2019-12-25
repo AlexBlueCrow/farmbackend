@@ -375,21 +375,22 @@ def get_treeip(item_id):
                 }
                 tree_ip="region_name"+str(l)+"x"+str(r)
                 print('tree_ip:',tree_ip)
-                print('region:',region)
+                
                 update_region_status(region_name=region_name,i=i,new_status="1")
-                return 
+
+                return tree_ip
             else:
                 i=i+1
         
     return HttpResponse("no tree avaiable")
 
-    def update_region_status(region_name,i,new_status):
-        region = Region.objects.get(region_name=region_name)
-        old_code=region.status
-        new_code=old_code[:i-1]+new_status+old_code[i-1:]
-        region.status=new_code
-        region.save()
-        return region.save()
+def update_region_status(region_name,i,new_status):
+    region = Region.objects.get(region_name=region_name)
+    old_code=region.status
+    new_code=old_code[:i-1]+new_status+old_code[i-1:]
+    region.status=new_code
+    region.save()
+    return region.save()
         
         
 
