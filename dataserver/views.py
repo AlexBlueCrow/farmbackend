@@ -360,13 +360,13 @@ def get_treeip(item_id):
         lines = region['num_lines']
         status =  region['status']
         region_name=region['region_name']
-        i=1 
+        i=0 
         while i<=rows*lines:
-            if status[i-1]=='0':
-                status=status[:i-1]+'1'+status[i-1:]
+            if status[i]=='0':
+                status=status[:i]+'1'+status[i:]
                 region['status']=status
                 print(region['status'])            
-                r = i%lines 
+                r = i%lines+1 
                 l = i//lines+1
                 tree_ip={
                     "region_name":region_name,
