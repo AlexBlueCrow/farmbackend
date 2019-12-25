@@ -363,7 +363,7 @@ def get_treeip(item_id):
         i=0 
         while i<=rows*lines:
             if status[i]=='0':
-                status=status[:i]+'1'+status[i:]
+                status=status[:i]+'1'+status[i+1:]
                 region['status']=status
                 print(region['status'])            
                 r = i%lines+1 
@@ -387,7 +387,7 @@ def get_treeip(item_id):
 def update_region_status(region_name,i,new_status):
     region = Region.objects.get(region_name=region_name)
     old_code=region.status
-    new_code=old_code[:i-1]+new_status+old_code[i-1:]
+    new_code=old_code[:i]+new_status+old_code[i+1:]
     region.status=new_code
     region.save()
     return region.save()
