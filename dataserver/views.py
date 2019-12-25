@@ -375,7 +375,7 @@ def get_treeip(item_id):
                 }
                 tree_ip=dumps(tree_ip,indent=4)
                 print('tree_ip:',tree_ip)
-                print('region':region)
+                print('region:',region)
                 region_json_bytes =bytes(region,encodeing= "UTF-8")
                 stream_for_region = BytesIO(region_json_bytes)
                 parser = JSONParser()
