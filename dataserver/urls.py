@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url,include
-from dataserver import views
+from dataserver import views,manager
 from dataserver import login
 
 
