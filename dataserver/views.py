@@ -17,7 +17,6 @@ import datetime
 import xml.etree.ElementTree as ET
 from dataserver import pay
 from rest_framework.decorators import api_view,authentication_classes
-
 from wechatpy.utils import check_signature
 from wechatpy.pay.api import WeChatOrder
 from wechatpy.pay import WeChatPay
@@ -264,6 +263,7 @@ def weChatPay(request):
     )
     #print("------pay_res",pay_res)
     prepay_id = pay_res.get("prepay_id")
+    
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
     #print('------wepy_sign:',wepy_sign)
 
@@ -317,12 +317,13 @@ def pay_feedback(request):
         
 
         new_tree = get_treeip(item_id=item.id)
-
         region_name=new_tree["region_name"]
         r=new_tree['row']
         l=new_tree['line']
+        i=new_tree['i']
+        
         tree_ip= region_name+":"+str(l)+"x"+str(r)
-        update_region_status(region_name=region_name,r=r,l=l,new_status=1)
+        update_region_status(region_name=region_name,r=r,l=l,new_status=1,i=i)
         
         new_order = Order.objects.create(
             order_num = str(prepay_serializer.data['out_trade_no']),
@@ -379,6 +380,7 @@ def get_treeip(item_id):
                     "region_name":region_name,
                     "row":r,
                     "line":l,
+                    "i":i,
                 }
                 
                 print('tree_ip:',tree_ip)
@@ -386,13 +388,13 @@ def get_treeip(item_id):
                 return tree_ip
             else:
                 i=i+1      
-    return HttpResponse("no tree avaiable")
+    return "error"
 
 def update_region_status(region_name,r,l,new_status,i):
     
     region = Region.objects.get(region_name=region_name)
     rows= region.num_rows
-    if(!i):
+    if(not i):
         i=rows*l+r+1
     old_code=region.status
     new_code=old_code[:i]+new_status+old_code[i+1:]
