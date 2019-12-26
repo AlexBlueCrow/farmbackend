@@ -316,7 +316,14 @@ def pay_feedback(request):
         item_serializer = ItemSerializer(item,many=False)
         
 
+        new_tree = get_treeip(item_id=item.id)
 
+        region_name=new_tree["region_name"]
+        r=new_tree['row']
+        l=new_tree['line']
+        tree_ip= region_name+":"+str(l)+"x"+str(r)
+        update_region_status(region_name=region_name,r=r,l=l,new_status=1)
+        
         new_order = Order.objects.create(
             order_num = str(prepay_serializer.data['out_trade_no']),
             order_item = item,
@@ -327,7 +334,7 @@ def pay_feedback(request):
             order_buyernickname = prepay_serializer.data['buyernickname'],
             order_postsign = prepay_serializer.data['postsign'],
             order_price_origin = item_serializer.data['item_price'],
-            ##order_tree_ip = get_treeip(),
+            order_tree_ip = get_treeip(),
             order_benefit = item_serializer.data['item_benefit'],
             order_guaranteed = item_serializer.data['item_guaranteed'],
             order_imageUrl = item_serializer.data['pic_address'],
@@ -348,7 +355,7 @@ def pay_feedback(request):
     #print("Pay_success",request)
 
 def get_treeip(item_id):
-    item_id=item_id.GET.get('item_id')
+    item_id=item_id
     
     item = Item.objects.get(id=item_id)
    
@@ -366,26 +373,27 @@ def get_treeip(item_id):
                 status=status[:i]+'1'+status[i+1:]
                 region['status']=status
                 print(region['status'])            
-                r = i%lines+1 
-                l = i//lines+1
+                r = i%rows+1 
+                l = i//rows+1
                 tree_ip={
                     "region_name":region_name,
                     "row":r,
                     "line":l,
                 }
-                tree_ip=region_name+str(l)+"x"+str(r)
+                
                 print('tree_ip:',tree_ip)
                 
-                update_region_status(region_name=region_name,i=i,new_status="1")
-
-                return HttpResponse(tree_ip)
+                return tree_ip
             else:
-                i=i+1
-        
+                i=i+1      
     return HttpResponse("no tree avaiable")
 
-def update_region_status(region_name,i,new_status):
+def update_region_status(region_name,r,l,new_status,i):
+    
     region = Region.objects.get(region_name=region_name)
+    rows= region.num_rows
+    if(!i):
+        i=rows*l+r+1
     old_code=region.status
     new_code=old_code[:i]+new_status+old_code[i+1:]
     region.status=new_code
