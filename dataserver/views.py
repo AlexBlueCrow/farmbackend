@@ -357,11 +357,8 @@ def pay_feedback(request):
 
 def get_treeip(item_id):
     item_id=item_id
-    
     item = Item.objects.get(id=item_id)
-   
     regions = Region.objects.filter(item=item)
-    
     regions_serializer = RegionSerializer(regions,many=True)
     for region in regions_serializer.data:
         rows = region['num_rows']
@@ -370,10 +367,7 @@ def get_treeip(item_id):
         region_name=region['region_name']
         i=0 
         while i<rows*lines:
-            if status[i]=='0':
-                status=status[:i]+'1'+status[i+1:]
-                region['status']=status
-                print(region['status'])            
+            if status[i]=='0':            
                 r = i%rows+1 
                 l = i//rows+1
                 tree_ip={
@@ -382,20 +376,18 @@ def get_treeip(item_id):
                     "line":l,
                     "i":i,
                 }
-                
                 print('tree_ip:',tree_ip)
-                
                 return tree_ip
             else:
                 i=i+1      
-    return "error"
+    raise Exception("no_tree_available")
 
 def update_region_status(region_name,r,l,new_status,i):
     
     region = Region.objects.get(region_name=region_name)
     rows= region.num_rows
     if(not i):
-        i=rows*l+r+1
+        i=rows*(l-1)+r-1
     old_code=region.status
     print(old_code)
     new_code=old_code[:i]+str(new_status)+old_code[i+1:]
