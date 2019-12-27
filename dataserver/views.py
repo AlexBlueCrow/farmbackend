@@ -397,7 +397,9 @@ def update_region_status(region_name,r,l,new_status,i):
     if(not i):
         i=rows*l+r+1
     old_code=region.status
+    print(old_code)
     new_code=old_code[:i]+str(new_status)+old_code[i+1:]
+    print(new_code)
     region.status=new_code
     region.save()
     return region.save()
