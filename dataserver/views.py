@@ -241,6 +241,7 @@ def weChatPay(request):
     post_sign =request.GET.get('post_sign')
     name_rec= request.GET.get('name_rec')
     phone_num = request.GET.get('phone_num')
+    tree_ip = get_treeip(item_id)
     
     NOTIFY_URL='https://qingjiao.shop:8000/dataserver/pay_feedback'
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
