@@ -64,7 +64,7 @@ def get_item(request):
                 farmLat = Loc['loc']['lat']
                 print((farmLon),(farmLat),(userlon),(userlat))
                 break
-        item['dis']= round(getDistacnce(userlon,userlat,farmLat,farmLon),2)
+        item['dis']= round(getDistacnce(userlon,userlat,farmLon,farmLat),2)
         test = getDistacnce(30.42,120.30,30,120)
         print('test',test)
         
@@ -88,7 +88,7 @@ def getFarmLocs():
     print(type(dic[3]['loc']['lon']))
     return dic
 
-def getDistacnce(userLon,userLat,farmLat,farmLon):
+def getDistacnce(userLon,userLat,farmLon,farmLat):
     lon1, lat1, lon2, lat2 = map(radians, [userLon, userLat, farmLon, farmLat])
     dlon = lon2 - lon1 
     dlat = lat2 - lat1 
