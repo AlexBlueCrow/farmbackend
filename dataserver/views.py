@@ -23,6 +23,7 @@ from wechatpy.pay import WeChatPay
 from pprint import pprint
 from json import dumps 
 import operator
+from math import radians, cos, sin, asin, sqrt
 
 
 
@@ -49,14 +50,45 @@ def get_item(request):
 
     userlon=request.GET.get('lon')
     userlat=request.GET.get('lat')
+    Locdic = getFarmLocs()
+
+
     for item in items_serializer.data:
-        print(item)
-        item['dis']=0
-        print(item)
+        farmid = item['owner']
+        farmLon = Locdic[farmid]['lon']
+        farmLat = Locdic[farmid]['lat']
+        
+        item['dis']=getDistacnce(userlon,userlat,farmLat,farmLon)
+        print('item:',item)
+    print(items_serializer.data)
+
+    items_serializer.sort(key = 'dis')
+    print(items_serializer.data)
     
 
 
     return JSONResponse(items_serializer.data)
+
+def getFarmLocs():
+    farms= FarmUser.objects.all()
+    dic = []
+    farms_serializer  = FarmUserSerializer(farms,many=True)
+    for farm in farms_serializer.data:
+        LocInfo = {farm['id']:{"lon":farm['longitude'],"lat":farm["latitude"]}}
+        dic.push(LocInfo)
+    print(dic)
+    return dic
+
+def getDistacnce(userLon,userLat,farmLat,farmLon):
+    lon1, lat1, lon2, lat2 = map(radians, [userLon, userLat, farmLon, farmLat])
+    dlon = lon2 - lon1 
+    dlat = lat2 - lat1 
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a)) 
+    r = 6371
+    s = c*r
+    return s 
+
 
 def get_orderInfo(request):
     code = request.GET.get('code')
