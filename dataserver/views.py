@@ -57,9 +57,11 @@ def get_item(request):
 
     for item in items_serializer.data:
         farmid = item['owner']
-        index = Locdic.index('id':farmid)
-        farmLon = Locdic[index]['lon']
-        farmLat = Locdic[index]['lat']
+        for Loc in Locdic:
+            if Loc['id']==farmid:
+                farmLon = Loc['loc']['lon']
+                farmLat = Loc['loc']['lat']
+                break
         
         item['dis']=getDistacnce(userlon,userlat,farmLat,farmLon)
         print('item:',item)
