@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Video,Region,Certification,Prepay_Order
+from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Video,Region,Certification,Prepay_Order,CollectiveOrder,GiftCode
 
 
 class WxUserSerializer(serializers.ModelSerializer):
@@ -59,3 +59,12 @@ class WxUserSerializer(serializers.ModelSerializer):
         model = WxUser
         fields = '__all__'
 
+class CollectiveOrderSerializer(serializers.ModelSerializer):
+    class CollectiveOrder:
+        model = CollectiveOrder
+        fields = '__all__'
+
+class GiftCodeSerializer(serializers.ModelSerializer):
+    class GiftCode:
+        model = GiftCode
+        fields = '__all__'
