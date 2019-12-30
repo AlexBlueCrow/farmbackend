@@ -48,8 +48,8 @@ def get_item(request):
     items = Item.objects.all()
     items_serializer = ItemSerializer(items,many=True)
     
-    userlon=request.GET.get('lon')
-    userlat=request.GET.get('lat')
+    userlon=float(request.GET.get('lon'))
+    userlat=float(request.GET.get('lat'))
     if not userlon:
         return items_serializer.data
     Locdic = getFarmLocs()
