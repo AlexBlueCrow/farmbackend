@@ -47,9 +47,11 @@ def get_farms(request):
 def get_item(request):
     items = Item.objects.all()
     items_serializer = ItemSerializer(items,many=True)
-
+    
     userlon=request.GET.get('lon')
     userlat=request.GET.get('lat')
+    if userlon is not:
+        return items_serializer.data
     Locdic = getFarmLocs()
 
 
@@ -75,7 +77,7 @@ def getFarmLocs():
     farms_serializer  = FarmUserSerializer(farms,many=True)
     for farm in farms_serializer.data:
         LocInfo = {farm['id']:{"lon":farm['longitude'],"lat":farm["latitude"]}}
-        dic.push(LocInfo)
+        dic.append(LocInfo)
     print(dic)
     return dic
 
