@@ -79,12 +79,11 @@ def getFarmLocs():
     farms= FarmUser.objects.all()
     dic = []
     print(farms[3].longitude,type(farms[3].longitude))
-    farms_serializer  = FarmUserSerializer(farms,many=True)
-    print(farms_serializer.data[3]['longitude'],type(farms_serializer.data[3]['longitude']))
-    for farm in farms_serializer.data:
-        LocInfo = {'id':farm['id'],'loc':{"lon":farm['longitude'],"lat":farm["latitude"]}}
+    for farm in farms:
+        LocInfo = {'id':farm.id,'loc':{"lon":farm.longitude,"lat":farm.latitude}}
         dic.append(LocInfo)
     print(dic)
+    print(type(dic[3]['loc']['lon']))
     return dic
 
 def getDistacnce(userLon,userLat,farmLat,farmLon):
