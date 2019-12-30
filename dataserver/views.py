@@ -49,6 +49,7 @@ def get_item(request):
     items_serializer = ItemSerializer(items,many=True)
     
     userlon=float(request.GET.get('lon'))
+    print(type(userlon))
     userlat=float(request.GET.get('lat'))
     if not userlon:
         return items_serializer.data
