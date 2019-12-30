@@ -65,6 +65,8 @@ def get_item(request):
                 print((farmLon),(farmLat),(userlon),(userlat))
                 break
         item['dis']=getDistacnce(userlon,userlat,farmLat,farmLon)
+        test = getDistacnce(120,30,30,120.01)
+        print('test',test)
         
     print('items_serializer.data',items_serializer.data)
 
