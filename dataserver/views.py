@@ -45,9 +45,11 @@ def get_farms(request):
     return JSONResponse(farmuser_serializer.data)
 
 def get_item(request):
+
     items = Item.objects.all()
     items_serializer = ItemSerializer(items,many=True)
-    
+    if not request.GET.get('lon'):
+        return JSONResponse(items_serializer.data)
     userlon=float(request.GET.get('lon'))
     print(type(userlon))
     userlat=float(request.GET.get('lat'))
@@ -64,18 +66,19 @@ def get_item(request):
                 farmLat = Loc['loc']['lat']
                 print((farmLon),(farmLat),(userlon),(userlat))
                 break
-        item['dis']= round(getDistacnce(userlon,userlat,farmLon,farmLat),2)
-        test = getDistacnce(30.42,120.30,30,120)
+        item['dis']= round(getDistance(userlon,userlat,farmLon,farmLat),2)
+        test = getDistance(30.42,120.30,30,120)
         print('test',test)
         
     print('items_serializer.data',items_serializer.data)
 
     sorteddata= sorted(items_serializer.data,key=lambda x:x['dis'])
     print(items_serializer.data)
+    print(sorteddata)
     
 
 
-    return JSONResponse(items_serializer.data)
+    return JSONResponse(sorteddata)
 
 def getFarmLocs():
     farms= FarmUser.objects.all()
@@ -88,7 +91,7 @@ def getFarmLocs():
     print(type(dic[3]['loc']['lon']))
     return dic
 
-def getDistacnce(userLon,userLat,farmLon,farmLat):
+def getDistance(userLon,userLat,farmLon,farmLat):
     lon1, lat1, lon2, lat2 = map(radians, [userLon, userLat, farmLon, farmLat])
     dlon = lon2 - lon1 
     dlat = lat2 - lat1 
