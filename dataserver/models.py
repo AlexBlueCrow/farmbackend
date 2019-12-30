@@ -152,11 +152,11 @@ class Video(models.Model):
 class CollectiveOrder(models.Model):
     code = models.CharField(max_length = 30,unique=True,primary_key=True)
     companyname = models.CharField(max_length=20)
-    username = models.CharField(max_length=20)
+    username = models.CharField(max_length = 20)
     phonenumber = models.IntegerField(blank=True)
     wxid = models.CharField(blank=True)
     time = models.DateTimeField(default=timezone.now)
-    price = models.decimal(default=0.00)
+    price = models.DecimalField(default=0.00,max_digits=8,decimal_places=2)
 
 class GiftCode(models.Model):
     code = models.CharField(max_length = 30 ,unique=True,primary_key=True)
@@ -164,8 +164,6 @@ class GiftCode(models.Model):
     is_used = models.BooleanField(default=False)
     tree_ip = models.CharField(max_length=20)
     owner = models.ForeignKey(CollectiveOrder,on_delete=models.CASCADE)
-    
-
 
 
     
