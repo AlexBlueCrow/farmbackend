@@ -49,7 +49,7 @@ def get_item(request):
 
     userlon=request.GET.get('lon')
     userlat=request.GET.get('lat')
-    pinrt(items_serializer.data)
+    print(items_serializer.data)
     
 
 
