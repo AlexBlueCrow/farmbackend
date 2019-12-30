@@ -61,6 +61,7 @@ def get_item(request):
             if Loc['id']==farmid:
                 farmLon = Loc['loc']['lon']
                 farmLat = Loc['loc']['lat']
+                print(farmLon,farmLat,userlon,userlat)
                 break
         
         item['dis']=getDistacnce(userlon,userlat,farmLat,farmLon)
