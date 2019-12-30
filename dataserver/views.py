@@ -80,7 +80,7 @@ def getFarmLocs():
     dic = []
     print(farms[3].longitude,type(farms[3].longitude))
     farms_serializer  = FarmUserSerializer(farms,many=True)
-    print(farms_serializer.data[3]['longitude'],type(farms_serializer.data[4]['longitude']))
+    print(farms_serializer.data[3]['longitude'],type(farms_serializer.data[3]['longitude']))
     for farm in farms_serializer.data:
         LocInfo = {'id':farm['id'],'loc':{"lon":farm['longitude'],"lat":farm["latitude"]}}
         dic.append(LocInfo)
