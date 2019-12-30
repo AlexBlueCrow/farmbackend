@@ -22,7 +22,7 @@ from wechatpy.pay.api import WeChatOrder
 from wechatpy.pay import WeChatPay
 from pprint import pprint
 from json import dumps 
-
+import operator
 
 
 
@@ -47,12 +47,9 @@ def get_item(request):
     items = Item.objects.all()
     items_serializer = ItemSerializer(items,many=True)
 
-    lon=request.GET.get('lon')
-    lat=request.GET.get('lat')
-
-    farms = FarmUser.objects.all()
-    farms_serializer = FarmUserSerializer(farms,many=True)
-    print('farms_serializer',farms_serializer)
+    userlon=request.GET.get('lon')
+    userlat=request.GET.get('lat')
+    pinrt(items_serializer.data)
     
 
 
