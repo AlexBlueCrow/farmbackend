@@ -69,7 +69,7 @@ def get_item(request):
         print('item:',item)
     print(items_serializer.data)
 
-    items_serializer.sort(key = 'dis')
+    items_serializer.data.sort(key = 'dis')
     print(items_serializer.data)
     
 
