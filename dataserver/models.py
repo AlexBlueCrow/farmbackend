@@ -152,7 +152,7 @@ class Video(models.Model):
 class CollectiveOrder(models.Model):
     code = models.CharField(max_length = 30,unique=True,primary_key=True)
     companyname = models.CharField(max_length=20)
-    contact = models.CharField(max_length=20)
+    username = models.CharField(max_length=20)
     phonenumber = models.IntegerField(blank=True)
     wxid = models.CharField(blank=True)
     time = models.DateTimeField(default=timezone.now)
