@@ -57,8 +57,9 @@ def get_item(request):
 
     for item in items_serializer.data:
         farmid = item['owner']
-        farmLon = Locdic[farmid]['lon']
-        farmLat = Locdic[farmid]['lat']
+        index = Locdic.index('id':farmid)
+        farmLon = Locdic[index]['lon']
+        farmLat = Locdic[index]['lat']
         
         item['dis']=getDistacnce(userlon,userlat,farmLat,farmLon)
         print('item:',item)
@@ -76,7 +77,7 @@ def getFarmLocs():
     dic = []
     farms_serializer  = FarmUserSerializer(farms,many=True)
     for farm in farms_serializer.data:
-        LocInfo = {farm['id']:{"lon":farm['longitude'],"lat":farm["latitude"]}}
+        LocInfo = {'id':farm['id'],'loc':{"lon":farm['longitude'],"lat":farm["latitude"]}}
         dic.append(LocInfo)
     print(dic)
     return dic
