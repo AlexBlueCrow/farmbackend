@@ -149,8 +149,8 @@ class Video(models.Model):
     video_description =  models.CharField(max_length = 50)
 
 
-class CompanyOrder(models.Model):
-    code = models.CharField(max_length = 20,unique=True,primary_key=True)
+class CollectiveOrder(models.Model):
+    code = models.CharField(max_length = 30,unique=True,primary_key=True)
     companyname = models.CharField(max_length=20)
     contact = models.CharField(max_length=20)
     phonenumber = models.IntegerField(blank=True)
@@ -158,9 +158,16 @@ class CompanyOrder(models.Model):
     time = models.DateTimeField(default=timezone.now)
     price = models.decimal(default=0.00)
 
-class RedeemCode(models.Model):
-    code = models.CharField(max_length = 20 ,unique=True,primary_key=True)
+class GiftCode(models.Model):
+    code = models.CharField(max_length = 30 ,unique=True,primary_key=True)
     itemId = models.IntegerField()
+    is_used = models.BooleanField(default=False)
+    tree_ip = models.CharField(max_length=20)
+    owner = models.ForeignKey(CollectiveOrder,on_delete=models.CASCADE)
+    
+
+
+
     
 
 
