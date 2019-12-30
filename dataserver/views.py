@@ -74,9 +74,9 @@ def get_item(request):
 
     sorteddata= sorted(items_serializer.data,key=lambda x:x['dis'])
     for item in items_serializer.data:
-        print(item)
+        print(item['item_name'],item['dis'])
     for item in sorteddata:
-        print(item)
+        print(item['item_name'],item['dis'])
     
 
 
