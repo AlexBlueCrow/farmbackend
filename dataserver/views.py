@@ -50,7 +50,7 @@ def get_item(request):
     
     userlon=request.GET.get('lon')
     userlat=request.GET.get('lat')
-    if userlon is not:
+    if not userlon:
         return items_serializer.data
     Locdic = getFarmLocs()
 
