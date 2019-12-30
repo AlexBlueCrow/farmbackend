@@ -154,7 +154,7 @@ class CollectiveOrder(models.Model):
     companyname = models.CharField(max_length=20)
     username = models.CharField(max_length = 20)
     phonenumber = models.IntegerField(blank=True)
-    wxid = models.CharField(blank=True)
+    wxid = models.CharField(max_length=20,blank=True)
     time = models.DateTimeField(default=timezone.now)
     price = models.DecimalField(default=0.00,max_digits=8,decimal_places=2)
 
