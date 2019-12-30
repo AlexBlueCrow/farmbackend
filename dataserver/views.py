@@ -64,7 +64,7 @@ def get_item(request):
                 farmLat = Loc['loc']['lat']
                 print((farmLon),(farmLat),(userlon),(userlat))
                 break
-        item['dis']=getDistacnce(userlon,userlat,farmLat,farmLon)
+        item['dis']= round(getDistacnce(userlon,userlat,farmLat,farmLon),2)
         test = getDistacnce(119.85,30.32,30.42,120.30)
         print('test',test)
         
