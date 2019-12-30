@@ -62,9 +62,8 @@ def get_item(request):
             if Loc['id']==farmid:
                 farmLon = Loc['loc']['lon']
                 farmLat = Loc['loc']['lat']
-                print(type(farmLon),type(farmLat),type(userlon),type(userlat))
+                print((farmLon),(farmLat),(userlon),(userlat))
                 break
-        
         item['dis']=getDistacnce(userlon,userlat,farmLat,farmLon)
         
     print('items_serializer.data',items_serializer.data)
