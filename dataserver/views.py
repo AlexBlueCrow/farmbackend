@@ -46,6 +46,16 @@ def get_farms(request):
 def get_item(request):
     items = Item.objects.all()
     items_serializer = ItemSerializer(items,many=True)
+
+    lon=request.GET.get('lon')
+    lat=request.GET.get('lat')
+
+    farms = FarmUser.objects.all()
+    farms_serializer = FarmUserSerializer(farms,many=True)
+    print('farms_serializer',farms_serializer)
+    
+
+
     return JSONResponse(items_serializer.data)
 
 def get_orderInfo(request):

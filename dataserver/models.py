@@ -56,8 +56,8 @@ class Item(models.Model):
         return self.item_name
 
 class Region(models.Model):
-    #region_id = models.AutoField()
-    region_name = models.CharField(max_length = 50)
+
+    region_name = models.CharField(max_length = 50,primary_key=True)
     farm = models.ForeignKey(FarmUser,on_delete=models.CASCADE)
     item = models.ForeignKey(Item,on_delete = models.CASCADE)
     region_address = models.CharField(max_length = 100)
@@ -99,6 +99,8 @@ class Order(models.Model):
     order_guaranteed = models.FloatField(default=0)
     order_postsign = models.CharField(default='',max_length=50)
     order_imageUrl = models.CharField(default='',max_length=50)
+
+
     
 
 class Prepay_Order(models.Model):
@@ -109,12 +111,8 @@ class Prepay_Order(models.Model):
     fee = models.DecimalField(max_digits=8,decimal_places=2,default=0)
     item_id=models.IntegerField(blank=False)
     deliver_address = models.CharField(max_length = 50,default='',blank=False)
-    
-    
     quantity = models.IntegerField(default=1)
     buyernickname = models.CharField(max_length=20,default='')
-    
-    
     postsign = models.CharField(default='',max_length=50)
     varified = models.BooleanField(default=False)
 
@@ -149,6 +147,24 @@ class Video(models.Model):
     video_address = models.CharField(max_length = 80)
     video_class = models.CharField(max_length = 20,default='')
     video_description =  models.CharField(max_length = 50)
+
+
+class CompanyOrder(models.Model):
+    code = models.CharField(max_length = 20,unique=True,primary_key=True)
+    companyname = models.CharField(max_length=20)
+    contact = models.CharField(max_length=20)
+    phonenumber = models.IntegerField(blank=True)
+    wxid = models.CharField(blank=True)
+    time = models.DateTimeField(default=timezone.now)
+    price = models.decimal(default=0.00)
+
+class RedeemCode(models.Model):
+    code = models.CharField(max_length = 20 ,unique=True,primary_key=True)
+    itemId = models.IntegerField()
+    
+
+
+    
 
 
 
