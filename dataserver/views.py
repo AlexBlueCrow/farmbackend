@@ -67,27 +67,18 @@ def get_item(request):
         item['dis']= round(getDistance(userlon,userlat,farmLon,farmLat),2)
         
         
-    print('items_serializer.data',items_serializer.data)
-
-    sorteddata= sorted(items_serializer.data,key=lambda x:x['dis'])
-    for item in items_serializer.data:
-        print(item['item_name'],item['dis'])
-    for item in sorteddata:
-        print(item['item_name'],item['dis'])
     
-
-
+    sorteddata= sorted(items_serializer.data,key=lambda x:x['dis'])
     return JSONResponse(sorteddata)
 
 def getFarmLocs():
     farms= FarmUser.objects.all()
     dic = []
-    print(farms[3].longitude,type(farms[3].longitude))
+    
     for farm in farms:
         LocInfo = {'id':farm.id,'loc':{"lon":farm.longitude,"lat":farm.latitude}}
         dic.append(LocInfo)
-    print(dic)
-    print(type(dic[3]['loc']['lon']))
+    
     return dic
 
 def getDistance(userLon,userLat,farmLon,farmLat):
