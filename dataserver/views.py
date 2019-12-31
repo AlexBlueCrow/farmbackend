@@ -179,12 +179,12 @@ def post_comment(request):
         return Response(data={'code':response['errcode'],'msg':response['errmsg']})
     ##success
     openid=res['openid']
-    
-    created = Comments.objects.create(
-        wxuser=WxUser.objects.get(user_openid=openid),
-        comment_text=comment_text,
-        item_id=item_id,
-    )
+    if comments:
+        created = Comments.objects.create(
+            wxuser=WxUser.objects.get(user_openid=openid),
+            comment_text=comment_text,
+            item_id=item_id,
+        )
     
 
     return Response(data={'code':200,'msg':'ok','data':{}})
