@@ -48,18 +48,16 @@ def get_item(request):
 
     items = Item.objects.all()
     items_serializer = ItemSerializer(items,many=True)
-    if not request.GET.get('lon'):
-        return JSONResponse(items_serializer.data)
+    
     userlon=float(request.GET.get('lon'))
-    print(type(userlon))
+   
     userlat=float(request.GET.get('lat'))
-    if not userlon:
-        return items_serializer.data
     Locdic = getFarmLocs()
 
 
     for item in items_serializer.data:
         farmid = item['owner']
+        print(farmid,type(farmid))
         for Loc in Locdic:
             if Loc['id']==farmid:
                 farmLon = Loc['loc']['lon']
@@ -67,8 +65,7 @@ def get_item(request):
                 print((farmLon),(farmLat),(userlon),(userlat))
                 break
         item['dis']= round(getDistance(userlon,userlat,farmLon,farmLat),2)
-        test = getDistance(30.42,120.30,30,120)
-        print('test',test)
+        
         
     print('items_serializer.data',items_serializer.data)
 
