@@ -57,12 +57,12 @@ def get_item(request):
 
     for item in items_serializer.data:
         farmid = item['owner']
-        print(farmid,type(farmid))
+        
         for Loc in Locdic:
             if Loc['id']==farmid:
                 farmLon = Loc['loc']['lon']
                 farmLat = Loc['loc']['lat']
-                print((farmLon),(farmLat),(userlon),(userlat))
+                
                 break
         item['dis']= round(getDistance(userlon,userlat,farmLon,farmLat),2)
         
@@ -337,9 +337,9 @@ def pay_feedback(request):
     mch_id='1571816511'
     mch_key='qingjiaorenlingshop2019111820000'
     appid= 'wxd647f4c25673f368'
-    print("info:------------------------")
+    
     xml = request.body.decode('utf-8')
-    print("xml:-------------------------",xml)  
+    
 
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
     result = wepy_order.parse_payment_result(xml)
