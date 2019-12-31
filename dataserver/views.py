@@ -343,19 +343,19 @@ def pay_feedback(request):
 
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
     result = wepy_order.parse_payment_result(xml)
-    print('pay_result:',result)
+    #print('pay_result:',result)
     
 
     prepay = Prepay_Order.objects.get(out_trade_no=result['out_trade_no'])
     prepay_serializer = Prepay_OrderSerializer(prepay,many=False)
-    print('prepay_serializer',prepay_serializer.data)
+    #print('prepay_serializer',prepay_serializer.data)
     if prepay_serializer.data['varified']==True:
-        print('varified==True')
+        #print('varified==True')
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
    
-    print('fee,',float(prepay_serializer.data['fee']),float(result['total_fee']))
+    #print('fee,',float(prepay_serializer.data['fee']),float(result['total_fee']))
     if (float(prepay_serializer.data['fee'])*100 == float(result['total_fee'])):
-        print('sign=sign&fee=fee')
+        #print('sign=sign&fee=fee')
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
         wxuser = WxUser.objects.get(user_openid=prepay_serializer.data['openid'])
         item_serializer = ItemSerializer(item,many=False)
@@ -386,13 +386,13 @@ def pay_feedback(request):
             order_imageUrl = item_serializer.data['pic_address'],
         )
 
-        print('order created:',new_order)
+        #print('order created:',new_order)
 
         prepay.varified = True
         prepay.save()
         
 
-        print('prepay varified')
+        #print('prepay varified')
 
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     else:
@@ -421,7 +421,7 @@ def get_treeip(item_id):
                     "line":l,
                     "i":i,
                 }
-                print('tree_ip:',tree_ip)
+                #print('tree_ip:',tree_ip)
                 return tree_ip
             else:
                 i=i+1      
@@ -434,9 +434,9 @@ def update_region_status(region_name,r,l,new_status,i):
     if(not i):
         i=rows*(l-1)+r-1
     old_code=region.status
-    print(old_code)
+    #print(old_code)
     new_code=old_code[:i]+str(new_status)+old_code[i+1:]
-    print(new_code)
+    #print(new_code)
     region.status=new_code
     region.save()
     return region.save()
