@@ -144,6 +144,8 @@ class Comments(models.Model):
     comment_text = models.CharField(max_length = 100)
     wxuser = models.ForeignKey(WxUser,on_delete=models.CASCADE)
     comment_time = models.DateTimeField(default= timezone.now)
+    def __str__(self):
+        return self.comment_text
 
 class Video(models.Model):
     ##video_id
