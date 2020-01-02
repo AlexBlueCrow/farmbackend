@@ -120,6 +120,9 @@ class Prepay_Order(models.Model):
     postsign = models.CharField(default='',max_length=50)
     varified = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.order_buyernickname+'--'+self.fee
+
     
     
     
