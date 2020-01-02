@@ -102,12 +102,30 @@ class Order(models.Model):
     order_guaranteed = models.FloatField(default=0)
     order_postsign = models.CharField(default='',max_length=50)
     order_imageUrl = models.CharField(default='',max_length=50)
+    message_from_farm = models.CharField(default='',max_length=80)
 
     def __str__(self):
-        return self.order_buyernickname+'--'+self.order_tree_ip
+        return self.order_buyernickname+'--'+self.order_tree_ip+'--'+self.order_price_paid
     
 
 class Prepay_Order(models.Model):
+    out_trade_no = models.CharField(primary_key=True, unique=True,max_length=20)
+    sign = models.CharField(max_length=50)
+    noncestr=models.CharField(max_length=50)
+    openid=models.CharField(max_length=40)
+    fee = models.DecimalField(max_digits=8,decimal_places=2,default=0)
+    item_id=models.IntegerField(blank=False)
+    deliver_address = models.CharField(max_length = 50,default='',blank=False)
+    quantity = models.IntegerField(default=1)
+    buyernickname = models.CharField(max_length=20,default='')
+    postsign = models.CharField(default='',max_length=50)
+    varified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.buyernickname+'--'+str(self.fee)
+
+
+class Varify_failed(models.Model):
     out_trade_no = models.CharField(primary_key=True, unique=True,max_length=20)
     sign = models.CharField(max_length=50)
     noncestr=models.CharField(max_length=50)
