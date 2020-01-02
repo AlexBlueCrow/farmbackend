@@ -121,7 +121,7 @@ class Prepay_Order(models.Model):
     varified = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.order_buyernickname+'--'+self.fee
+        return self.buyernickname+'--'+self.fee
 
     
     
