@@ -273,6 +273,7 @@ def payOrder(request):
 @api_view(['GET'])
 @authentication_classes([])
 def weChatPay(request):
+
     mch_id='1571816511'
     mch_key='qingjiaorenlingshop2019111820000'
     appid= 'wxd647f4c25673f368'
@@ -299,6 +300,11 @@ def weChatPay(request):
         return Response(data={'code':response['errcode'],'msg':response['errmsg']})
     ##success
     openid=res['openid']
+    wxuser = WxUser.objects.create(
+        user_openid=openid,
+
+    )
+    wxuser.save()
 
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
     out_trade_no=pay.getWxPayOrdrID()
@@ -400,6 +406,7 @@ def pay_feedback(request):
 
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     else:
+        
         return HttpResponse('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[金额错误]]></return_msg></xml>')
     
     #print("Pay_success",request)
