@@ -103,7 +103,8 @@ class Order(models.Model):
     order_postsign = models.CharField(default='',max_length=50)
     order_imageUrl = models.CharField(default='',max_length=50)
 
-
+    def __str__(self):
+        return self.order_buyernickname+'--'+self.order_tree_ip
     
 
 class Prepay_Order(models.Model):
