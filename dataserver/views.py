@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Prepay_Order,Region
+from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Prepay_Order,Region,Varify_failed
 from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer,Prepay_OrderSerializer,RegionSerializer
 from dataserver.login import wx_login
 import random
@@ -406,7 +406,10 @@ def pay_feedback(request):
 
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     else:
-        
+        failed = Varify_failed.objects.create(
+            fee = prepay_serializer.data['fee'],
+            out_trade_no=prepay_serializer.data['out_trade_no'],
+        )
         return HttpResponse('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[金额错误]]></return_msg></xml>')
     
     #print("Pay_success",request)
