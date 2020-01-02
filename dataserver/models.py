@@ -54,6 +54,7 @@ class Item(models.Model):
     item_guaranteed = models.FloatField(default=0)
     item_benefit = models.CharField(max_length=200)
     item_period = models.IntegerField(blank=True,default=1)
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.item_name
