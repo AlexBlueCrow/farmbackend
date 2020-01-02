@@ -48,7 +48,9 @@ def get_item(request):
 
     items = Item.objects.all()
     items_serializer = ItemSerializer(items,many=True)
-    if not request.GET.get('lon'):
+
+
+    if request.GET.get('lon')=='undefined':
         return JSONResponse(items_serializer.data)
 
     userlon=float(request.GET.get('lon'))

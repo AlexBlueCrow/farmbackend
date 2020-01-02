@@ -84,10 +84,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'farmbackend',
-        'USER':'wxfarmpro_001',
-        'PASSWORD':'greenpepper+1s',
-        'HOST':'rm-bp1y4rtcoja747y58wo.mysql.rds.aliyuncs.com',
-        'PORT':'3306',
+        'USER':'havefunz',
+        'PASSWORD':'phantomthief+1s',
+        'HOST':'sh-cdb-f3ktpy6k.sql.tencentcdb.com',
+        'PORT':'61443',
     }
 }
 
