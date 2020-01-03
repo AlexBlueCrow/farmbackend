@@ -57,7 +57,7 @@ class Item(models.Model):
     active = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.item_name
+        return self.item_name+'--'+str(self.item_price)
 
 class Region(models.Model):
 
