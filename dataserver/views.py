@@ -300,11 +300,12 @@ def weChatPay(request):
         return Response(data={'code':response['errcode'],'msg':response['errmsg']})
     ##success
     openid=res['openid']
-    wxuser = WxUser.objects.create(
-        user_openid=openid,
 
+    
+    wxuser = WxUser.objects.get_or_create(
+        user_openid=openid,
     )
-    wxuser.save()
+    
 
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
     out_trade_no=pay.getWxPayOrdrID()

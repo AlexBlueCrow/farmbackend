@@ -131,19 +131,11 @@ class Varify_failed(models.Model):
     sign = models.CharField(max_length=50)
     fee = models.DecimalField(max_digits=8,decimal_places=2,default=0)
     
-    
-
     def __str__(self):
         return self.buyernickname+'--'+str(self.fee)
 
-    
-    
-    
-
-
 class Question(models.Model):  
     Q_CHOICES = [('A','A'),('B','B'),('C','C'),('D','D')]
-
     question_id = models.IntegerField(primary_key=True,unique=True)
     question_category = models.CharField(max_length=20,default="无") 
     question_rank = models.IntegerField(default='1')  
@@ -154,6 +146,9 @@ class Question(models.Model):
     option_C = models.CharField(max_length =20)
     option_D = models.CharField(max_length =20)
     correct_answer = models.CharField(max_length=1,choices = Q_CHOICES, default = 'A')
+
+    def __str__(self):
+        return str(self.question_id)+'--'+self.category+'--'+self.question_text
 
 class Comments(models.Model):
     comment_id = models.AutoField(primary_key = True)
