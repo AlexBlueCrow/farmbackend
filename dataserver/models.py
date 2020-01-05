@@ -103,7 +103,7 @@ class Order(models.Model):
     order_guaranteed = models.FloatField(default=0)
     order_postsign = models.CharField(default='',max_length=50)
     order_imageUrl = models.CharField(default='',max_length=50)
-    message_from_farm = models.CharField(default='',max_length=80)
+    message_from_farm = models.CharField(default='',max_length=80,blank = True)
     phone_num = models.IntegerField(default=None)
     
 
