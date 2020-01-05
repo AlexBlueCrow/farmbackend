@@ -123,7 +123,7 @@ class Prepay_Order(models.Model):
     buyernickname = models.CharField(max_length=20,default='')
     postsign = models.CharField(default='',max_length=50)
     varified = models.BooleanField(default=False)
-    phone_num = models.IntegerField(default=0)
+    phone_num = models.CharField(max_length = 15,default='')
 
     def __str__(self):
         return self.buyernickname+'--'+str(self.fee)
