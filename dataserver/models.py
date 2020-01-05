@@ -104,7 +104,7 @@ class Order(models.Model):
     order_postsign = models.CharField(default='',max_length=50)
     order_imageUrl = models.CharField(default='',max_length=50)
     message_from_farm = models.CharField(default='',max_length=80,blank = True)
-    phone_num = models.IntegerField(default=None)
+    phone_num = models.CharField(max_length = 15,default='')
     
 
     def __str__(self):
