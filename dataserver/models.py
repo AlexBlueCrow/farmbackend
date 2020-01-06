@@ -104,7 +104,8 @@ class Order(models.Model):
     order_postsign = models.CharField(default='',max_length=50)
     order_imageUrl = models.CharField(default='',max_length=50)
     message_from_farm = models.CharField(default='',max_length=80,blank = True)
-    phone_num = models.CharField(max_length = 15,default='')
+    phone_num = models.CharField(max_length = 22,default='')
+    name_rec = models.CharField(max_length =20,default = '', blank = True )
     
 
     def __str__(self):
@@ -124,6 +125,8 @@ class Prepay_Order(models.Model):
     postsign = models.CharField(default='',max_length=50)
     varified = models.BooleanField(default=False)
     phone_num = models.CharField(max_length = 15,default='')
+    name_rec = models.CharField(max_length =20,default = '', blank = True )
+    
 
     def __str__(self):
         return self.buyernickname+'--'+str(self.fee)

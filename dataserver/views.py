@@ -316,6 +316,7 @@ def weChatPay(request):
         notify_url=NOTIFY_URL,
         user_id=openid,
         out_trade_no=out_trade_no,
+
     )
     #print("------pay_res",pay_res)
     prepay_id = pay_res.get("prepay_id")
@@ -337,7 +338,8 @@ def weChatPay(request):
         buyernickname = nickname,
         postsign = post_sign,
         item_id = int(item_id),
-        phone_num = str(phone_num)
+        phone_num = str(phone_num),
+        name_rec = name_rec,
     )
     #print("------paySign:",paySign)
 
@@ -396,7 +398,8 @@ def pay_feedback(request):
             order_benefit = item_serializer.data['item_benefit'],
             order_guaranteed = item_serializer.data['item_guaranteed'],
             order_imageUrl = item_serializer.data['pic_address'],
-            phone_num = str(prepay_serializer.data['phone_num'])
+            phone_num = str(prepay_serializer.data['phone_num']),
+            name_rec = prepay_serializer.data['name_rec'],
         )
 
         #print('order created:',new_order)
