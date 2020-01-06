@@ -451,6 +451,7 @@ def update_region_status(region_name,r,l,new_status,i):
 def allorder(request):
     orders = Order.objects.all()
     orders_serializer = OrderSerializer(orders,many = True)
+    print(orders_serializer.data)
     return JSONResponse(orders_serializer.data)
         
         
