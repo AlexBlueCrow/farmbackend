@@ -48,41 +48,28 @@ def get_item(request):
 
     items = Item.objects.all()
     items_serializer = ItemSerializer(items,many=True)
-
-
     if request.GET.get('lon')=='undefined':
         return JSONResponse(items_serializer.data)
-
     userlon=float(request.GET.get('lon'))
-   
     userlat=float(request.GET.get('lat'))
     Locdic = getFarmLocs()
-
-
     for item in items_serializer.data:
         farmid = item['owner']
-        
         for Loc in Locdic:
             if Loc['id']==farmid:
                 farmLon = Loc['loc']['lon']
                 farmLat = Loc['loc']['lat']
-                
                 break
         item['dis']= round(getDistance(userlon,userlat,farmLon,farmLat),2)
-        
-        
-    
     sorteddata= sorted(items_serializer.data,key=lambda x:x['dis'])
     return JSONResponse(sorteddata)
 
 def getFarmLocs():
     farms= FarmUser.objects.all()
-    dic = []
-    
+    dic = [] 
     for farm in farms:
         LocInfo = {'id':farm.id,'loc':{"lon":farm.longitude,"lat":farm.latitude}}
         dic.append(LocInfo)
-    
     return dic
 
 def getDistance(userLon,userLat,farmLon,farmLat):
@@ -460,6 +447,11 @@ def update_region_status(region_name,r,l,new_status,i):
     region.status=new_code
     region.save()
     return region.save()
+
+def allorder():
+    orders = Order.objects.all()
+    orders_serializer = OrderSerializer(orders,many = True)
+    return orders_serializer
         
         
 

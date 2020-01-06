@@ -129,7 +129,8 @@ class Prepay_Order(models.Model):
     
 
     def __str__(self):
-        return self.buyernickname+'--'+str(self.fee)
+
+        return self.buyernickname+'--'+str(self.fee)+str(self.varified)
 
 
 class Varify_failed(models.Model):
@@ -138,7 +139,7 @@ class Varify_failed(models.Model):
     fee = models.DecimalField(max_digits=8,decimal_places=2,default=0)
     
     def __str__(self):
-        return self.buyernickname+'--'+str(self.fee)
+        return self.out_trade_no+'--'+str(self.fee)
 
 class Question(models.Model):  
     Q_CHOICES = [('A','A'),('B','B'),('C','C'),('D','D')]
@@ -151,7 +152,7 @@ class Question(models.Model):
     option_B = models.CharField(max_length =20)
     option_C = models.CharField(max_length =20)
     option_D = models.CharField(max_length =20)
-    correct_answer = models.CharField(max_length=1,choices = Q_CHOICES, default = 'A')
+    correct_answer = models.CharField(max_length=1,choices = Q_CHOICES, default = '')
 
     def __str__(self):
         return str(self.question_id)+'--'+self.category+'--'+self.question_text
@@ -188,7 +189,13 @@ class GiftCode(models.Model):
     tree_ip = models.CharField(max_length=20)
     owner = models.ForeignKey(CollectiveOrder,on_delete=models.CASCADE)
 
+class MchInfo(models.Model):
+    mch_id = models.CharField(max_length = 20)
+    mch_key = models.CharField(max_length = 50)
+    appid = models.CharField(max_length = 20)
+    secret = models.CharField(max_length = 50)
 
+    
     
 
 
