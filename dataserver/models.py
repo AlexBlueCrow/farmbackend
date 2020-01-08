@@ -106,6 +106,8 @@ class Order(models.Model):
     message_from_farm = models.CharField(default='',max_length=80,blank = True)
     phone_num = models.CharField(max_length = 30,default='')
     name_rec = models.CharField(max_length =20,default = '', blank = True )
+    ip_line = models.IntegerField(default=0)
+    ip_row =models.IntegerField(default=0)
     
 
     def __str__(self):
@@ -177,7 +179,7 @@ class CollectiveOrder(models.Model):
     code = models.CharField(max_length = 30,unique=True,primary_key=True)
     companyname = models.CharField(max_length=20)
     username = models.CharField(max_length = 20)
-    phonenumber = models.IntegerField(blank=True)
+    phonenumber = models.CharField(max_length=25,blank=True)
     wxid = models.CharField(max_length=20,blank=True)
     time = models.DateTimeField(default=timezone.now)
     price = models.DecimalField(default=0.00,max_digits=8,decimal_places=2)

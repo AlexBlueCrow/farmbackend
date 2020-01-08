@@ -278,6 +278,7 @@ def weChatPay(request):
     name_rec= request.GET.get('name_rec')
     phone_num = request.GET.get('phone_num')
     tree_ip = get_treeip(item_id)
+
     
     NOTIFY_URL='https://qingjiao.shop:8000/dataserver/pay_feedback'
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
@@ -331,6 +332,7 @@ def weChatPay(request):
     #print("------paySign:",paySign)
 
     return Response(data={'wepy_sign':wepy_sign,'status':100,'paySign':paySign,'timeStamp':timeStamp,'nonceStr':nonceStr})
+
 
 
 @csrf_exempt 
@@ -387,6 +389,8 @@ def pay_feedback(request):
             order_imageUrl = item_serializer.data['pic_address'],
             phone_num = str(prepay_serializer.data['phone_num']),
             name_rec = prepay_serializer.data['name_rec'],
+            ip_row=r,
+            ip_line=l,
         )
 
         #print('order created:',new_order)
@@ -462,6 +466,8 @@ def index(request):
     return render(request,'dataserver/index.html')
     
 
+def gen_gift_code(request):
+    
         
         
 

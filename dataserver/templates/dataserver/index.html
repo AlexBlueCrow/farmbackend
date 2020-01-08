@@ -1,23 +1,26 @@
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>首页</title>
-    </head>
+    
     <body>
         <h1>首页</h1>
     </body>
 
     <div style="margin: 15% 40%;">
-        <h1>collctive order generater</h1>
+        <h1>生成团购码</h1>
         <form action="/cre_col_order/" method="post">
-            <p><label for="username">用户名：</label>
+            <p><label for="username">公司名称：</label>
             <input type="text" id="username" name="username" placeholder="用户名称" autofocus required /></p>
 
             <p><label for="item_name">产品名称</label>
             <input type="text" id="item_name" placeholder="产品名称" name="item_name" required ></p>
 
             <p><label for="num">购买数量</label>
-                <input type="text" id="num" placeholder="数量" name="num" required ></p>
+                <input type="text" id="num" placeholder="购买数量" name="num" required ></p>
+            <p><label for="paid">支付金额</label>
+                    <input type="text" id="paid" placeholder="支付金额" name="paid" required ></p>
+            <p><label for='contact'>联系人</label>
+                <input type="text" id='contact' placeholder="联系人" name = "contact" required></p>
+            <p><label>联系电话</label></p>
+            
             
             
 
