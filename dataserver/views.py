@@ -46,7 +46,7 @@ def get_farms(request):
 
 def get_item(request):
 
-    items = Item.objects.all()
+    items = Item.objects.filter(active = True)
     items_serializer = ItemSerializer(items,many=True)
     if request.GET.get('lon')=='undefined':
         return JSONResponse(items_serializer.data)
