@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'gar$mpzxvu7ac01ut2saokz^do&ly)td-gwy&vp5x1iadx3v2-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 serverip='49.235.138.160'
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dataserver.apps.DataserverConfig',
+    'management.apps.ManagementConfig',
     'rest_framework',
     'werkzeug_debugger_runserver',
     'django_extensions',
