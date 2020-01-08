@@ -453,9 +453,15 @@ def allorder(request):
     orders_serializer = OrderSerializer(orders,many = True)
     for order in orders_serializer.data:
         for item in order:
-            print(item)
+            print(item+':'+)
             print('\n')
     return JSONResponse(orders_serializer.data)
+
+def index(request):
+    pass
+    return render(request,'dataserver/index.html')
+    
+
         
         
 
