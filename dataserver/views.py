@@ -467,8 +467,11 @@ def index(request):
     
 
 def gen_gift_code(request):
-    
-        
+    return HttpResponse(request)
+
+def genCorder(request):
+    print(request)
+    return HttpResponse(request)
         
 
 

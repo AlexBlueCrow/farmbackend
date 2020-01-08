@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'manager/',manager.order_manager),
     url(r'allorder/',views.allorder),
     url(r'index/',views.index),
+    url(r'genCOrder/',views.gen_col_order),
 ]
 
