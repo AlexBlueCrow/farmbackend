@@ -20,5 +20,5 @@ from django.conf.urls import url
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'dataserver/',include('dataserver.urls')),
-    url(r'manage/',include('manage.urls'))
+    url(r'manage/',include('management.urls'))
 ]
