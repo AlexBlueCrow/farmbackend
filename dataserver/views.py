@@ -476,6 +476,7 @@ def gen_gift_code(request):
 @api_view(['POST'])
 @authentication_classes([])
 def gen_col_order(request):
+    print('---------------------')
     print(request)
     return HttpResponse(request)
         
