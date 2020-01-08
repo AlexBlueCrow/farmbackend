@@ -465,10 +465,16 @@ def index(request):
     pass
     return render(request,'dataserver/index.html')
     
-
+@csrf_exempt 
+@api_view(['POST'])
+@authentication_classes([])
 def gen_gift_code(request):
     return HttpResponse(request)
 
+
+@csrf_exempt 
+@api_view(['POST'])
+@authentication_classes([])
 def gen_col_order(request):
     print(request)
     return HttpResponse(request)
