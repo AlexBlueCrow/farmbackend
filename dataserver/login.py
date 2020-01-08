@@ -66,7 +66,6 @@ def wx_update(request):
     openid=res['openid']
     session_key=res['session_key']
     user = WxUser.objects.get_or_create(
-
         user_openid=openid,          
     )
     cityName = request.data['cityName']
