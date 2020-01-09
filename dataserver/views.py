@@ -481,7 +481,7 @@ def gen_col_order(request):
     print('---------------------')
     print(request.POST.get('item_name'))
     print('---------------------')
-    print（request.body）
+    
     print('---------------------')
 
     return HttpResponse(request.body)
