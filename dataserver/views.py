@@ -477,8 +477,14 @@ def gen_gift_code(request):
 @authentication_classes([])
 def gen_col_order(request):
     print('---------------------')
-    print(request)
-    return HttpResponse(request)
+    print(request.POST)
+    print('---------------------')
+    print(request.POST.get('item_name'))
+    print('---------------------')
+    print（request.body）
+    print('---------------------')
+
+    return HttpResponse(request.body)
         
 
 
