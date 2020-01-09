@@ -479,7 +479,7 @@ def gen_col_order(request):
     print('---------------------')
     num = request.POST.get('num')
     paid = request.POST.get('paid')
-    pinnt('data',num,paid)
+    print('data',num,paid)
     print(request.POST.get('item_name'))
 
     print('---------------------')
