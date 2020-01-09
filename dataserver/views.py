@@ -477,12 +477,16 @@ def gen_gift_code(request):
 @authentication_classes([])
 def gen_col_order(request):
     print('---------------------')
+    num = request.POST.get('num')
+    paid = request.POST.get('paid')
+    pinnt('data',num,paid)
     print(request.POST.get('item_name'))
+
     print('---------------------')
     
     print('---------------------')
 
-    return HttpResponse(request.body)
+    return redirect('/dataserver/index/')
         
 
 
