@@ -8,8 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Prepay_Order,Region,Varify_failed
-from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer,Prepay_OrderSerializer,RegionSerializer
+from dataserver.models import WxUser,Item,FarmUser,Question,Order,Comments,Prepay_Order,Region,Varify_failed,CollectiveOrder,GiftCode
+from dataserver.serializers import WxUserSerializer,ItemSerializer,OrderSerializer,FarmUserSerializer,QuestionSerializer,CommentsSerializer,Prepay_OrderSerializer,RegionSerializer,CollectiveOrderSerializer,GiftCodeSerializer
 from dataserver.login import wx_login
 import random
 import time
@@ -24,6 +24,7 @@ from pprint import pprint
 from json import dumps 
 import operator
 from math import radians, cos, sin, asin, sqrt
+import random,string
 
 
 
@@ -462,32 +463,82 @@ def allorder(request):
     return JSONResponse(orders_serializer.data)
 
 def index(request):
-    pass
+    print('test')
     return render(request,'dataserver/index.html')
     
-@csrf_exempt 
-@api_view(['POST'])
-@authentication_classes([])
-def gen_gift_code(request):
-    return HttpResponse(request)
+def gen_random_code(seed,length=10):
+    print(seed)
+    prefix = hex(int(seed[2:]))
+    length = length - len(prefix)
+
+    chars=string.ascii_letters+string.digits
+    code = prefix + ''.join([random.choice(chars) for i in range(length)])
+    return code.upper()   
 
 
 @csrf_exempt 
-@api_view(['POST'])
+@api_view(['POST','GET'])
 @authentication_classes([])
 def gen_col_order(request):
-    print('---------------------')
-    num = request.POST.get('num')
-    paid = request.POST.get('paid')
-    print('data',num,paid)
-    print(request.POST.get('item_name'))
+    buyer_name = request.GET.get('buyer_name')
+    item_name = request.GET.get('item_name')
+    num = request.GET.get('num')
+    paid = request.GET.get('paid')
+    contact= request.GET.get('contact')
 
-    print('---------------------')
+    phone_num = request.GET.get('phone_num')
+
+    print('data:',phone_num,contact)
+    code = gen_random_code(seed=phone_num,length =12)
+    newdeal = CollectiveOrder.objects.create(
+        code = code,
+        companyname = buyer_name,
+        contact = contact,
+        phone_num = phone_num,
+        price = paid,  
+    )
+    print(newdeal)
+    newdeal.save()
+
+    while i<num:
+        seed = code +str(i)
+        gen_gift_code(item_id,seed,newdeal)
+
+
+    dealserializer = CollectiveOrderSerializer(newdeal,many = False)
+    return HttpResponse(dealserializer.data)
     
-    print('---------------------')
 
-    return redirect('/dataserver/index/')
-        
+
+
+
+def gen_gift_code(item_id,seed,col_order):
+    
+    new_tree = get_treeip(item_id=item.id)
+    region_name=new_tree["region_name"]
+    r=new_tree['row']
+    l=new_tree['line']
+    i=new_tree['i']
+
+    tree_ip= region_name+":"+str(l)+"x"+str(r)
+
+    update_region_status(region_name=region_name,r=r,l=l,new_status=1,i=i)
+    code = gen_random_code(seed,length=10)
+    giftcode = GiftCode.objects.create(
+        code = code,
+        item_id=item_id,
+        tree_ip = tree_ip,
+        owner = col_order,
+        ip_line=l,
+        ip_row=r,
+    )
+    giftcode.save()
+
+    return HttpResponse(giftcode.code)
+    #print('order created:',new_order)
+    
+
+    
 
 
 

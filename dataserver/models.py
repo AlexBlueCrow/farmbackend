@@ -178,18 +178,20 @@ class Video(models.Model):
 class CollectiveOrder(models.Model):
     code = models.CharField(max_length = 30,unique=True,primary_key=True)
     companyname = models.CharField(max_length=20)
-    username = models.CharField(max_length = 20)
-    phonenumber = models.CharField(max_length=25,blank=True)
+    contact = models.CharField(max_length = 20)
+    phone_num = models.CharField(max_length=25,blank=True)
     wxid = models.CharField(max_length=20,blank=True)
     time = models.DateTimeField(default=timezone.now)
     price = models.DecimalField(default=0.00,max_digits=8,decimal_places=2)
 
 class GiftCode(models.Model):
     code = models.CharField(max_length = 30 ,unique=True,primary_key=True)
-    itemId = models.IntegerField()
+    item_id = models.IntegerField()
     is_used = models.BooleanField(default=False)
     tree_ip = models.CharField(max_length=20)
     owner = models.ForeignKey(CollectiveOrder,on_delete=models.CASCADE)
+    ip_line = models.IntegerField(default=0)
+    ip_row =models.IntegerField(default=0)
 
 class MchInfo(models.Model):
     mch_id = models.CharField(max_length = 20)
