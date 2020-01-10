@@ -479,13 +479,16 @@ def gen_random_code(seed,length=10):
 @api_view(['POST','GET'])
 @authentication_classes([])
 def gen_col_order(request):
+    i=0
     buyer_name = request.GET.get('buyer_name')
     item_name = request.GET.get('item_name')
     num = request.GET.get('num')
     paid = request.GET.get('paid')
     contact= request.GET.get('contact')
     phone_num = request.GET.get('phone_num')
-
+    
+    item = Item.objects.get(item_name=item_name)
+    
     print('data:',phone_num,contact)
     code = gen_random_code(seed=phone_num,length =12)
     newdeal = CollectiveOrder.objects.create(
@@ -497,10 +500,10 @@ def gen_col_order(request):
     )
     print(newdeal)
     newdeal.save()
-
-    while i<num:
+    
+    while i<int(num):
         seed = code +str(i)
-        gen_gift_code(item_id,seed,newdeal)
+        gen_gift_code(item_id=item.id,seed=seed,col_order=newdeal)
 
 
     dealserializer = CollectiveOrderSerializer(newdeal,many = False)
