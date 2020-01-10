@@ -467,7 +467,6 @@ def index(request):
     return render(request,'dataserver/index.html')
     
 def gen_random_code(seed,length=10):
-    print(seed)
     prefix = hex(int(seed[2:]))
     length = length - len(prefix)
 

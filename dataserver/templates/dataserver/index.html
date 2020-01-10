@@ -6,26 +6,23 @@
 
     <div style="margin: 15% 40%;">
         <h1>生成团购码</h1>
-        <form action="/dataserver/gen_col_order/" method="post">
+        <form action="/dataserver/gen_col_order/" method="GET"  enctype="multipart/form-data">
             {% csrf_token %}
-            <p><label for="username">公司名称：</label>
-            <input type="text" id="username" name="username" placeholder="用户名称" autofocus required /></p>
+            <p><label for="buyer_name">公司名称：</label>
+            <input type="text" id="buyer_name" name="buyer_name" placeholder="用户名称" autofocus required /></p>
 
             <p><label for="item_name">产品名称：</label>
             <input type="text" id="item_name" placeholder="产品名称" name="item_name" required ></p>
-
             <p><label for="num">购买数量：</label>
                 <input type="text" id="num" placeholder="购买数量" name="num" required ></p>
             <p><label for="paid">支付金额：</label>
                     <input type="text" id="paid" placeholder="支付金额" name="paid" required ></p>
             <p><label for='contact'>联系人：</label>
                 <input type="text" id='contact' placeholder="联系人" name = "contact" required></p>
-            <p><label for='phonenum'>联系电话：</label>
-                <input type="text" id='phonenum' placeholder="联系电话" name = "phonenum" required></p>
+            <p><label for='phone_num'>联系电话：</label>
+                <input type="text" id='phone_num' placeholder="联系电话" name = "phone_num" required></p>
             <input type="submit" value="确定">
         </form>
-        <form action="/gen_col_order/test/">
-            <input type = "submit" value = 'test'>
-        </form>
+        
     </div>
 </html>
