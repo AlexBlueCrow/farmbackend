@@ -484,7 +484,6 @@ def gen_col_order(request):
     num = request.GET.get('num')
     paid = request.GET.get('paid')
     contact= request.GET.get('contact')
-
     phone_num = request.GET.get('phone_num')
 
     print('data:',phone_num,contact)
