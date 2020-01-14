@@ -103,7 +103,7 @@ def get_orderInfo(request):
             farm = FarmUser.objects.get(farm_name=item.owner)
             short = farm.short
             order['short']=short
-            order['']
+            order['effect_time']=order['effect_time'][0:10]
         return JSONResponse(orders_serializer.data)
     else:
         return HttpResponse("无有效订单")
