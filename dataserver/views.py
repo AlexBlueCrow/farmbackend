@@ -100,9 +100,9 @@ def get_orderInfo(request):
         orders_serializer = OrderSerializer(orders,many=True)
         for order in orders_serializer.data:
             item = Item.objects.get(id=order['item'])
-            farm = FarmUser.objects.get(farm_name=item.owner)
             
-            order['farmname']=farm.farm_name
+            
+            order['farmname']=item.owner
             order['effect_time']=order['effect_time'][0:10]
 
         return JSONResponse(orders_serializer.data)
