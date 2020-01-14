@@ -72,7 +72,7 @@ class Region(models.Model):
 
 
     def __str__(self):
-        return self.region_name
+        return self.region_name+self.item
 
 class Certification(models.Model):
     farm = models.ForeignKey(FarmUser,on_delete=models.CASCADE)
@@ -86,25 +86,24 @@ class Certification(models.Model):
 
 
 class Order(models.Model):
-    order_num = models.CharField(primary_key=True,unique=True,max_length=25)
-    order_item = models.ForeignKey(Item,on_delete=models.PROTECT)
+    num = models.CharField(primary_key=True,unique=True,max_length=25)
+    item = models.ForeignKey(Item,on_delete=models.PROTECT)
     farm_name = models.CharField(max_length=30,default='',blank=True)
-    
-    order_wxuser = models.ForeignKey(WxUser,on_delete=models.PROTECT,default='')
-    order_deliver_address = models.CharField(max_length = 50,default='',blank=False)
-    order_effect_time = models.DateTimeField(default=timezone.now)
-    order_timespanse = models.IntegerField(default=1)
-    order_is_active = models.BooleanField(default=True)
-    order_price_paid = models.DecimalField(default=0,max_digits=8,decimal_places=2)
-    order_quantity = models.IntegerField(default=1)
-    order_price_origin = models.DecimalField(default=0,max_digits=8,decimal_places=2)
-    order_tree_ip = models.CharField(max_length=50,default = '')
-    order_buyernickname = models.CharField(max_length=20,default='')
-    order_benefit = models.CharField(max_length=50,default='')
-    order_delivered = models.FloatField(default=0)
-    order_guaranteed = models.FloatField(default=0)
-    order_postsign = models.CharField(default='',max_length=50)
-    order_imageUrl = models.CharField(default='',max_length=50)
+    wxuser = models.ForeignKey(WxUser,on_delete=models.PROTECT,default='')
+    deliver_address = models.CharField(max_length = 50,default='',blank=False)
+    effect_time = models.DateTimeField(default=timezone.now)
+    timespanse = models.IntegerField(default=1)
+    is_active = models.BooleanField(default=True)
+    price_paid = models.DecimalField(default=0,max_digits=8,decimal_places=2)
+    quantity = models.IntegerField(default=1)
+    price_origin = models.DecimalField(default=0,max_digits=8,decimal_places=2)
+    tree_ip = models.CharField(max_length=50,default = '')
+    buyernickname = models.CharField(max_length=20,default='')
+    benefit = models.CharField(max_length=50,default='')
+    delivered = models.FloatField(default=0)
+    guaranteed = models.FloatField(default=0)
+    postsign = models.CharField(default='',max_length=50)
+    imageUrl = models.CharField(default='',max_length=50)
     message_from_farm = models.CharField(default='',max_length=80,blank = True)
     phone_num = models.CharField(max_length = 30,default='')
     name_rec = models.CharField(max_length =20,default = '', blank = True )
