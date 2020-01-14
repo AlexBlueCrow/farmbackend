@@ -102,7 +102,7 @@ def get_orderInfo(request):
             item = Item.objects.get(id=order['item'])
             
             
-            order['farmname']=item.owner
+            order['farmname']=item.owner.farm_name
             order['effect_time']=order['effect_time'][0:10]
 
         return JSONResponse(orders_serializer.data)
