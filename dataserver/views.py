@@ -95,18 +95,15 @@ def get_orderInfo(request):
         return HttpResponse(res['errcode'])
     openid=res['openid']
     wxuser = WxUser.objects.get(user_openid=openid)
-    orders = Order.objects.filter(order_wxuser=wxuser)
+    orders = Order.objects.filter(wxuser=wxuser)
     if orders:
         orders_serializer = OrderSerializer(orders,many=True)
-        print(orders_serializer)
         for order in orders_serializer.data:
-            item = Item.objects.get(id=order['order_item'])
-            print(item.owner)
+            item = Item.objects.get(id=order['item'])
             farm = FarmUser.objects.get(farm_name=item.owner)
             short = farm.short
             order['short']=short
-            print(order['short'])
-        print(orders_serializer)
+            order['']
         return JSONResponse(orders_serializer.data)
     else:
         return HttpResponse("无有效订单")
@@ -385,19 +382,19 @@ def pay_feedback(request):
         update_region_status(region_name=region_name,r=r,l=l,new_status=1,i=i)
         
         new_order = Order.objects.create(
-            order_num = str(prepay_serializer.data['out_trade_no']),
-            order_item = item,
-            order_wxuser = wxuser,
-            order_deliver_address = prepay_serializer.data['deliver_address'],
-            order_price_paid = prepay_serializer.data['fee'],
-            order_quantity = prepay_serializer.data['quantity'],
-            order_buyernickname = prepay_serializer.data['buyernickname'],
-            order_postsign = prepay_serializer.data['postsign'],
-            order_price_origin = item_serializer.data['item_price'],
-            order_tree_ip = tree_ip,
-            order_benefit = item_serializer.data['item_benefit'],
-            order_guaranteed = item_serializer.data['item_guaranteed'],
-            order_imageUrl = item_serializer.data['pic_address'],
+            num = str(prepay_serializer.data['out_trade_no']),
+            item = item,
+            wxuser = wxuser,
+            deliver_address = prepay_serializer.data['deliver_address'],
+            price_paid = prepay_serializer.data['fee'],
+            quantity = prepay_serializer.data['quantity'],
+            buyernickname = prepay_serializer.data['buyernickname'],
+            postsign = prepay_serializer.data['postsign'],
+            price_origin = item_serializer.data['item_price'],
+            tree_ip = tree_ip,
+            benefit = item_serializer.data['item_benefit'],
+            guaranteed = item_serializer.data['item_guaranteed'],
+            imageUrl = item_serializer.data['pic_address'],
             phone_num = str(prepay_serializer.data['phone_num']),
             name_rec = prepay_serializer.data['name_rec'],
             ip_row=r,
