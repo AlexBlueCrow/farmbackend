@@ -98,6 +98,12 @@ def get_orderInfo(request):
     orders = Order.objects.filter(order_wxuser=wxuser)
     if orders:
         orders_serializer = OrderSerializer(orders,many=True)
+        for order in orders_serializer.data:
+            item = Item.objects.get(id=order['order_item'])
+            farm = FarmUser.objects.get(id=item.owner)
+            short = farm.short
+            order['short']=short
+            
         return JSONResponse(orders_serializer.data)
     else:
         return HttpResponse("无有效订单")
