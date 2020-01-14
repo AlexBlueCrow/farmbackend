@@ -31,6 +31,7 @@ class FarmUser(models.Model):
     farm_contact = models.CharField(max_length = 20)
     farm_type = models.CharField(max_length = 20,default='')
     farm_rank = models.IntegerField(default=0)
+    short = models.CharField(max_length=20,default='',blank=True)
     longitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
     latitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
 
@@ -87,6 +88,7 @@ class Certification(models.Model):
 class Order(models.Model):
     order_num = models.CharField(primary_key=True,unique=True,max_length=25)
     order_item = models.ForeignKey(Item,on_delete=models.PROTECT)
+    farm_name = models.CharField(max_length=30,default='',blank=True)
     
     order_wxuser = models.ForeignKey(WxUser,on_delete=models.PROTECT,default='')
     order_deliver_address = models.CharField(max_length = 50,default='',blank=False)
@@ -113,6 +115,11 @@ class Order(models.Model):
     def __str__(self):
         return self.order_buyernickname+'--'+self.order_tree_ip+'--'+str(self.order_price_paid)
     
+    def output(self):
+        for item in self:
+            print(item,self.item)
+        return 
+        
 
 class Prepay_Order(models.Model):
     out_trade_no = models.CharField(primary_key=True, unique=True,max_length=20)

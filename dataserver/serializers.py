@@ -60,11 +60,11 @@ class WxUserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CollectiveOrderSerializer(serializers.ModelSerializer):
-    class CollectiveOrder:
+    class Meta:
         model = CollectiveOrder
         fields = '__all__'
 
 class GiftCodeSerializer(serializers.ModelSerializer):
-    class GiftCode:
+    class Meta:
         model = GiftCode
         fields = '__all__'

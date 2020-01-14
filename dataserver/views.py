@@ -25,7 +25,8 @@ from json import dumps
 import operator
 from math import radians, cos, sin, asin, sqrt
 import random,string
-
+from django.core.serializers.json import json
+import csv
 
 
 
@@ -456,14 +457,17 @@ def update_region_status(region_name,r,l,new_status,i):
 def allorder(request):
     orders = Order.objects.all()
     orders_serializer = OrderSerializer(orders,many = True)
-    for order in orders_serializer.data:
-        for item in order:
-            print(item)
-            print('\n')
-    return JSONResponse(orders_serializer.data)
+
+    
+    f = open('data.csv', 'w')
+    csv_write = csv.writer(f)
+    csv_write.writerow(orders_serializer[0].keys())
+    for row in orders_serializer:
+        csv_write.writerow(row.values())
+   
+    return JSONResponse(content,content_type = 'application/json;charset=utf-8')
 
 def index(request):
-    print('test')
     return render(request,'dataserver/index.html')
     
 def gen_random_code(seed,length=10):
@@ -489,8 +493,8 @@ def gen_col_order(request):
     
     item = Item.objects.get(item_name=item_name)
     
-    print('data:',phone_num,contact)
-    code = gen_random_code(seed=phone_num,length =12)
+    print('data:',phone_num,contact,item_name)
+    code = gen_random_code(seed=phone_num,length =13)
     newdeal = CollectiveOrder.objects.create(
         code = code,
         companyname = buyer_name,
@@ -502,20 +506,21 @@ def gen_col_order(request):
     newdeal.save()
     
     while i<int(num):
-        seed = code +str(i)
-        gen_gift_code(item_id=item.id,seed=seed,col_order=newdeal)
+        
+        gen_gift_code(item_id=item.id,col_order=newdeal)
+        i=i+1
 
 
     dealserializer = CollectiveOrderSerializer(newdeal,many = False)
-    return HttpResponse(dealserializer.data)
+    return JSONResponse(dealserializer.data)
     
 
 
 
 
-def gen_gift_code(item_id,seed,col_order):
+def gen_gift_code(item_id,col_order):
     
-    new_tree = get_treeip(item_id=item.id)
+    new_tree = get_treeip(item_id=item_id)
     region_name=new_tree["region_name"]
     r=new_tree['row']
     l=new_tree['line']
@@ -524,7 +529,8 @@ def gen_gift_code(item_id,seed,col_order):
     tree_ip= region_name+":"+str(l)+"x"+str(r)
 
     update_region_status(region_name=region_name,r=r,l=l,new_status=1,i=i)
-    code = gen_random_code(seed,length=10)
+    chars=string.ascii_letters+string.digits
+    code =  ''.join([random.choice(chars) for i in range(12)])
     giftcode = GiftCode.objects.create(
         code = code,
         item_id=item_id,
@@ -535,7 +541,7 @@ def gen_gift_code(item_id,seed,col_order):
     )
     giftcode.save()
 
-    return HttpResponse(giftcode.code)
+    return giftcode
     #print('order created:',new_order)
     
 
