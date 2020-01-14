@@ -102,7 +102,7 @@ def get_orderInfo(request):
         for order in orders_serializer.data:
             item = Item.objects.get(id=order['order_item'])
             print(item.owner)
-            farm = FarmUser.objects.get(id=item.owner)
+            farm = FarmUser.objects.get(farm_name=item.owner)
             short = farm.short
             order['short']=short
             print(order['short'])
