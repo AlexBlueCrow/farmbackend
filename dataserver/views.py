@@ -501,7 +501,7 @@ def gen_col_order(request):
     item = Item.objects.get(item_name=item_name)
     
     
-    code = gen_random_code(seed=phone_num,length =13)
+    code = gen_random_code(seed=phone_num,length =14)
     newdeal = CollectiveOrder.objects.create(
         code = code,
         companyname = buyer_name,
@@ -552,7 +552,33 @@ def gen_gift_code(item_id,col_order):
     #print('order created:',new_order)
 
 def giftcode(request):
-    gcode = request.GET.get('giftcode')
+    code = request.GET.get('giftcode')
+    if code.length = 12:
+        try:
+            gcode = GiftCode.objects.get(code = code)
+        except db.models.DoesNotExist,e:
+               print(e.message)
+               return HttpResponse(e.message)
+        if scode.is_used:
+            return HttpResponse('code used')
+            else:
+                HttpResponse('ok')
+    else:
+        if code.length = 14:
+            try:
+                ccode = CollectiveOrder.objects.get( code = code)
+            except db.models.DoesNotExist,e:
+                print(e.message)
+                return HttpResponse(e.message)
+            gcodes = GiftCode.objects.filter(owner = ccode)
+            gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
+            return JSONResponse(gcodes_serializer.data)
+            
+            
+
+        
+            
+        
     
     
 
