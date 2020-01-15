@@ -553,7 +553,7 @@ def gen_gift_code(item_id,col_order):
 
 def giftcode(request):
     code = request.GET.get('giftcode')
-    if code.length = 12:
+    if code.length == 12:
         try:
             gcode = GiftCode.objects.get(code = code)
         except db.models.DoesNotExist,e:
@@ -564,7 +564,7 @@ def giftcode(request):
             else:
                 HttpResponse('ok')
     else:
-        if code.length = 14:
+        if code.length == 14:
             try:
                 ccode = CollectiveOrder.objects.get( code = code)
             except db.models.DoesNotExist,e:
@@ -573,6 +573,7 @@ def giftcode(request):
             gcodes = GiftCode.objects.filter(owner = ccode)
             gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
             return JSONResponse(gcodes_serializer.data)
+            
             
             
 
