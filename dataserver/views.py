@@ -561,8 +561,8 @@ def giftcode(request):
                return HttpResponse(e.message)
         if scode.is_used:
             return HttpResponse('code used')
-            else:
-                HttpResponse('ok')
+        else:
+            return   HttpResponse('ok')
     else:
         if code.length == 14:
             try:
