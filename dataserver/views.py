@@ -558,23 +558,23 @@ def giftcode(request):
             gcode = GiftCode.objects.get(code = code)
         except:
                
-               return HttpResponse('error:code not exit')
+               return HttpResponse({'res':'error','errormsg':'wrong code'})
         if gcode.is_used:
-            return HttpResponse('code used')
+            return HttpResponse({'res':'error','errormsg':'code used'})
         else:
-            return   HttpResponse('ok')
+            return   HttpResponse({'res':'success'})
     else :   
         if len(code) == 14:
             try:
                 ccode = CollectiveOrder.objects.get( code = code)
             except:
-                return HttpResponse('error:code not exit')
+                return HttpResponse({'res':'error','errormsg':'wrong code'})
             gcodes = GiftCode.objects.filter(owner = ccode)
             gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
             return JSONResponse(gcodes_serializer.data)
         
         else:
-            return HttpResponse('error:code not exit')
+            return HttpResponse({'res':'error','errormsg':'wrong code'}')
 
             
             
