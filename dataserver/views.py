@@ -568,6 +568,7 @@ def giftcode(request):
             try:
                 ccode = CollectiveOrder.objects.get( code = code)
             except:
+                print('what',ccode,code)
                 return HttpResponse({'res':'error','errormsg':'wrong code'})
             gcodes = GiftCode.objects.filter(owner = ccode)
             gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
