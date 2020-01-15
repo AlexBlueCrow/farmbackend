@@ -558,11 +558,11 @@ def giftcode(request):
             gcode = GiftCode.objects.get(code = code)
         except:
                
-               return HttpResponse({'res':'error','errormsg':'wrong code'})
+            return JSONResponse({'res':'error','errormsg':'wrong code'})
         if gcode.is_used:
-            return HttpResponse({'res':'error','errormsg':'code used'})
+            return JSONResponse({'res':'error','errormsg':'code used'})
         else:
-            return   HttpResponse({'res':'success'})
+            return   JSONResponse({'res':'success'})  
     else :   
         if len(code) == 14:
             print('14')
@@ -571,14 +571,14 @@ def giftcode(request):
                 print(ccode)
             except:
                 print('what',code)
-                return HttpResponse({'res':'error','errormsg':'wrong code'})
+                return JSONResponse({'res':'error','errormsg':'wrong code'})
             gcodes = GiftCode.objects.filter(owner = ccode)
             gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
             print(gcodes_serializer.data)
             return JSONResponse(gcodes_serializer.data)
         
         else:
-            return HttpResponse({'res':'error','errormsg':'wrong code'})
+            return JSONResponse({'res':'error','errormsg':'wrong code'})
 
             
             
