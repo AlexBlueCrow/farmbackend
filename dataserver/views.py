@@ -574,7 +574,7 @@ def giftcode(request):
             return JSONResponse(gcodes_serializer.data)
         
         else:
-            return HttpResponse({'res':'error','errormsg':'wrong code'}')
+            return HttpResponse({'res':'error','errormsg':'wrong code'})
 
             
             
