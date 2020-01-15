@@ -563,7 +563,7 @@ def giftcode(request):
             return HttpResponse('code used')
         else:
             return   HttpResponse('ok')
-    else:
+    else:   
         if len(code) == 14:
             try:
                 ccode = CollectiveOrder.objects.get( code = code)
