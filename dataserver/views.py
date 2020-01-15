@@ -553,7 +553,7 @@ def gen_gift_code(item_id,col_order):
 
 def giftcode(request):
     gcode = request.GET.get('giftcode')
-    if 
+    
     
 
     
