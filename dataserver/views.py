@@ -379,7 +379,7 @@ def pay_feedback(request):
         l=new_tree['line']
         i=new_tree['i']
         
-        tree_ip= region_name+":"+str(l)+"x"+str(r)
+        tree_ip= region_name+"-"+str(l)+'行'+str(r)+"列"
         update_region_status(region_name=region_name,r=r,l=l,new_status=1,i=i)
         
         new_order = Order.objects.create(
@@ -500,7 +500,7 @@ def gen_col_order(request):
     
     item = Item.objects.get(item_name=item_name)
     
-    print('data:',phone_num,contact,item_name)
+    
     code = gen_random_code(seed=phone_num,length =13)
     newdeal = CollectiveOrder.objects.create(
         code = code,
@@ -509,7 +509,7 @@ def gen_col_order(request):
         phone_num = phone_num,
         price = paid,  
     )
-    print(newdeal)
+    
     newdeal.save()
     
     while i<int(num):
@@ -550,6 +550,10 @@ def gen_gift_code(item_id,col_order):
 
     return giftcode
     #print('order created:',new_order)
+
+def giftcode(request):
+    gcode = request.GET.get('giftcode')
+    if 
     
 
     
