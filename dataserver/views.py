@@ -559,7 +559,7 @@ def giftcode(request):
         except:
                
                return HttpResponse('error:code not exit')
-        if scode.is_used:
+        if gcode.is_used:
             return HttpResponse('code used')
         else:
             return   HttpResponse('ok')
