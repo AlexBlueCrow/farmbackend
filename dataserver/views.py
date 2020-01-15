@@ -565,13 +565,16 @@ def giftcode(request):
             return   HttpResponse({'res':'success'})
     else :   
         if len(code) == 14:
+            print('14')
             try:
                 ccode = CollectiveOrder.objects.get( code = code)
+                print(ccode)
             except:
-                print('what',ccode,code)
+                print('what',code)
                 return HttpResponse({'res':'error','errormsg':'wrong code'})
             gcodes = GiftCode.objects.filter(owner = ccode)
             gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
+            print(gcodes_serializer.data)
             return JSONResponse(gcodes_serializer.data)
         
         else:
