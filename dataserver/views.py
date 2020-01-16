@@ -105,6 +105,11 @@ def get_orderInfo(request):
             order['farm_name']=item.owner.farm_name
             order['effect_time']=order['effect_time'][0:10]
 
+            order['order_tree_ip']=order['tree_ip']
+            order['order_buyernickname']=order['buyernickname']
+            order['order_postsign']=order['postsgin']
+
+
         return JSONResponse(orders_serializer.data)
     else:
         return HttpResponse("无有效订单")
@@ -562,7 +567,7 @@ def giftcode(request):
         if gcode.is_used:
             return JSONResponse({'res':'error','errormsg':'code used'})
         else:
-            return   JSONResponse({'res':'success'})  
+            return JSONResponse({'res':'success'})  
     else :   
         if len(code) == 14:
             print('14')
