@@ -600,10 +600,9 @@ def get_gift(request):
     gcode = GiftCode.objects.get(code=giftcode)
     item = Item.objects.get(id = gcode.item_id)
     item_serializer = ItemSerializer(item,many = False)
-    wxuser = WxUser.objects.get_or_create(
+    wxuser = WxUser.objects.get(
         user_openid=openid,
     )
-    
     new_order = Order.objects.create(
             num = code,
             item = item,
