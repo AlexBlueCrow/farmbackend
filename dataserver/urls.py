@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'allorder/',views.allorder),
     url(r'index/',views.index),
     url(r'gen_col_order/',views.gen_col_order),
-    url(r'usecode/',views.usecode)
+    url(r'usecode/',views.usecode),
+    url(r'get_gift/',views.get_gift)
 ]
 

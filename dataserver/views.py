@@ -584,7 +584,47 @@ def usecode(request):
         else:
             return JSONResponse({'res':'error','errormsg':'wrong code'})
 
-            
+def get_gift(request):
+    appid= 'wxd647f4c25673f368'
+    secret='7de75de46a3d82dcc0bed374407f310f'
+    code = request.GET.get('code')
+    giftcode = request.GET.get('giftcode')
+    address = request.GET.get('addRegion')+request.GET.get('addDetail')
+    nickname = request.GET.get('nickname')
+    post_sign = request.GET.get('post_sign')
+    name_rec = request.GET.get('name_rec')
+    phone_num = request.GET.get('phone_num')
+    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
+    res = json.loads(requests.get(wxLoginURL).content)
+    openid = res['openid']
+    gcode = GiftCode.objects.get(code=giftcode)
+    item = Item.objects.get(id = gcode.item_id)
+    item_serializer = ItemSerializer(item,many = False)
+    wxuser = WxUser.objects.get_or_create(
+        user_openid=openid,
+    )
+    
+    new_order = Order.objects.create(
+            num = code,
+            item = item,
+            wxuser = wxuser,
+            deliver_address = address,
+            price_paid = 0,
+            quantity = 1,
+            buyernickname = nickname,
+            postsign = post_sign,
+            price_origin = item_serializer.data['item_price'],
+            tree_ip = gcode.tree_ip,
+            benefit = item_serializer.data['item_benefit'],
+            guaranteed = item_serializer.data['item_guaranteed'],
+            imageUrl = item_serializer.data['pic_address'],
+            phone_num = str(phone_num),
+            name_rec = name_rec,
+            ip_row=0,
+            ip_line=0,
+        )
+
+    return JSONResponse({'res':'success'})
             
 
         
