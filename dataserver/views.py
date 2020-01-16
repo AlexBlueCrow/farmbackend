@@ -579,8 +579,9 @@ def usecode(request):
                 return JSONResponse({'res':'error','errormsg':'wrong code'})
             gcodes = GiftCode.objects.filter(owner = ccode)
             gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
+            gcodes_serializer.data['res']='CollectiveInfo'
             return JSONResponse(gcodes_serializer.data)
-        
+
         else:
             return JSONResponse({'res':'error','errormsg':'wrong code'})
 
