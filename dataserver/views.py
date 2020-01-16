@@ -107,7 +107,7 @@ def get_orderInfo(request):
 
             order['order_tree_ip']=order['tree_ip']
             order['order_buyernickname']=order['buyernickname']
-            order['order_postsign']=order['postsgin']
+            order['order_postsign']=order['postsign']
 
 
         return JSONResponse(orders_serializer.data)
