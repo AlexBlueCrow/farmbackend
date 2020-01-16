@@ -604,7 +604,7 @@ def get_gift(request):
         user_openid=openid,
     )
     new_order = Order.objects.create(
-            num = code,
+            num = pay.getWxPayOrdrID(),
             item = item,
             wxuser = wxuser,
             deliver_address = address,
