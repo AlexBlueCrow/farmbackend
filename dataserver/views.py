@@ -567,19 +567,18 @@ def usecode(request):
         if gcode.is_used:
             return JSONResponse({'res':'error','errormsg':'code used'})
         else:
-            return JSONResponse({'res':'varified'})  
+            
+            return JSONResponse({'res':'varified','item_id':gcode.item_id,'code':gcode.code})  
     else :   
         if len(code) == 14:
             
             try:
-                ccode = CollectiveOrder.objects.get( code = code)
-                
-            except:
-                
+                ccode = CollectiveOrder.objects.get( code = code)                
+            except:                
                 return JSONResponse({'res':'error','errormsg':'wrong code'})
             gcodes = GiftCode.objects.filter(owner = ccode)
             gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
-            
+    
             return JSONResponse(gcodes_serializer.data)
 
         else:
