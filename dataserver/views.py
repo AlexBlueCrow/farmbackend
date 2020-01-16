@@ -556,7 +556,7 @@ def gen_gift_code(item_id,col_order):
     return giftcode
     #print('order created:',new_order)
 
-def giftcode(request):
+def usecode(request):
     code = request.GET.get('giftcode')
     if len(code) == 12:
         try:
@@ -570,12 +570,12 @@ def giftcode(request):
             return JSONResponse({'res':'success'})  
     else :   
         if len(code) == 14:
-            print('14')
+            
             try:
                 ccode = CollectiveOrder.objects.get( code = code)
-                print(ccode)
+                
             except:
-                print('what',code)
+                
                 return JSONResponse({'res':'error','errormsg':'wrong code'})
             gcodes = GiftCode.objects.filter(owner = ccode)
             gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
