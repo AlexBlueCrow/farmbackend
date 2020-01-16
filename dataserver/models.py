@@ -112,7 +112,7 @@ class Order(models.Model):
     
 
     def __str__(self):
-        return self.order_buyernickname+'--'+self.order_tree_ip+'--'+str(self.order_price_paid)
+        return self.buyernickname+'--'+self.tree_ip+'--'+str(self.price_paid)
     
     def output(self):
         for item in self:
@@ -204,7 +204,6 @@ class MchInfo(models.Model):
     mch_key = models.CharField(max_length = 50)
     appid = models.CharField(max_length = 20)
     secret = models.CharField(max_length = 50)
-
     
     
 
