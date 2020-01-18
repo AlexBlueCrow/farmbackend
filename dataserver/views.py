@@ -566,12 +566,11 @@ def usecode(request):
             return JSONResponse({'res':'error','errormsg':'code used'})
         else:
             item = Item.objects.get(id = gcode.item_id)
-            ccode = gcode.owner
+            
             jsoninfo={
                 'res':'varified',
                 'item_id':gcode.item_id,
                 'item_price':item.item_price,
-                'code':gcode.code,
                 'item_name':item.item_name,
                 'giver':ccode.companyname,
             }
@@ -603,6 +602,7 @@ def get_gift(request):
     res = json.loads(requests.get(wxLoginURL).content)
     openid = res['openid']
     gcode = GiftCode.objects.get(code=giftcode)
+    ccode = gcode.owner
     item = Item.objects.get(id = gcode.item_id)
     item_serializer = ItemSerializer(item,many = False)
     wxuser = WxUser.objects.get(
@@ -629,7 +629,15 @@ def get_gift(request):
         )   
     gcode.is_used = True
     gcode.save()
-    return JSONResponse({'res':'success'})
+    jsoninfo={
+                'res':'success',
+                'item_id':gcode.item_id,
+                'item_price':item.item_price,
+                'code':gcode.code,
+                'item_name':item.item_name,
+                'giver':ccode.companyname,
+            }
+    return JSONResponse(jsoninfo)
             
 
         
