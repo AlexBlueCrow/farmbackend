@@ -565,7 +565,18 @@ def usecode(request):
         if gcode.is_used:
             return JSONResponse({'res':'error','errormsg':'code used'})
         else:
-            return JSONResponse({'res':'varified','item_id':gcode.item_id,'code':gcode.code})  
+            item = Item.objects.get(id = gcode.item_id)
+            ccode = gcode.owner
+            jsoninfo={
+                'res':'varified',
+                'item_id':gcode.item_id,
+                'item_price':item.item_price
+                'code':gcode.code,
+                'item_name':item.item_name,
+                'giver':ccode.companyname,
+            }
+            return JSONResponse(jsoninfo)  
+
     else :   
         if len(code) == 14:
             try:
