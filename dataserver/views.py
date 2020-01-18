@@ -570,7 +570,7 @@ def usecode(request):
             jsoninfo={
                 'res':'varified',
                 'item_id':gcode.item_id,
-                'item_price':item.item_price
+                'item_price':item.item_price,
                 'code':gcode.code,
                 'item_name':item.item_name,
                 'giver':ccode.companyname,
