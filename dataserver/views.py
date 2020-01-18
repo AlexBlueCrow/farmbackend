@@ -572,7 +572,7 @@ def usecode(request):
                 'item_id':gcode.item_id,
                 'item_price':item.item_price,
                 'item_name':item.item_name,
-                'giver':ccode.companyname,
+                
             }
             return JSONResponse(jsoninfo)  
 
