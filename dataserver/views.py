@@ -50,8 +50,11 @@ def get_item(request):
 
     items = Item.objects.filter(active = True)
     items_serializer = ItemSerializer(items,many=True)
+
     if request.GET.get('lon')=='undefined':
         return JSONResponse(items_serializer.data)
+
+    ##Rearrange by distance
     userlon=float(request.GET.get('lon'))
     userlat=float(request.GET.get('lat'))
     Locdic = getFarmLocs()
@@ -100,16 +103,12 @@ def get_orderInfo(request):
         orders_serializer = OrderSerializer(orders,many=True)
         for order in orders_serializer.data:
             item = Item.objects.get(id=order['item'])
-            
             order['item_name']=item.item_name
             order['farm_name']=item.owner.farm_name
             order['effect_time']=order['effect_time'][0:10]
-
             order['order_tree_ip']=order['tree_ip']
             order['order_buyernickname']=order['buyernickname']
             order['order_postsign']=order['postsign']
-
-
         return JSONResponse(orders_serializer.data)
     else:
         return HttpResponse("无有效订单")
@@ -562,25 +561,20 @@ def usecode(request):
         try:
             gcode = GiftCode.objects.get(code = code)
         except:
-               
             return JSONResponse({'res':'error','errormsg':'wrong code'})
         if gcode.is_used:
             return JSONResponse({'res':'error','errormsg':'code used'})
         else:
-            
             return JSONResponse({'res':'varified','item_id':gcode.item_id,'code':gcode.code})  
     else :   
         if len(code) == 14:
-            
             try:
                 ccode = CollectiveOrder.objects.get( code = code)                
             except:                
                 return JSONResponse({'res':'error','errormsg':'wrong code'})
             gcodes = GiftCode.objects.filter(owner = ccode)
             gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
-    
             return JSONResponse(gcodes_serializer.data)
-
         else:
             return JSONResponse({'res':'error','errormsg':'wrong code'})
 
@@ -621,8 +615,9 @@ def get_gift(request):
             name_rec = name_rec,
             ip_row=0,
             ip_line=0,
-        )
-
+        )   
+    gcode.is_used = True
+    gcode.save()
     return JSONResponse({'res':'success'})
             
 
