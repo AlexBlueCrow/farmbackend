@@ -166,7 +166,7 @@ def post_comment(request):
     secret='7de75de46a3d82dcc0bed374407f310f'
     AccTokUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+appid+'&secret='+secret
     accToken = requests.get(AccTokUrl)
-    print(accToken)
+    print('accToken:',accToken.content)
     
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = {'content':comment_text}
