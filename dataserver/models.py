@@ -160,10 +160,11 @@ class Question(models.Model):
     option_B = models.CharField(max_length =20)
     option_C = models.CharField(max_length =20)
     option_D = models.CharField(max_length =20)
+    
     correct_answer = models.CharField(max_length=1,choices = Q_CHOICES, default = '')
 
     def __str__(self):
-        return str(self.question_id)+'--'+self.category+'--'+self.question_text
+        return str(self.question_id)+'--'+self.question_category+'--'+self.question_text
 
 class Comments(models.Model):
     comment_id = models.AutoField(primary_key = True)
