@@ -72,7 +72,7 @@ class Region(models.Model):
 
 
     def __str__(self):
-        return self.region_name+str（self.item）
+        return self.region_name+str(self.item.item_name）
 
 class Certification(models.Model):
     farm = models.ForeignKey(FarmUser,on_delete=models.CASCADE)
