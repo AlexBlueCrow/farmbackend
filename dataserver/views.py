@@ -172,7 +172,7 @@ def post_comment(request):
     data = {'content':comment_text}
     r = json.loads(requests.post(SensCheckUrl,data=data).content)
     
-    if r.errcode=='87014':
+    if r['errcode']=='87014':
         return JSONResponse({'code':'sensitive'})
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
