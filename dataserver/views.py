@@ -162,9 +162,17 @@ def post_comment(request):
     code = request.GET.get('code')
     comment_text = request.GET.get('comment')
     item_id = request.GET.get('item_id')
-    
     appid= 'wxd647f4c25673f368'
     secret='7de75de46a3d82dcc0bed374407f310f'
+    AccTokUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+appid+'&secret='+secret
+    accToken = requests.get(AccTokUrl).access_token
+    
+    SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
+    data = {'content':comment_text}
+    r = requests.post(SensCheckUrl,data=data)
+
+    if r.errcode=='87014':
+        return JSONResponse({'code':'sensitive'})
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     if 'errcode' in res:
@@ -179,7 +187,7 @@ def post_comment(request):
         )
     
 
-    return Response(data={'code':200,'msg':'ok','data':{}})
+    return Response(data={'code':'success','msg':'ok','data':{}})
 
 
 
