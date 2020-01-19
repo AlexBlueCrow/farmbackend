@@ -170,8 +170,8 @@ def post_comment(request):
     
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = {'content':comment_text}
-    r = requests.post(SensCheckUrl,data=data)
-
+    r = json.loads(requests.post(SensCheckUrl,data=data).content)
+    
     if r.errcode=='87014':
         return JSONResponse({'code':'sensitive'})
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
