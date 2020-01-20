@@ -98,7 +98,7 @@ def get_orderInfo(request):
         return HttpResponse(res['errcode'])
     openid=res['openid']
     wxuser = WxUser.objects.get(user_openid=openid)
-    orders = Order.objects.filter(wxuser=wxuser)
+    orders = Order.objects.filter(wxuser=wxuser).order_by('-num')
     if orders:
         orders_serializer = OrderSerializer(orders,many=True)
         for order in orders_serializer.data:
@@ -109,7 +109,9 @@ def get_orderInfo(request):
             order['order_tree_ip']=order['tree_ip']
             order['order_buyernickname']=order['buyernickname']
             order['order_postsign']=order['postsign']
+        
         return JSONResponse(orders_serializer.data)
+    
     else:
         return HttpResponse("无有效订单")
 
@@ -155,6 +157,7 @@ def get_comments(request):
     comments_serializer = CommentsSerializer(comments,many=True)
     
     return JSONResponse(comments_serializer.data)
+
 
 @api_view(['GET'])
 @authentication_classes([]) 
