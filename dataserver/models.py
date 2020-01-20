@@ -56,7 +56,7 @@ class Item(models.Model):
     item_benefit = models.CharField(max_length=200)
     item_period = models.IntegerField(blank=True,default=1)
     active = models.BooleanField(default=False)
-    m_word = modes.CharField(max_length=5,default='',blank=False)
+    m_word = models.CharField(max_length=5,default='',blank=False)
     def __str__(self):
         return self.item_name+'--'+str(self.item_price)
 
