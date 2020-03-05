@@ -486,13 +486,19 @@ def allorder(request):
     orders_serializer = OrderSerializer(orders,many = True)
 
     
-    f = open('data.csv', 'w')
+    f = open('orders.csv', 'w')
     csv_write = csv.writer(f)
     csv_write.writerow(orders_serializer[0].keys())
+    
+    response =  HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="orders.csv"'
+    writer = csv.writer(response)
     for row in orders_serializer:
-        csv_write.writerow(row.values())
+        writer.writerow(row)
+
+
    
-    return JSONResponse(content,content_type = 'application/json;charset=utf-8')
+    return response
 
 def index(request):
     return render(request,'dataserver/index.html')
