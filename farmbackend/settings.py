@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'werkzeug_debugger_runserver',
     'django_extensions',
+    'zxserver.apps.ZxserverConfig'
 ]
 
 MIDDLEWARE = [

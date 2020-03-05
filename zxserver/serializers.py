@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dataserver.models import *
+from zxserver.models import ZxUser,ZxItem,ZxOrder,ZxPrepay_Order,ZxComments
 class ZxUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ZxUser
