@@ -484,7 +484,8 @@ def update_region_status(region_name,r,l,new_status,i):
 def allorder(request):
     orders = Order.objects.all()
     orders_serializer = OrderSerializer(orders,many = True)
-
+    for order in orders:
+        print(order)
     
     f = open('orders.csv', 'w')
     csv_write = csv.writer(f)
