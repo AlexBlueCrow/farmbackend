@@ -485,15 +485,9 @@ def allorder(request):
     orders = Order.objects.all()
     orders_serializer = OrderSerializer(orders,many = True)
     for order in orders:
-        print(order)
-    
-    f = open('orders.csv', 'w')
-    csv_write = csv.writer(f)
+        print(order,order.name_rec,order.postsign)
     
     
-    response =  HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="orders.csv"'
-    writer = csv.writer(response)
     
 
 
