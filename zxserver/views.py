@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from zxerver.models import ZxUser,ZxItem,ZxOrder,ZxComments,ZxPrepay_Order,ZxVarify_failed
+from zxserver.models import ZxUser,ZxItem,ZxOrder,ZxComments,ZxPrepay_Order,ZxVarify_failed
 from zxserver.serializers import ZxUserSerializer,ZxItemSerializer,ZxOrderSerializer,ZxCommentsSerializer,ZxPrepay_OrderSerializer
 import random
 import time
@@ -301,14 +301,14 @@ def weChatPay(request):
     reward =  request.GET.get('reward')
     price = int(float(request.GET.get('total_fee'))*100)
     address= request.GET.get('addRegion')+request.GET.get('addDetail')
-    nickname=request.GET.get('nickname')
-    post_sign =request.GET.get('post_sign')
+    
+    
     name_rec= request.GET.get('name_rec')
     phone_num = request.GET.get('phone_num')
-    tree_ip = get_treeip(item_id)
+    ##tree_ip = get_treeip(item_id)
 
     
-    NOTIFY_URL='https://qingjiao.shop:8000/dataserver/pay_feedback'
+    NOTIFY_URL='https://qingjiao.shop:8000/zxserver/pay_feedback'
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     nonceStr = pay.getNonceStr()
@@ -332,7 +332,6 @@ def weChatPay(request):
         notify_url=NOTIFY_URL,
         user_id=openid,
         out_trade_no=out_trade_no,
-
     )
     #print("------pay_res",pay_res)
     prepay_id = pay_res.get("prepay_id")
@@ -351,8 +350,6 @@ def weChatPay(request):
         fee = int(price)/100,##cents
         deliver_address = address,
         quantity = num_buy,
-        buyernickname = nickname,
-        postsign = post_sign,
         item_id = int(item_id),
         phone_num = str(phone_num),
         name_rec = name_rec,
@@ -391,15 +388,8 @@ def pay_feedback(request):
         wxuser = ZxUser.objects.get(user_openid=prepay_serializer.data['openid'])
         item_serializer = ZxItemSerializer(item,many=False)
         
-
-        new_tree = get_treeip(item_id=item.id)
-        region_name=new_tree["region_name"]
-        r=new_tree['row']
-        l=new_tree['line']
-        i=new_tree['i']
         
-        tree_ip= region_name+"-"+str(l)+'行'+str(r)+"列"
-        update_region_status(region_name=region_name,r=r,l=l,new_status=1,i=i)
+        ##
         
         new_order = ZxOrder.objects.create(
             num = str(prepay_serializer.data['out_trade_no']),
@@ -408,17 +398,10 @@ def pay_feedback(request):
             deliver_address = prepay_serializer.data['deliver_address'],
             price_paid = prepay_serializer.data['fee'],
             quantity = prepay_serializer.data['quantity'],
-            buyernickname = prepay_serializer.data['buyernickname'],
-            postsign = prepay_serializer.data['postsign'],
             price_origin = item_serializer.data['item_price'],
-            tree_ip = tree_ip,
-            benefit = item_serializer.data['item_benefit'],
-            guaranteed = item_serializer.data['item_guaranteed'],
             imageUrl = item_serializer.data['pic_address'],
             phone_num = str(prepay_serializer.data['phone_num']),
             name_rec = prepay_serializer.data['name_rec'],
-            ip_row=r,
-            ip_line=l,
         )
 
         #print('order created:',new_order)
@@ -431,7 +414,7 @@ def pay_feedback(request):
 
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     else:
-        failed = Varify_failed.objects.create(
+        failed = ZxVarify_failed.objects.create(
             fee = prepay_serializer.data['fee'],
             out_trade_no=prepay_serializer.data['out_trade_no'],
         )
@@ -439,237 +422,19 @@ def pay_feedback(request):
     
     #print("Pay_success",request)
 
-def get_treeip(item_id):
-    item_id=item_id
-    item = zxitem.objects.get(id=item_id)
-    regions = Region.objects.filter(item=item)
-    regions_serializer = RegionSerializer(regions,many=True)
-    for region in regions_serializer.data:
-        rows = region['num_rows']
-        lines = region['num_lines']
-        status =  region['status']
-        region_name=region['region_name']
-        i=0 
-        while i<rows*lines:
-            if status[i]=='0':            
-                r = i%rows+1 
-                l = i//rows+1
-                tree_ip={
-                    "region_name":region_name,
-                    "row":r,
-                    "line":l,
-                    "i":i,
-                }
-                #print('tree_ip:',tree_ip)
-                return tree_ip
-            else:
-                i=i+1      
-    raise Exception("no_tree_available")
 
-def update_region_status(region_name,r,l,new_status,i):
-    
-    region = Region.objects.get(region_name=region_name)
-    rows= region.num_rows
-    if(not i):
-        i=rows*(l-1)+r-1
-    old_code=region.status
-    #print(old_code)
-    new_code=old_code[:i]+str(new_status)+old_code[i+1:]
-    #print(new_code)
-    region.status=new_code
-    region.save()
-    return region.save()
+
 
 def allorder(request):
     orders = ZxOrder.objects.all()
     orders_serializer = ZxOrderSerializer(orders,many = True)
     for order in orders:
-        print('商品名称',order.item.item_name,'昵称',order.buyernickname,'收件姓名',order.name_rec,"签名",order.postsign,'ip',order.tree_ip,'寄语',order.message_from_farm)
-    
-    
-
-
-   
+        print('商品名称',order.item.item_name,'收件姓名',order.name_rec,)  
     return JSONResponse(orders_serializer)
 
 def index(request):
     return render(request,'dataserver/index.html')
     
-def gen_random_code(seed,length=10):
-    prefix = hex(int(seed[2:]))
-    length = length - len(prefix)
-
-    chars=string.ascii_letters+string.digits
-    code = prefix + ''.join([random.choice(chars) for i in range(length)])
-    return code.upper()   
-
-
-@csrf_exempt 
-@api_view(['POST','GET'])
-@authentication_classes([])
-def gen_col_order(request):
-    i=0
-    buyer_name = request.GET.get('buyer_name')
-    item_name = request.GET.get('item_name')
-    num = request.GET.get('num')
-    paid = request.GET.get('paid')
-    contact= request.GET.get('contact')
-    phone_num = request.GET.get('phone_num')
-    
-    item = zxitem.objects.get(item_name=item_name)
-    
-    
-    code = gen_random_code(seed=phone_num,length =14)
-    newdeal = CollectiveZxOrder.objects.create(
-        code = code,
-        companyname = buyer_name,
-        contact = contact,
-        phone_num = phone_num,
-        price = paid,  
-    )
-    
-    newdeal.save()
-    
-    while i<int(num):
-        
-        gen_gift_code(item_id=item.id,col_order=newdeal)
-        i=i+1
-
-
-    dealserializer = CollectiveOrderSerializer(newdeal,many = False)
-    return JSONResponse(dealserializer.data)
-    
-
-
-
-
-def gen_gift_code(item_id,col_order):
-    
-    new_tree = get_treeip(item_id=item_id)
-    region_name=new_tree["region_name"]
-    r=new_tree['row']
-    l=new_tree['line']
-    i=new_tree['i']
-
-    tree_ip= region_name+":"+str(l)+"x"+str(r)
-
-    update_region_status(region_name=region_name,r=r,l=l,new_status=1,i=i)
-    chars=string.ascii_letters+string.digits
-    code =  ''.join([random.choice(chars) for i in range(12)])
-    giftcode = GiftCode.objects.create(
-        code = code,
-        item_id=item_id,
-        tree_ip = tree_ip,
-        owner = col_order,
-        ip_line=l,
-        ip_row=r,
-    )
-    giftcode.save()
-
-    return giftcode
-    #print('order created:',new_order)
-
-def usecode(request):
-    code = request.GET.get('giftcode')
-    if len(code) == 12:
-        try:
-            gcode = GiftCode.objects.get(code = code)
-        except:
-            return JSONResponse({'res':'error','errormsg':'wrong code'})
-        if gcode.is_used:
-            return JSONResponse({'res':'error','errormsg':'code used'})
-        else:
-            item = zxitem.objects.get(id = gcode.item_id)
-            
-            jsoninfo={
-                'res':'varified',
-                'item_id':gcode.item_id,
-                'item_price':item.item_price,
-                'item_name':item.item_name,
-                'code':code
-                
-            }
-            return JSONResponse(jsoninfo)  
-
-    else :   
-        if len(code) == 14:
-            try:
-                ccode = CollectiveZxOrder.objects.get( code = code)                
-            except:                
-                return JSONResponse({'res':'error','errormsg':'wrong code'})
-            gcodes = GiftCode.objects.filter(owner = ccode)
-            gcodes_serializer = GiftCodeSerializer(gcodes,many =True)
-            return JSONResponse(gcodes_serializer.data)
-        else:
-            return JSONResponse({'res':'error','errormsg':'wrong code'})
-
-def get_gift(request):
-    appid= 'wx5aff52c0a3a0f7ac'
-    secret='684e5fbce4ca93e8964c1dc22c8aa15c'
-    code = request.GET.get('code')
-    giftcode = request.GET.get('giftcode')
-    address = request.GET.get('addRegion')+request.GET.get('addDetail')
-    nickname = request.GET.get('nickname')
-    post_sign = request.GET.get('post_sign')
-    name_rec = request.GET.get('name_rec')
-    phone_num = request.GET.get('phone_num')
-    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
-    res = json.loads(requests.get(wxLoginURL).content)
-    openid = res['openid']
-    gcode = GiftCode.objects.get(code=giftcode)
-    ccode = gcode.owner
-    item = zxitem.objects.get(id = gcode.item_id)
-    item_serializer = ZxItemSerializer(item,many = False)
-    wxuser = ZxUser.objects.get(
-        user_openid=openid,
-    )
-    new_order = ZxOrder.objects.create(
-            num = pay.getWxPayOrdrID(),
-            item = item,
-            wxuser = wxuser,
-            deliver_address = address,
-            price_paid = 0,
-            quantity = 1,
-            buyernickname = nickname,
-            postsign = post_sign,
-            price_origin = item_serializer.data['item_price'],
-            tree_ip = gcode.tree_ip,
-            benefit = item_serializer.data['item_benefit'],
-            guaranteed = item_serializer.data['item_guaranteed'],
-            imageUrl = item_serializer.data['pic_address'],
-            phone_num = str(phone_num),
-            name_rec = name_rec,
-            ip_row=0,
-            ip_line=0,
-        )   
-    gcode.is_used = True
-    gcode.save()
-    jsoninfo={
-                'res':'success',
-                'item_id':gcode.item_id,
-                'item_price':item.item_price,
-                'code':gcode.code,
-                'item_name':item.item_name,
-                'giver':ccode.companyname,
-            }
-    return JSONResponse(jsoninfo)
-            
-
-        
-            
-        
-    
-    
-
-    
-
-
-
-
-
-
-    
-
 
 
 
