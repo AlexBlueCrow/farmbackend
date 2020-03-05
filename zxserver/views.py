@@ -10,6 +10,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 from zxserver.models import ZxUser,ZxItem,ZxOrder,ZxComments,ZxPrepay_Order,ZxVarify_failed
 from dataserver.models import FarmUser
+from dataserver.serializers import FarmUserSerializer
 from zxserver.serializers import ZxUserSerializer,ZxItemSerializer,ZxOrderSerializer,ZxCommentsSerializer,ZxPrepay_OrderSerializer
 import random
 import time
