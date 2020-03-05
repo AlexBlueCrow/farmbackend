@@ -201,7 +201,7 @@ class GiftCode(models.Model):
     ip_row =models.IntegerField(default=0)
 
 class MchInfo(models.Model):
-    appcode = models.CharField(primary_key = True)
+    appcode = models.CharField(primary_key = True,max_length=20)
     mch_id = models.CharField(max_length = 20)
     mch_key = models.CharField(max_length = 50)
     appid = models.CharField(max_length = 20)
