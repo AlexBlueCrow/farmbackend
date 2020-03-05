@@ -315,7 +315,7 @@ def weChatPay(request):
     res = json.loads(requests.get(wxLoginURL).content)
     nonceStr = pay.getNonceStr()
     if 'errcode' in res:
-        return Response(data={'code':response['errcode'],'msg':response['errmsg']})
+        return Response(data={'code':res['errcode'],'msg':res['errmsg']})
     ##success
     openid=res['openid']
 
