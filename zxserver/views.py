@@ -183,7 +183,7 @@ def post_comment(request):
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     if 'errcode' in res:
-        return Response(data={'code':response['errcode'],'msg':response['errmsg']})
+        return Response(data={'code':res['errcode'],'msg':res['errmsg']})
     ##success
     openid=res['openid']
     if comment_text:
