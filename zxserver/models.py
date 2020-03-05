@@ -44,7 +44,7 @@ class ZxOrder(models.Model):
     num = models.CharField(primary_key=True,unique=True,max_length=25)
     item = models.ForeignKey(ZxItem,on_delete=models.PROTECT)
     farm_name = models.CharField(max_length=30,default='',blank=True)
-    wxuser = models.ForeignKey(WxUser,on_delete=models.PROTECT,default='')
+    wxuser = models.ForeignKey(ZxUser,on_delete=models.PROTECT,default='')
     deliver_address = models.CharField(max_length = 50,default='',blank=False)
     effect_time = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
