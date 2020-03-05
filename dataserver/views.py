@@ -488,7 +488,7 @@ def allorder(request):
     
     f = open('orders.csv', 'w')
     csv_write = csv.writer(f)
-    csv_write.writerow(orders_serializer[0].keys())
+    
     
     response =  HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="orders.csv"'
