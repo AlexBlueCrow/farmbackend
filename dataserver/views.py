@@ -485,7 +485,7 @@ def allorder(request):
     orders = Order.objects.all()
     orders_serializer = OrderSerializer(orders,many = True)
     for order in orders:
-        print(order,order.name_rec,order.postsign)
+        print('昵称',order.nickname,'收件姓名',order.name_rec,"签名",order.postsign,'ip'，order.tree_ip)
     
     
     
