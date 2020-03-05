@@ -498,7 +498,7 @@ def allorder(request):
 
 
    
-    return response
+    return JSONResponse(orders_serializer)
 
 def index(request):
     return render(request,'dataserver/index.html')
