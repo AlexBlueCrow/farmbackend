@@ -103,7 +103,7 @@ def get_orderInfo(request):
     wxuser = ZxUser.objects.get_or_create(
         user_openid=openid,
     )
-    print(wxuser)
+    print('wxuser:',wxuser)
     orders = ZxOrder.objects.filter(wxuser).order_by('-num')
     if orders:
         orders_serializer = ZxOrderSerializer(orders,many=True)
