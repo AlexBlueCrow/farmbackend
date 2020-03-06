@@ -154,8 +154,11 @@ def get_questions(request):
 
 def get_comments(request):
     item_id = request.GET.get('item_id')
-    comments = Comments.objects.filter(item_id=item_id)
-    comments_serializer = ZxCommentsSerializer(comments,many=True)
+    comments = ZxComments.objects.filter(item_id=item_id)
+    if comments:
+        comments_serializer = ZxCommentsSerializer(comments,many=True)
+    else:
+        return HttpResponse('no comments yet')
     
     return JSONResponse(comments_serializer.data)
 
