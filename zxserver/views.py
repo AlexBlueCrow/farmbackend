@@ -305,6 +305,8 @@ def weChatPay(request):
     mch_key='qingjiaorenlingshop2019111820000'
     appid= 'wx5aff52c0a3a0f7ac'
     secret='684e5fbce4ca93e8964c1dc22c8aa15c'
+
+    ##
     code= request.GET.get('code')
     item_id=request.GET.get('item_id')
     item_name = request.GET.get('item_name')
@@ -313,8 +315,6 @@ def weChatPay(request):
     reward =  request.GET.get('reward')
     price = int(float(request.GET.get('total_fee'))*100)
     address= request.GET.get('addRegion')+request.GET.get('addDetail')
-    
-    
     name_rec= request.GET.get('name_rec')
     phone_num = request.GET.get('phone_num')
     ##tree_ip = get_treeip(item_id)
@@ -345,11 +345,11 @@ def weChatPay(request):
         user_id=openid,
         out_trade_no=out_trade_no,
     )
-    #print("------pay_res",pay_res)
+    print("------pay_res",pay_res)
     prepay_id = pay_res.get("prepay_id")
     
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
-    #print('------wepy_sign:',wepy_sign)
+    print('------wepy_sign:',wepy_sign)
 
     timeStamp=str(int(time.time()))
     nonceStr=pay_res['nonce_str']
@@ -366,7 +366,8 @@ def weChatPay(request):
         phone_num = str(phone_num),
         name_rec = name_rec,
     )
-    #print("------paySign:",paySign)
+    print('prepayorder:',prepay_order,"/wepy_sign:",wepy_sign)
+                #print("------paySign:",paySign)
 
     return Response(data={'wepy_sign':wepy_sign,'status':100,'paySign':paySign,'timeStamp':timeStamp,'nonceStr':nonceStr})
 
