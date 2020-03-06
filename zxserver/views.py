@@ -96,9 +96,13 @@ def get_orderInfo(request):
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     if 'errcode' in res:
+        print(res)
         return HttpResponse(res['errcode'])
+    
     openid=res['openid']
-    wxuser = ZxUser.objects.get(user_openid=openid)
+    wxuser = ZxUser.objects.get_or_create(
+        user_openid=openid,
+    )
     orders = ZxOrder.objects.filter(wxuser=wxuser).order_by('-num')
     if orders:
         orders_serializer = ZxOrderSerializer(orders,many=True)
