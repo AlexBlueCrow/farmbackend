@@ -72,7 +72,7 @@ class ZxPrepay_Order(models.Model):
     phone_num = models.CharField(max_length = 30,default='')
     name_rec = models.CharField(max_length =20,default = '', blank = True )
     def __str__(self):
-        return self.buyernickname+'--'+str(self.fee)+str(self.varified)
+        return str(self.fee)+str(self.varified)+self.out_trade_no
 
 
 class ZxVarify_failed(models.Model):
