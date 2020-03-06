@@ -103,8 +103,9 @@ def get_orderInfo(request):
     wxuser = ZxUser.objects.get_or_create(
         user_openid=openid,
     )
-    print('wxuser:',wxuser)
-    orders = ZxOrder.objects.filter(wxuser).order_by('-num')
+    wxuser = ZxUser.objects.get(user_openid=openid)
+    
+    orders = ZxOrder.objects.filter(wxuser=wxuser).order_by('-num')
     if orders:
         orders_serializer = ZxOrderSerializer(orders,many=True)
         for order in orders_serializer.data:
@@ -119,6 +120,7 @@ def get_orderInfo(request):
         return JSONResponse(orders_serializer.data)
     
     else:
+        print('无有效订单')
         return HttpResponse("无有效订单")
 
 
