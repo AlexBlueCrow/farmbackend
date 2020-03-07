@@ -294,6 +294,8 @@ def weChatPay(request):
     mch_key='qingjiaorenlingshop2019111820000'
     appid= 'wxd647f4c25673f368'
     secret='7de75de46a3d82dcc0bed374407f310f'
+
+
     code= request.GET.get('code')
     item_id=request.GET.get('item_id')
     item_name = request.GET.get('item_name')
@@ -317,13 +319,9 @@ def weChatPay(request):
         return Response(data={'code':response['errcode'],'msg':response['errmsg']})
     ##success
     openid=res['openid']
-
-    
     wxuser = WxUser.objects.get_or_create(
         user_openid=openid,
     )
-    
-
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
     out_trade_no=pay.getWxPayOrdrID()
     pay_res = wepy_order.order.create(
@@ -335,11 +333,11 @@ def weChatPay(request):
         out_trade_no=out_trade_no,
 
     )
-    #print("------pay_res",pay_res)
-    prepay_id = pay_res.get("prepay_id")
     
+    print("------pay_res",pay_res)
+    prepay_id = pay_res.get("prepay_id")
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
-    #print('------wepy_sign:',wepy_sign)
+    print('------wepy_sign:',wepy_sign)
 
     timeStamp=str(int(time.time()))
     nonceStr=pay_res['nonce_str']
