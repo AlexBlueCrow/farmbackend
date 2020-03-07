@@ -17,7 +17,7 @@ from dataserver.login import wx_login
 import time
 import datetime
 import xml.etree.ElementTree as ET
-from dataserver import pay
+from zxserver import pay
 from rest_framework.decorators import api_view,authentication_classes
 from wechatpy.utils import check_signature
 from wechatpy.pay.api import WeChatOrder
