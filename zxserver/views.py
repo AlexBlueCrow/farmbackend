@@ -13,6 +13,7 @@ from dataserver.models import FarmUser
 from dataserver.serializers import FarmUserSerializer
 from zxserver.serializers import ZxUserSerializer,ZxItemSerializer,ZxOrderSerializer,ZxCommentsSerializer,ZxPrepay_OrderSerializer
 import random
+from dataserver.login import wx_login
 import time
 import datetime
 import xml.etree.ElementTree as ET
@@ -29,13 +30,7 @@ import random,string
 from django.core.serializers.json import json
 import csv
 
-
-
 # Create your views here.
-
-
- 
-
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
@@ -48,13 +43,10 @@ def get_farms(request):
     return JSONResponse(farmuser_serializer.data)
 
 def get_item(request):
-
     items = ZxItem.objects.filter(active = True)
     items_serializer = ZxItemSerializer(items,many=True)
-
     if request.GET.get('lon')=='undefined':
         return JSONResponse(items_serializer.data)
-
     ##Rearrange by distance
     userlon=float(request.GET.get('lon'))
     userlat=float(request.GET.get('lat'))
@@ -92,7 +84,7 @@ def getDistance(userLon,userLat,farmLon,farmLat):
 def get_orderInfo(request):
     code = request.GET.get('code')
     appid= 'wx5aff52c0a3a0f7ac'
-    secret='684e5fbce4ca93e8964c1dc22c8aa15c'
+    secret='3c6eb61f23aeff10038a74ff10aedd11'
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     if 'errcode' in res:
@@ -136,7 +128,7 @@ def get_farmInfo(request):
 def get_userInfo(request):
     code = request.GET.get('code')
     appid= 'wx5aff52c0a3a0f7ac'
-    secret='684e5fbce4ca93e8964c1dc22c8aa15c'
+    secret='3c6eb61f23aeff10038a74ff10aedd11'
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     openid=res['openid']
@@ -165,7 +157,7 @@ def get_comments(request):
     if comments:
         comments_serializer = ZxCommentsSerializer(comments,many=True)
     else:
-        return HttpResponse('no comments yet')
+        return HttpResponse([])
     
     return JSONResponse(comments_serializer.data)
 
@@ -177,7 +169,7 @@ def post_comment(request):
     comment_text = request.GET.get('comment')
     item_id = request.GET.get('item_id')
     appid= 'wx5aff52c0a3a0f7ac'
-    secret='684e5fbce4ca93e8964c1dc22c8aa15c'
+    secret='3c6eb61f23aeff10038a74ff10aedd11'
     AccTokUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+appid+'&secret='+secret
     accToken = json.loads(requests.get(AccTokUrl).content)['access_token']
     
@@ -237,7 +229,7 @@ def payOrder(request):
         JSCODE = request.GET.get('code')
         ####print('JSCODE',JSCODE)
         appid= 'wx5aff52c0a3a0f7ac'
-        secret='684e5fbce4ca93e8964c1dc22c8aa15c'
+        secret='3c6eb61f23aeff10038a74ff10aedd11'
         wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+JSCODE+'&grant_type='+'authorization_code'
         res = json.loads(requests.get(wxLoginURL).content)
         if 'errcode' in res:
@@ -304,7 +296,7 @@ def weChatPay(request):
     mch_id='1571816511'
     mch_key='qingjiaorenlingshop2019111820000'
     appid= 'wx5aff52c0a3a0f7ac'
-    secret='684e5fbce4ca93e8964c1dc22c8aa15c'
+    secret='3c6eb61f23aeff10038a74ff10aedd11'
 
     ##
     code= request.GET.get('code')
@@ -328,13 +320,9 @@ def weChatPay(request):
         return Response(data={'code':res['errcode'],'msg':res['errmsg']})
     ##success
     openid=res['openid']
-
-    
     wxuser = ZxUser.objects.get_or_create(
         user_openid=openid,
     )
-    
-
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
     out_trade_no=pay.getWxPayOrdrID()
     pay_res = wepy_order.order.create(
@@ -345,9 +333,9 @@ def weChatPay(request):
         user_id=openid,
         out_trade_no=out_trade_no,
     )
+    
     print("------pay_res",pay_res)
     prepay_id = pay_res.get("prepay_id")
-    
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
     print('------wepy_sign:',wepy_sign)
 
@@ -367,7 +355,7 @@ def weChatPay(request):
         name_rec = name_rec,
     )
     print('prepayorder:',prepay_order,"/wepy_sign:",wepy_sign)
-                #print("------paySign:",paySign)
+    #print("------paySign:",paySign)
 
     return Response(data={'wepy_sign':wepy_sign,'status':100,'paySign':paySign,'timeStamp':timeStamp,'nonceStr':nonceStr})
 
@@ -385,9 +373,10 @@ def pay_feedback(request):
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
     result = wepy_order.parse_payment_result(xml)
     #print('pay_result:',result)
+    print('wepay_order',wepy_order)
     
 
-    prepay = Prepay_ZxOrder.objects.get(out_trade_no=result['out_trade_no'])
+    prepay = ZxPrepay_Order.objects.get(out_trade_no=result['out_trade_no'])
     prepay_serializer = ZxPrepay_OrderSerializer(prepay,many=False)
     #print('prepay_serializer',prepay_serializer.data)
     if prepay_serializer.data['varified']==True:
