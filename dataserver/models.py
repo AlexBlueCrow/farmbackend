@@ -9,7 +9,7 @@ import datetime
 class WxUser(models.Model):
     user_openid = models.CharField(max_length =50,blank = False,default='',unique=True)
     user_gender = models.CharField(max_length=10,choices=[('female','female'),('male','male'),('null','null')],default = 'null')
-    user_avatar = models.CharField(max_length=50,blank=True,default='')##头像地址
+    user_avatar = models.CharField(max_length=150,blank=True,default='')##头像地址
     user_nickname = models.CharField(max_length = 50,blank = False, default= '')
     user_address = models.CharField(max_length=100,blank=True,default='')
     user_phonenumber= models.BigIntegerField(blank=True,default=0) 
