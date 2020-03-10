@@ -457,6 +457,7 @@ def updateUser(request):
     wxuser.user_nickname=nickname
     wxuser.user_avatar = avatarUrl
     wxuser.save()
+    print(wxuser.user_nickname)
     return HttpResponse('success')
 
 
