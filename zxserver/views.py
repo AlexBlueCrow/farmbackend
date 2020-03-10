@@ -460,7 +460,7 @@ def updateUser(request):
         user_openid=openid,
     )
     wxuser = ZxUser.objects.get(user_openid=openid)
-    wxuser.user_nickname=nickname
+    wxuser.user_nickname= nickname
     wxuser.user_avatar = avatarUrl
     wxuser.save()
     print(wxuser.user_nickname)
