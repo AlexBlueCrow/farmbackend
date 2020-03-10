@@ -168,6 +168,8 @@ def post_comment(request):
     code = request.GET.get('code')
     comment_text = request.GET.get('comment')
     item_id = request.GET.get('item_id')
+    nickname = request.GET.get('nickname')
+    avatarUrl = request.GET.get('avatarUrl')
     appid= 'wx5aff52c0a3a0f7ac'
     secret='3c6eb61f23aeff10038a74ff10aedd11'
     AccTokUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+appid+'&secret='+secret
@@ -190,10 +192,13 @@ def post_comment(request):
     ##success
     openid=res['openid']
     if comment_text:
-        created = Comments.objects.create(
+        created = ZxComments.objects.create(
             wxuser=ZxUser.objects.get(user_openid=openid),
             comment_text=comment_text,
             item_id=item_id,
+            user_avatar = avatarUrl,
+            user_nickname =nickname,
+    
         )
     
     
