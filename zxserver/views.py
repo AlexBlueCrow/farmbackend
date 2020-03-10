@@ -88,7 +88,7 @@ def get_orderInfo(request):
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
     if 'errcode' in res:
-        print(res)
+        
         return HttpResponse(res['errcode'])
     
     openid=res['openid']
@@ -112,7 +112,7 @@ def get_orderInfo(request):
         return JSONResponse(orders_serializer.data)
     
     else:
-        print('无有效订单')
+        
         return HttpResponse("无有效订单")
 
 
@@ -178,10 +178,10 @@ def post_comment(request):
     data = "{'content':comment_text}"
     r = json.loads(requests.post(SensCheckUrl,data=data).content)
 
-    print('res',r)
+    
 
     if r['errcode']=='87014':
-        print('sensitive')
+        
         return JSONResponse({'code':'sensitive'})
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)
@@ -195,7 +195,7 @@ def post_comment(request):
             comment_text=comment_text,
             item_id=item_id,
         )
-    print('success')
+    
     
 
     return Response(data={'code':'success','msg':'ok','data':{}})
@@ -334,10 +334,10 @@ def weChatPay(request):
         out_trade_no=out_trade_no,
     )
     
-    print("------pay_res",pay_res)
+    ##print("------pay_res",pay_res)
     prepay_id = pay_res.get("prepay_id")
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
-    print('------wepy_sign:',wepy_sign)
+    ##print('------wepy_sign:',wepy_sign)
 
     timeStamp=str(int(time.time()))
     nonceStr=pay_res['nonce_str']
@@ -354,8 +354,7 @@ def weChatPay(request):
         phone_num = str(phone_num),
         name_rec = name_rec,
     )
-    print('prepayorder:',prepay_order,"/wepy_sign:",wepy_sign)
-    #print("------paySign:",paySign)
+    
 
     return Response(data={'wepy_sign':wepy_sign,'status':100,'paySign':paySign,'timeStamp':timeStamp,'nonceStr':nonceStr})
 
@@ -372,8 +371,7 @@ def pay_feedback(request):
 
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
     result = wepy_order.parse_payment_result(xml)
-    #print('pay_result:',result)
-    print('wepay_order',wepy_order)
+    
     
 
     prepay = ZxPrepay_Order.objects.get(out_trade_no=result['out_trade_no'])
@@ -437,6 +435,29 @@ def allorder(request):
 def index(request):
     return render(request,'dataserver/index.html')
     
+def updateUser(request):
+
+    code = request.GET.get('code')
+    nickname= request.GET.get('nickname')
+    avatarUrl= request.GET.get('avatarUrl')
+
+    appid= 'wx5aff52c0a3a0f7ac'
+    secret='3c6eb61f23aeff10038a74ff10aedd11'
+    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
+    res = json.loads(requests.get(wxLoginURL).content)
+    if 'errcode' in res:
+        
+        return HttpResponse(res['errcode'])
+    
+    openid=res['openid']
+    wxuser = ZxUser.objects.get_or_create(
+        user_openid=openid,
+    )
+    wxuser = ZxUser.objects.get(user_openid=openid)
+    wxuser.user_nickname=nickname
+    wxuser.user_avatar = avatarUrl
+    wxuser.save()
+    return HttpResponse('success')
 
 
 
