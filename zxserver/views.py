@@ -193,7 +193,7 @@ def post_comment(request):
     openid=res['openid']
     if comment_text:
         created = ZxComments.objects.create(
-            wxuser=ZxUser.objects.get(user_openid=openid),
+            zxuser=ZxUser.objects.get(user_openid=openid),
             comment_text=comment_text,
             item_id=item_id,
             user_avatar = avatarUrl,
