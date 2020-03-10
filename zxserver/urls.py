@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'getOrderInfo/',views.get_orderInfo),
     ##url(r'CreateOrder/',views.createOrder),
     ##url(r'get_treeip/',views.get_treeip),
-    url(r'updateUser/',views.updateUser)
+    url(r'updateUser/',views.updateUser),
     url(r'allorder/',views.allorder),
     url(r'index/',views.index),
 ]
