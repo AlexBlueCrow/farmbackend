@@ -93,7 +93,7 @@ class ZxComments(models.Model):
     user_avatar = models.CharField(max_length=150,blank=True,default='')##头像地址
     user_nickname = models.CharField(max_length = 50,blank = False, default= '')
     def __str__(self):
-        return self.user_nickname+self.comment_text
+        return self.user_nickname+'-'+self.comment_text
 
 
 

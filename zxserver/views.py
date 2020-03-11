@@ -394,7 +394,7 @@ def pay_feedback(request):
     #print('fee,',float(prepay_serializer.data['fee']),float(result['total_fee']))
     if (float(prepay_serializer.data['fee'])*100 == float(result['total_fee'])):
         #print('sign=sign&fee=fee')
-        item = zxitem.objects.get(id=prepay_serializer.data['item_id'])
+        item = ZxItem.objects.get(id=prepay_serializer.data['item_id'])
         wxuser = ZxUser.objects.get(user_openid=prepay_serializer.data['openid'])
         item_serializer = ZxItemSerializer(item,many=False)
         
