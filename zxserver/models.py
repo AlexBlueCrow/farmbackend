@@ -57,7 +57,7 @@ class ZxOrder(models.Model):
     name_rec = models.CharField(max_length =20,default = '', blank = True )
 
     def __str__(self):
-        return self.buyernickname+'--'+str(self.price_paid)+'--'+self.item.item_name
+        return self.wxuser.user_nickname+'--'+str(self.price_paid)+'--'+self.item.item_name
         
 
 class ZxPrepay_Order(models.Model):
