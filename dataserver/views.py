@@ -335,10 +335,10 @@ def weChatPay(request):
 
     )
     
-    print("------pay_res",pay_res)
+    
     prepay_id = pay_res.get("prepay_id")
     wepy_sign=wepy_order.order.get_appapi_params(prepay_id=prepay_id)
-    print('------wepy_sign:',wepy_sign)
+    
 
     timeStamp=str(int(time.time()))
     nonceStr=pay_res['nonce_str']
