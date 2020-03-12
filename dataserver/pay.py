@@ -32,11 +32,11 @@ def paysign(appid,body,mch_id,nonce_str,notify_url,openid,out_trade_no,spbill_cr
 
     #处理函数，对参数按照key=value的格式，并按照参数名ASCII字典序排序
     stringA = '&'.join(["{0}={1}".format(k, ret.get(k))for k in sorted(ret)])
-    print('stringA:',stringA)
+    
     stringSignTemp = '{0}&key={1}'.format(stringA,Mch_key)
-    print('Temp:',stringSignTemp)
+    
     sign = hashlib.md5(stringSignTemp.encode("utf-8")).hexdigest()
-    print('sign:',sign)
+    
     return sign.upper()
 
 
@@ -63,7 +63,7 @@ def get_bodyData(openid,client_ip,price):
     nonce_str =getNonceStr()#随机字符串
     out_trade_no =getWxPayOrdrID()#商户订单号
     total_fee = int(price) #订单价格 单位是 分
-    print('total_fee:',total_fee)
+    
     Mch_id='1056463491'
     Mch_key='qingjiaorenlinggoldfish201911118s'
     appid= 'wxd647f4c25673f368'
@@ -72,7 +72,7 @@ def get_bodyData(openid,client_ip,price):
 	
 	#获取签名
     sign=paysign(appid,body,Mch_id,nonce_str,notify_url,openid,out_trade_no,client_ip,total_fee)
-    print("sign",sign)
+   
 
     bodyData = '<xml>'
     bodyData += '<appid>' + appid + '</appid>'             # 小程序ID
