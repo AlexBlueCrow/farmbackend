@@ -101,13 +101,11 @@ def get_orderInfo(request):
     if orders:
         orders_serializer = ZxOrderSerializer(orders,many=True)
         for order in orders_serializer.data:
-            item = zxitem.objects.get(id=order['item'])
+            item = ZxItem.objects.get(id=order['item'])
             order['item_name']=item.item_name
             order['farm_name']=item.owner.farm_name
             order['effect_time']=order['effect_time'][0:10]
-            order['order_tree_ip']=order['tree_ip']
-            order['order_buyernickname']=order['buyernickname']
-            order['order_postsign']=order['postsign']
+
         
         return JSONResponse(orders_serializer.data)
     
