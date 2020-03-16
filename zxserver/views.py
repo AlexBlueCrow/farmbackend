@@ -487,13 +487,17 @@ def getCaptains(request):
     userlat=float(request.GET.get('lat'))
     captains = Captain.objects.filter(active = True)
     captains_serializer = CaptainSerializer(captains,many=True)
+    print(captains)
+
     
     
     ##Rearrange by distance
     Locdic = getCaptainLocs()
     for cap in captains_serializer.data: 
         cap['dis']= round(getDistance(userlon,userlat,float(cap['longitude']),float(cap['latitude'])),2)
+        
     sorteddata= sorted(captains_serializer.data,key=lambda x:x['dis'])
+        
     return JSONResponse(sorteddata)
 
 
