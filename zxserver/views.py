@@ -79,6 +79,7 @@ def getCaptainLocs():
     return dic
 
 def getDistance(userLon,userLat,farmLon,farmLat):
+    ##
     lon1, lat1, lon2, lat2 = map(radians, [userLon, userLat, farmLon, farmLat])
     dlon = lon2 - lon1 
     dlat = lat2 - lat1 
@@ -490,9 +491,8 @@ def getCaptains(request):
     
     ##Rearrange by distance
     Locdic = getCaptainLocs()
-    for cap in captains_serializer.data:
-        
-        cap['dis']= round(getDistance(userlon,userlat,cap['longitude'],cap['latitude']),2)
+    for cap in captains_serializer.data: 
+        cap['dis']= round(getDistance(userlon,userlat,float(cap['longitude']),float(cap['latitude'])),2)
     sorteddata= sorted(captains_serializer.data,key=lambda x:x['dis'])
     return JSONResponse(sorteddata)
 
