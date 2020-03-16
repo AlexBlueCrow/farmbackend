@@ -25,3 +25,8 @@ class ZxCommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ZxComments
         fields = '__all__'
+
+class CaptainSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Captain
+        fields = '__all__'

@@ -55,9 +55,9 @@ class ZxOrder(models.Model):
     imageUrl = models.CharField(default='',max_length=50)
     phone_num = models.CharField(max_length = 30,default='')
     name_rec = models.CharField(max_length =20,default = '', blank = True )
-
+    captain = models.ForeignKey(captain,blank=True,default='')
     def __str__(self):
-        return self.wxuser.user_nickname+'--'+str(self.price_paid)+'--'+self.item.item_name
+        return self.wxuser.user_nickname+'--'+str(self.price_paid)+'--'+self.item.item_name+'--'+self.captain.name
         
 
 class ZxPrepay_Order(models.Model):
@@ -71,7 +71,8 @@ class ZxPrepay_Order(models.Model):
     quantity = models.IntegerField(default=1)
     varified = models.BooleanField(default=False)
     phone_num = models.CharField(max_length = 30,default='')
-    name_rec = models.CharField(max_length =20,default = '', blank = True )
+    name_rec = models.CharField(max_length =20,default = '', blank = True)
+    captain = models.ForeignKey(captain,blank=True,default='')
     def __str__(self):
         return str(self.fee)+str(self.varified)+self.out_trade_no
 
@@ -95,6 +96,15 @@ class ZxComments(models.Model):
     def __str__(self):
         return self.user_nickname+'-'+self.comment_text
 
+class Captain(models.Model):
+    captain_id = models.AutoField(primary_key=True)
+    zxuser = models.ForeignKey(ZxUser,on_delete=models.PROTECT)
+    longitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
+    latitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
+    addresss = models.CharField(max_length=40)
+    phonenumber= models.BigIntegerField(blank=True,default=0)
+    name = models.CharField(max_length =20,default = '', blank = True )
+    active = models.BooleanField(default = False)
 
 
 

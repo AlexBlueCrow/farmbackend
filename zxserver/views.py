@@ -8,10 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from zxserver.models import ZxUser,ZxItem,ZxOrder,ZxComments,ZxPrepay_Order,ZxVarify_failed
+from zxserver.models import ZxUser,ZxItem,ZxOrder,ZxComments,ZxPrepay_Order,ZxVarify_failed,Captain
 from dataserver.models import FarmUser
 from dataserver.serializers import FarmUserSerializer
-from zxserver.serializers import ZxUserSerializer,ZxItemSerializer,ZxOrderSerializer,ZxCommentsSerializer,ZxPrepay_OrderSerializer
+from zxserver.serializers import ZxUserSerializer,ZxItemSerializer,ZxOrderSerializer,ZxCommentsSerializer,ZxPrepay_OrderSerializer,CaptainSerializer
 import random
 from dataserver.login import wx_login
 import time
@@ -68,6 +68,14 @@ def getFarmLocs():
     for farm in farms:
         LocInfo = {'id':farm.id,'loc':{"lon":farm.longitude,"lat":farm.latitude}}
         dic.append(LocInfo)
+    return dic
+
+def getCaptainLocs():
+    captains = Captain.objects.all()
+    dic = []
+    for cap in captains:
+        Locinfo = {'id':cap.id,'name':cap.name,'loc':{'lon':cap.longitude,'lat':cap.latitude}}
+        dic.append(Locinfo)
     return dic
 
 def getDistance(userLon,userLat,farmLon,farmLat):
@@ -317,6 +325,7 @@ def weChatPay(request):
     address= request.GET.get('addRegion')+request.GET.get('addDetail')
     name_rec= request.GET.get('name_rec')
     phone_num = request.GET.get('phone_num')
+    captain = request.GET.get('captain')
     ##tree_ip = get_treeip(item_id)
 
     
@@ -361,6 +370,8 @@ def weChatPay(request):
         item_id = int(item_id),
         phone_num = str(phone_num),
         name_rec = name_rec,
+        captain = captain
+        
     )
     
 
@@ -410,6 +421,7 @@ def pay_feedback(request):
             imageUrl = item_serializer.data['pic_address'],
             phone_num = str(prepay_serializer.data['phone_num']),
             name_rec = prepay_serializer.data['name_rec'],
+            captain = prepay_serializer.data['captain'],
         )
 
         #print('order created:',new_order)
@@ -469,8 +481,20 @@ def updateUser(request):
     return HttpResponse('success')
 
 
-
-
+def getCaptains(request):
+    userlon=float(request.GET.get('lon'))
+    userlat=float(request.GET.get('lat'))
+    captains = Captain.objects.filter(active = True)
+    captains_serializer = CaptainSerializer(captains,many=True)
+    
+    
+    ##Rearrange by distance
+    Locdic = getCaptainLocs()
+    for cap in captains_serializer.data:
+        
+        cap['dis']= round(getDistance(userlon,userlat,cap['longitude'],cap['lattitude']),2)
+    sorteddata= sorted(captains_serializer.data,key=lambda x:x['dis'])
+    return JSONResponse(sorteddata)
 
 
     

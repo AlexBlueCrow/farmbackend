@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'updateUser/',views.updateUser),
     url(r'allorder/',views.allorder),
     url(r'index/',views.index),
+    url(r'getCaptains/',views.getCaptains)
 ]
 
