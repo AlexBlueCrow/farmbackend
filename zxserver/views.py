@@ -74,7 +74,7 @@ def getCaptainLocs():
     captains = Captain.objects.all()
     dic = []
     for cap in captains:
-        Locinfo = {'id':cap.id,'name':cap.name,'loc':{'lon':cap.longitude,'lat':cap.latitude}}
+        Locinfo = {'id':cap.captain_id,'name':cap.name,'loc':{'lon':cap.longitude,'lat':cap.latitude}}
         dic.append(Locinfo)
     return dic
 
