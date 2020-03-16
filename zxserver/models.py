@@ -64,7 +64,7 @@ class ZxOrder(models.Model):
     imageUrl = models.CharField(default='',max_length=50)
     phone_num = models.CharField(max_length = 30,default='')
     name_rec = models.CharField(max_length =20,default = '', blank = True )
-    captain = models.ForeignKey(Captain,blank=True,default='')
+    captain = models.ForeignKey(Captain,blank=True,default='',on_delete=models.PROTECT)
     def __str__(self):
         return self.wxuser.user_nickname+'--'+str(self.price_paid)+'--'+self.item.item_name+'--'+self.Captain.name
         
@@ -81,7 +81,7 @@ class ZxPrepay_Order(models.Model):
     varified = models.BooleanField(default=False)
     phone_num = models.CharField(max_length = 30,default='')
     name_rec = models.CharField(max_length =20,default = '', blank = True)
-    captain = models.ForeignKey(Captain,blank=True,default='')
+    captain = models.ForeignKey(Captain,blank=True,default='',on_delete=models.PROTECT)
     def __str__(self):
         return str(self.fee)+str(self.varified)+self.out_trade_no
 
