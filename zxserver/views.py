@@ -492,7 +492,7 @@ def getCaptains(request):
     Locdic = getCaptainLocs()
     for cap in captains_serializer.data:
         
-        cap['dis']= round(getDistance(userlon,userlat,cap['longitude'],cap['lattitude']),2)
+        cap['dis']= round(getDistance(userlon,userlat,cap['longitude'],cap['latitude']),2)
     sorteddata= sorted(captains_serializer.data,key=lambda x:x['dis'])
     return JSONResponse(sorteddata)
 
