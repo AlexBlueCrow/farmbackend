@@ -66,7 +66,7 @@ class ZxOrder(models.Model):
     name_rec = models.CharField(max_length =20,default = '', blank = True )
     captain_id = models.IntegerField(blank=True,default=0)
     def __str__(self):
-        return self.wxuser.user_nickname+'--'+str(self.price_paid)+'--'+self.item.item_name+'--'+self.Captain.name
+        return self.wxuser.user_nickname+'--'+str(self.price_paid)+'--'+self.item.item_name+'--'+self.captain_id
         
 
 class ZxPrepay_Order(models.Model):
