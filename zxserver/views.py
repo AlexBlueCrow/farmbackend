@@ -488,13 +488,23 @@ def getCaptains(request):
     captains = Captain.objects.filter(active = True)
     captains_serializer = CaptainSerializer(captains,many=True)
     print(captains)
-
+    caps_data= []
+    for cap in captains:
+        item= {}
+        item['id']=cap.captain_id
+        item['nickname']=cap.zxuser.user_nickname
+        item['avatarUrl']=cap.zxuser.user_avatar
+        caps_data.append(item)
     
     
     ##Rearrange by distance
     Locdic = getCaptainLocs()
-    for cap in captains_serializer.data: 
+
+
+    for index,cap in enumerate(captains_serializer.data): 
         cap['dis']= round(getDistance(userlon,userlat,float(cap['longitude']),float(cap['latitude'])),2)
+        cap['nickname'] = caps_data[index]['nickname']
+        cap['avatarUrl'] = caps_data[index]['avatarUrl']
         
     sorteddata= sorted(captains_serializer.data,key=lambda x:x['dis'])
         
