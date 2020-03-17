@@ -326,7 +326,7 @@ def weChatPay(request):
     address= request.GET.get('addRegion')+request.GET.get('addDetail')
     name_rec= request.GET.get('name_rec')
     phone_num = request.GET.get('phone_num')
-    captain = request.GET.get('captain')
+    captain_id = request.GET.get('captain_id')
     ##tree_ip = get_treeip(item_id)
 
     
@@ -371,7 +371,7 @@ def weChatPay(request):
         item_id = int(item_id),
         phone_num = str(phone_num),
         name_rec = name_rec,
-        captain_id = captain
+        captain_id = captain_id
         
     )
     
