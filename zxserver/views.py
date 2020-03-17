@@ -371,7 +371,7 @@ def weChatPay(request):
         item_id = int(item_id),
         phone_num = str(phone_num),
         name_rec = name_rec,
-        captain = captain
+        captain_id = captain
         
     )
     
@@ -422,7 +422,7 @@ def pay_feedback(request):
             imageUrl = item_serializer.data['pic_address'],
             phone_num = str(prepay_serializer.data['phone_num']),
             name_rec = prepay_serializer.data['name_rec'],
-            captain = prepay_serializer.data['captain'],
+            captain_id = prepay_serializer.data['captain_id'],
         )
 
         #print('order created:',new_order)
