@@ -327,6 +327,8 @@ def weChatPay(request):
     name_rec= request.GET.get('name_rec')
     phone_num = request.GET.get('phone_num')
     captain_id = request.GET.get('captain_id')
+    del_time = request.GET.get('del_time')
+    
     ##tree_ip = get_treeip(item_id)
 
     
@@ -371,8 +373,8 @@ def weChatPay(request):
         item_id = int(item_id),
         phone_num = str(phone_num),
         name_rec = name_rec,
-        captain_id = captain_id
-        
+        captain_id = captain_id,
+        deliver_time=del_time,
     )
     
 
@@ -423,6 +425,7 @@ def pay_feedback(request):
             phone_num = str(prepay_serializer.data['phone_num']),
             name_rec = prepay_serializer.data['name_rec'],
             captain_id = prepay_serializer.data['captain_id'],
+            deliver_time = prepay_serializer.data['deliver_time'],
         )
 
         #print('order created:',new_order)

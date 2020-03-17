@@ -83,6 +83,7 @@ class ZxPrepay_Order(models.Model):
     phone_num = models.CharField(max_length = 30,default='')
     name_rec = models.CharField(max_length =20,default = '', blank = True)
     captain_id = models.IntegerField(blank=True,default=-1)
+    deliver_time = models.CharField(max_length = 30,default = '')
     def __str__(self):
         return str(self.fee)+str(self.varified)+self.out_trade_no
 
