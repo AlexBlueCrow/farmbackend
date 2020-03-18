@@ -490,7 +490,7 @@ def getCaptains(request):
     userlat=float(request.GET.get('lat'))
     captains = Captain.objects.filter(active = True)
     captains_serializer = CaptainSerializer(captains,many=True)
-    print(captains)
+    
     caps_data= []
     for cap in captains:
         item= {}

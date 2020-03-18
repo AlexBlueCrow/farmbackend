@@ -17,7 +17,7 @@ class ZxUser(models.Model):
     user_addressee = models.CharField(max_length = 50,blank = False, default= '')
     user_membership = models.IntegerField(default=0)
     user_region = models.CharField(max_length=50,default='')
-
+    current_captain_id = models.IntegerField(blank=True,default=-1)
 
     def __str__(self):
         return self.user_nickname
