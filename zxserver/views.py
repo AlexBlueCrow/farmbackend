@@ -481,7 +481,7 @@ def updateUser(request):
     zxuser.user_nickname= nickname
     zxuser.user_avatar = avatarUrl
     zxuser.save()
-    print(zxuser.current_captain_id)
+   
     return JSONResponse(zxuser.current_captain_id)
 
 
