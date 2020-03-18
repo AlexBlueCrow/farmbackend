@@ -474,15 +474,15 @@ def updateUser(request):
         return HttpResponse(res['errcode'])
     
     openid=res['openid']
-    wxuser = ZxUser.objects.get_or_create(
+    zxuser = ZxUser.objects.get_or_create(
         user_openid=openid,
     )
-    wxuser = ZxUser.objects.get(user_openid=openid)
-    wxuser.user_nickname= nickname
-    wxuser.user_avatar = avatarUrl
-    wxuser.save()
-    
-    return HttpResponse('success')
+    zxuser = ZxUser.objects.get(user_openid=openid)
+    zxuser.user_nickname= nickname
+    zxuser.user_avatar = avatarUrl
+    zxuser.save()
+    print(zxuser.current_captain_id)
+    return JSONResponse(zxuser.current_captain_id)
 
 
 def getCaptains(request):
@@ -490,7 +490,6 @@ def getCaptains(request):
     userlat=float(request.GET.get('lat'))
     captains = Captain.objects.filter(active = True)
     captains_serializer = CaptainSerializer(captains,many=True)
-    
     caps_data= []
     for cap in captains:
         item= {}
