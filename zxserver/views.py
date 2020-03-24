@@ -547,7 +547,7 @@ def cap_apply(request):
         )
         return HttpResponse('success')
         
-    except expression as identifier:
+    except:
         return HttpResponse('fail')
 
     
