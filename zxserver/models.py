@@ -42,13 +42,14 @@ class ZxItem(models.Model):
 
 class Captain(models.Model):
     captain_id = models.AutoField(primary_key=True)
-    zxuser = models.ForeignKey(ZxUser,on_delete=models.PROTECT)
+    zxuser = models.ForeignKey(ZxUser,on_delete=models.PROTECT,unique=True)
     longitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
     latitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
-    addresss = models.CharField(max_length=40)
-    phonenumber= models.BigIntegerField(blank=True,default=0)
+    addresss = models.CharField(max_length = 40)
+    phonenumber= models.BigIntegerField(blank=True,default = 0)
     name = models.CharField(max_length =20,default = '', blank = True )
     active = models.BooleanField(default = False)
+    
 
 class ZxOrder(models.Model):
     num = models.CharField(primary_key=True,unique=True,max_length=25)
