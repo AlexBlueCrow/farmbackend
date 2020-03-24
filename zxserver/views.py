@@ -535,20 +535,18 @@ def cap_apply(request):
     longitude = request.GET.get('lng')
     latitude = request.GET.get('lat')
     zxuser = wxlogin(code)
-    try:
+  
         newcap = Captain.objects.create(
             zxuser = zxuser,
             longitude = longitude,
             latitude = latitude,
             address = address,
             phonenumber = number,
-            
             name = name,
         )
         return HttpResponse('success')
         
-    except:
-        return HttpResponse('fail')
+    
 
     
     
