@@ -31,11 +31,26 @@ from django.core.serializers.json import json
 import csv
 
 # Create your views here.
+
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs) 
+
+def wxlogin(code):
+    appid= 'wx5aff52c0a3a0f7ac'
+    secret='3c6eb61f23aeff10038a74ff10aedd11'
+    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
+    res = json.loads(requests.get(wxLoginURL).content)
+    if 'errcode' in res:
+        return HttpResponse(res['errcode'])
+    openid=res['openid']
+    wxuser = ZxUser.objects.get_or_create(
+        user_openid=openid,
+    )
+    wxuser = ZxUser.objects.get(user_openid=openid)
+    return wxuser
 
 def get_farms(request):
     farmuser = FarmUser.objects.all()
@@ -76,7 +91,7 @@ def getCaptainLocs():
     for cap in captains:
         Locinfo = {'id':cap.captain_id,'name':cap.name,'loc':{'lon':cap.longitude,'lat':cap.latitude}}
         dic.append(Locinfo)
-    return dic
+    return dic 
 
 def getDistance(userLon,userLat,farmLon,farmLat):
     ##
@@ -512,6 +527,36 @@ def getCaptains(request):
         
     return JSONResponse(sorteddata)
 
+def cap_apply(request):
+    
+    code = request.GET.get('code')
+    name= request.GET.get('name')
+    number= request.GET.get('number')
+    address=request.GET.get('address')
+    longitude = request.GET.get('lng')
+    latitude = request.GET.get('lat')
+    zxuser = wxlogin(code)
+    try:
+        newcap = Captain.create(
+            zxuser = zxuser,
+            longitude = longitude,
+            latitude = latitude,
+            address = address,
+            phonenumber = number,
+            address = address,
+            name = name,
+        )
+        return HttpResponse('success')
+        
+    except expression as identifier:
+        return HttpResponse('fail')
+
+    
+    
+    
+##用小程序用户code换取openid，返回用户实例
+
+    
 
     
 

@@ -89,6 +89,7 @@ DATABASES = {
         'USER':'havefunz',
         'PASSWORD':'phantomthief+1s',
         'HOST':'sh-cdb-f3ktpy6k.sql.tencentcdb.com',
+        
         'PORT':'61443',
     }
 }
