@@ -45,7 +45,7 @@ class Captain(models.Model):
     zxuser = models.OneToOneField(ZxUser,on_delete=models.CASCADE)
     longitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
     latitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
-    addresss = models.CharField(max_length = 40)
+    address　 = models.CharField(max_length = 40)
     phonenumber= models.BigIntegerField(blank=True,default = 0)
     name = models.CharField(max_length =20,default = '', blank = True )
     active = models.BooleanField(default = False)
