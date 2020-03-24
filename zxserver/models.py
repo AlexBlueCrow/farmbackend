@@ -42,7 +42,7 @@ class ZxItem(models.Model):
 
 class Captain(models.Model):
     captain_id = models.AutoField(primary_key=True)
-    zxuser = models.OneToOneField(ZxUser)
+    zxuser = models.OneToOneField(ZxUser,on_delete=models.CASCADE)
     longitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
     latitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
     addresss = models.CharField(max_length = 40)
