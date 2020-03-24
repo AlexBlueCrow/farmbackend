@@ -536,7 +536,7 @@ def cap_apply(request):
     latitude = request.GET.get('lat')
     zxuser = wxlogin(code)
     try:
-        newcap = Captain.create(
+        newcap = Captain.objects.create(
             zxuser = zxuser,
             longitude = longitude,
             latitude = latitude,
