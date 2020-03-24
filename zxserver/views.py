@@ -528,7 +528,6 @@ def getCaptains(request):
     return JSONResponse(sorteddata)
 
 def cap_apply(request):
-    
     code = request.GET.get('code')
     name= request.GET.get('name')
     number= request.GET.get('number')
@@ -543,7 +542,7 @@ def cap_apply(request):
             latitude = latitude,
             address = address,
             phonenumber = number,
-            address = address,
+            
             name = name,
         )
         return HttpResponse('success')
