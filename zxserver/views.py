@@ -175,12 +175,11 @@ def get_questions(request):
 
 def get_comments(request):
     item_id = request.GET.get('item_id')
-    comments = ZxComments.objects.filter(item_id=item_id)
+    comments = ZxComments.objects.filter(item_id=item_id,active=True)
     if comments:
         comments_serializer = ZxCommentsSerializer(comments,many=True)
     else:
         return HttpResponse([])
-    
     return JSONResponse(comments_serializer.data)
 
 
@@ -198,15 +197,13 @@ def post_comment(request):
     AccTokUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+appid+'&secret='+secret
     accToken = json.loads(requests.get(AccTokUrl).content)['access_token']
     
-    
+    print('acctoken',accToken)
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = "{'content':comment_text}"
     r = json.loads(requests.post(SensCheckUrl,data=data).content)
-
-    
+    print('res from senscheck',r)
 
     if r['errcode']=='87014':
-        
         return JSONResponse({'code':'sensitive'})
     wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
     res = json.loads(requests.get(wxLoginURL).content)

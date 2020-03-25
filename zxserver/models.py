@@ -104,7 +104,8 @@ class ZxComments(models.Model):
     zxuser = models.ForeignKey(ZxUser,on_delete=models.CASCADE)
     comment_time = models.DateTimeField(default= timezone.now)
     user_avatar = models.CharField(max_length=150,blank=True,default='')##头像地址
-    user_nickname = models.CharField(max_length = 50,blank = False, default= '')
+    user_nickname = models.CharField(max_length=50,blank=False, default='')
+    active = models.BooleanField(default=True)
     def __str__(self):
         return self.user_nickname+'-'+self.comment_text
 
