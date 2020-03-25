@@ -191,7 +191,6 @@ def post_comment(request):
     item_id = request.GET.get('item_id')
     nickname = request.GET.get('nickname')
     avatarUrl = request.GET.get('avatarUrl')
-    
     appid= 'wx5aff52c0a3a0f7ac'
     secret='3c6eb61f23aeff10038a74ff10aedd11'
     AccTokUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+appid+'&secret='+secret
@@ -199,7 +198,7 @@ def post_comment(request):
     
     print('acctoken',accToken)
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
-    data = "{'content':comment_text}"
+    data = {'content':comment_text}
     r = json.loads(requests.post(SensCheckUrl,data=data).content)
     print('res from senscheck',r)
 
