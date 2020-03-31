@@ -499,8 +499,7 @@ def updateUser(request):
 def getCaptains(request):
     userlon=float(request.GET.get('lon'))
     userlat=float(request.GET.get('lat'))
-    code = request.GET.get('code')
-    zxuser = wxlogin(code)
+    
     
     captains = Captain.objects.filter(active = True)
     captains_serializer = CaptainSerializer(captains,many=True)
