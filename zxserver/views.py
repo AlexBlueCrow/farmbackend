@@ -196,7 +196,7 @@ def post_comment(request):
     AccTokUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+appid+'&secret='+secret
     accToken = json.loads(requests.get(AccTokUrl).content)['access_token']
     
-    print('acctoken',accToken)
+    
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = {'content':comment_text}
     r = json.loads(requests.post(SensCheckUrl,data=data).content)
@@ -499,29 +499,33 @@ def updateUser(request):
 def getCaptains(request):
     userlon=float(request.GET.get('lon'))
     userlat=float(request.GET.get('lat'))
-    captains = Captain.objects.filter(active = True)
-    captains_serializer = CaptainSerializer(captains,many=True)
-    caps_data= []
-    for cap in captains:
-        item= {}
-        item['id']=cap.captain_id
-        item['nickname']=cap.zxuser.user_nickname
-        item['avatarUrl']=cap.zxuser.user_avatar
-        caps_data.append(item)
-    
-    
-    ##Rearrange by distance
-    Locdic = getCaptainLocs()
+    code = request.GET.get('code')
+    zxuser = wxlogin(code)
+    try:
+        cap = Captain.objects.get(zxuser = zxuser)
+        return JSONResponse({'code':'is captain'})
+    except:
+        captains = Captain.objects.filter(active = True)
+        captains_serializer = CaptainSerializer(captains,many=True)
+        caps_data= []
+        for cap in captains:
+            item= {}
+            item['id']=cap.captain_id
+            item['nickname']=cap.zxuser.user_nickname
+            item['avatarUrl']=cap.zxuser.user_avatar
+            caps_data.append(item)
+        
+        
+        ##Rearrange by distance
+        Locdic = getCaptainLocs()
 
 
-    for index,cap in enumerate(captains_serializer.data): 
-        cap['dis']= round(getDistance(userlon,userlat,float(cap['longitude']),float(cap['latitude'])),2)
-        cap['nickname'] = caps_data[index]['nickname']
-        cap['avatarUrl'] = caps_data[index]['avatarUrl']
-        
-    sorteddata= sorted(captains_serializer.data,key=lambda x:x['dis'])
-        
-    return JSONResponse(sorteddata)
+        for index,cap in enumerate(captains_serializer.data): 
+            cap['dis']= round(getDistance(userlon,userlat,float(cap['longitude']),float(cap['latitude'])),2)
+            cap['nickname'] = caps_data[index]['nickname']
+            cap['avatarUrl'] = caps_data[index]['avatarUrl']  
+        sorteddata= sorted(captains_serializer.data,key=lambda x:x['dis'])      
+        return JSONResponse(sorteddata)
 
 def cap_apply(request):
     code = request.GET.get('code')
