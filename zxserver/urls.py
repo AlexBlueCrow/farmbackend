@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'allorder/',views.allorder),
     url(r'index/',views.index),
     url(r'getCaptains/',views.getCaptains),
-    url(r'cap_apply/',views.cap_apply)
+    url(r'cap_apply/',views.cap_apply),
+    url(r'is_captain/',views.is_captain)
 ]
 
