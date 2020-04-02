@@ -317,6 +317,11 @@ def payOrder(request):
 @authentication_classes([])
 def weChatPay(request):
     ##
+    appid= 'wx5aff52c0a3a0f7ac'
+    secret='3c6eb61f23aeff10038a74ff10aedd11'
+    mch_id='1571816511'
+    mch_key='qingjiaorenlingshop2019111820000'
+
     code= request.GET.get('code')
     item_id=request.GET.get('item_id')
     item_name = request.GET.get('item_name')
