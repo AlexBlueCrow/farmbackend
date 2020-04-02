@@ -553,7 +553,7 @@ def is_captain(request):
         captain = Captain.objects.get(zxuser = zxuser)
         zxuser.current_captain_id=captain.captain_id
         zxuser.save()
-        return JSONResponse({'is_captain':True,'status':captain.active})
+        return JSONResponse({'is_captain':True,'status':captain.active,'id':captain.captain_id})
     except:
         return JSONResponse({'is_captain':False})
 
