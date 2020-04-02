@@ -546,8 +546,11 @@ def cap_apply(request):
 def is_captain(request):
     code = request.GET.get('code')
     zxuser = wxlogin(code)
+
     try:
         captain = Captain.objects.get(zxuser = zxuser)
+        zxuser.current_captain_id=captain.captain_id
+        zxuser.save()
         return JSONResponse({'is_captain':True,'status':captain.active})
     except:
         return JSONResponse({'is_captain':False})
