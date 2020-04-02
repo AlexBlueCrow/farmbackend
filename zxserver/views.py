@@ -538,6 +538,8 @@ def cap_apply(request):
             phonenumber = number,
             name = name,
         )
+        zxuser.current_captain_id=newcap.captain_id
+        zxuser.save()
         return HttpResponse('success')
     except:
         return HttpResponse('fail')
