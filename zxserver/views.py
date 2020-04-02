@@ -149,12 +149,8 @@ def get_farmInfo(request):
 
 def get_userInfo(request):
     code = request.GET.get('code')
-    appid= 'wx5aff52c0a3a0f7ac'
-    secret='3c6eb61f23aeff10038a74ff10aedd11'
-    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
-    res = json.loads(requests.get(wxLoginURL).content)
-    openid=res['openid']
-    wxuser = ZxUser.objects.get(user_openid=openid)
+    wxuser = wxlogin(code)
+
     wxuser_serializer = ZxUserSerializer(wxuser,many=False)
     return JSONResponse(wxuser_serializer.data)
 
@@ -320,12 +316,6 @@ def payOrder(request):
 @api_view(['GET'])
 @authentication_classes([])
 def weChatPay(request):
-
-    mch_id='1571816511'
-    mch_key='qingjiaorenlingshop2019111820000'
-    appid= 'wx5aff52c0a3a0f7ac'
-    secret='3c6eb61f23aeff10038a74ff10aedd11'
-
     ##
     code= request.GET.get('code')
     item_id=request.GET.get('item_id')
@@ -339,21 +329,11 @@ def weChatPay(request):
     phone_num = request.GET.get('phone_num')
     captain_id = request.GET.get('captain_id')
     del_time = request.GET.get('del_time')
-    
-    ##tree_ip = get_treeip(item_id)
-
+    ##success
+    wxuser = wxlogin(code)
+    openid=wxuser.user_openid
     
     NOTIFY_URL='https://qingjiao.shop:8000/zxserver/pay_feedback'
-    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
-    res = json.loads(requests.get(wxLoginURL).content)
-    nonceStr = pay.getNonceStr()
-    if 'errcode' in res:
-        return Response(data={'code':res['errcode'],'msg':res['errmsg']})
-    ##success
-    openid=res['openid']
-    wxuser = ZxUser.objects.get_or_create(
-        user_openid=openid,
-    )
     wepy_order =  WeChatPay(appid=appid,sub_appid=appid,api_key=mch_key,mch_id=mch_id)
     out_trade_no=pay.getWxPayOrdrID()
     pay_res = wepy_order.order.create(
@@ -387,6 +367,9 @@ def weChatPay(request):
         captain_id = captain_id,
         deliver_time=del_time,
     )
+
+    wxuser.current_captain_id = captain_id
+    wxuser.save()
     
 
     return Response(data={'wepy_sign':wepy_sign,'status':100,'paySign':paySign,'timeStamp':timeStamp,'nonceStr':nonceStr})
