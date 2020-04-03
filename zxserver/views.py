@@ -515,6 +515,7 @@ def cap_apply(request):
     longitude = request.GET.get('lng')
     latitude = request.GET.get('lat')
     zxuser = wxlogin(code)
+    disName = request.GET.get('disName')
     
     
     try:
@@ -525,6 +526,7 @@ def cap_apply(request):
             address = address,
             phonenumber = number,
             name = name,
+            disName = disName,
         )
         zxuser.current_captain_id=newcap.captain_id
         zxuser.save()
