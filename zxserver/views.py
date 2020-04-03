@@ -196,7 +196,7 @@ def post_comment(request):
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = {'content':comment_text}
     r = json.loads(requests.post(SensCheckUrl,data=data).content)
-    print('res from senscheck',r)
+    
 
     if r['errcode']=='87014':
         return JSONResponse({'code':'sensitive'})
