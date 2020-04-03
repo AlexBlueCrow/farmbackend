@@ -526,7 +526,7 @@ def cap_apply(request):
             address = address,
             phonenumber = number,
             name = name,
-            disName = disName,
+            dis_name = disName,
         )
         zxuser.current_captain_id=newcap.captain_id
         zxuser.save()
