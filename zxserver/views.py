@@ -543,7 +543,7 @@ def is_captain(request):
         zxuser.save()
         return JSONResponse({'is_captain':True,'status':captain.active,'id':captain.captain_id})
     except:
-        return JSONResponse({'is_captain':False})
+        return JSONResponse({'is_captain':False,'current_cap':zxuser.current_captain_id})
 
 
     
