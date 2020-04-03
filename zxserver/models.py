@@ -49,6 +49,7 @@ class Captain(models.Model):
     phonenumber= models.BigIntegerField(blank=True,default = 0)
     name = models.CharField(max_length =20,default = '', blank = True )
     active = models.BooleanField(default = False)
+    dis_name = models.CharField(max_length=20,default='',blank = True)
     
 
 class ZxOrder(models.Model):
