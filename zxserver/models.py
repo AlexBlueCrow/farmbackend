@@ -20,6 +20,8 @@ class ZxUser(models.Model):
     current_captain_id = models.IntegerField(blank=True,default=-1)
 
     def __str__(self):
+        if self.user_nickname =='':
+            return '未授权:'+self.user_openid[0:3]
         return self.user_nickname
 
 class ZxItem(models.Model):
