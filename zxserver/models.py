@@ -41,6 +41,13 @@ class ZxItem(models.Model):
     def __str__(self):
         return self.item_name+'--'+str(self.item_price)+'/'+self.unit
 
+class CapManager(models.Model):
+    id = models.AutoField(primary_key=True)
+    invitecode = models.CharField(max_length=20,blank=False,unique=True)
+    name = models.CharField(max_length=20)
+    phonenumber= models.BigIntegerField(blank=False,default = 0)
+
+
 
 class Captain(models.Model):
     captain_id = models.AutoField(primary_key=True)
@@ -52,6 +59,7 @@ class Captain(models.Model):
     name = models.CharField(max_length =20,default = '', blank = True )
     active = models.BooleanField(default = False)
     dis_name = models.CharField(max_length=20,default='',blank = True)
+    manager = models.ForeignKey(CapManager,blank=True)
     
 
 class ZxOrder(models.Model):
