@@ -224,14 +224,6 @@ def post_comment(request):
 
     return Response(data={'code':'success','msg':'ok','data':{}})
 
-
-
-
-
-
-
-
-
 @csrf_exempt 
 @api_view(['GET'])
 @authentication_classes([])
@@ -527,6 +519,7 @@ def cap_apply(request):
             phonenumber = number,
             name = name,
             dis_name = dis_name,
+            active = True,
         )
         zxuser.current_captain_id=newcap.captain_id
         zxuser.save()
