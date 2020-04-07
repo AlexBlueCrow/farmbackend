@@ -46,6 +46,7 @@ class CapManager(models.Model):
     invitecode = models.CharField(max_length=20,blank=False,unique=True)
     name = models.CharField(max_length=20)
     phonenumber= models.BigIntegerField(blank=False,default = 0)
+    address=models.CharField(max_length=30,default='')
 
 
 
