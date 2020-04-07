@@ -59,7 +59,7 @@ class Captain(models.Model):
     name = models.CharField(max_length =20,default = '', blank = True )
     active = models.BooleanField(default = False)
     dis_name = models.CharField(max_length=20,default='',blank = True)
-    manager = models.ForeignKey(CapManager,blank=True)
+    manager = models.ForeignKey(CapManager,blank=True,on_delete=models.PROTECT)
     
 
 class ZxOrder(models.Model):
