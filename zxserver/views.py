@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from zxserver.models import ZxUser,ZxItem,ZxOrder,ZxComments,ZxPrepay_Order,ZxVarify_failed,Captain
+from zxserver.models import ZxUser,ZxItem,ZxOrder,ZxComments,ZxPrepay_Order,ZxVarify_failed,Captain,CapManager
 from dataserver.models import FarmUser
 from dataserver.serializers import FarmUserSerializer
 from zxserver.serializers import ZxUserSerializer,ZxItemSerializer,ZxOrderSerializer,ZxCommentsSerializer,ZxPrepay_OrderSerializer,CaptainSerializer
@@ -506,11 +506,15 @@ def cap_apply(request):
     address=request.GET.get('address')
     longitude = request.GET.get('lng')
     latitude = request.GET.get('lat')
-    zxuser = wxlogin(code)
+    
     dis_name = request.GET.get('disName')
+    invitecode = request.GET.get('invitecode')
+
+    zxuser = wxlogin(code)
     
     
     try:
+        manager = CapManager.objects.get(invitecode=invitecode)
         newcap = Captain.objects.create(
             zxuser = zxuser,
             longitude = longitude,
@@ -520,6 +524,7 @@ def cap_apply(request):
             name = name,
             dis_name = dis_name,
             active = True,
+            manager=manager,
         )
         zxuser.current_captain_id=newcap.captain_id
         zxuser.save()
