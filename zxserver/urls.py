@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url,include
-from zxserver import views
+from zxserver import views,homepage
 
 urlpatterns = [
     url(r'getItem/$',views.get_item),
@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'index/',views.index),
     url(r'getCaptains/',views.getCaptains),
     url(r'cap_apply/',views.cap_apply),
-    url(r'is_captain/',views.is_captain)
+    url(r'is_captain/',views.is_captain),
+    url(r'homepage/',homepage.homepage)
 ]
 

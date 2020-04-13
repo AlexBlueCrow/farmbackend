@@ -37,7 +37,7 @@ class ZxItem(models.Model):
     item_num_total = models.IntegerField(default=0)
     item_num_sold = models.IntegerField(default=0)
     active = models.BooleanField(default=False)
-    unit = models.CharField(max_length=5,default='',blank=False)
+    unit = models.CharField(max_length=15,default='',blank=False)
     def __str__(self):
         return self.item_name+'--'+str(self.item_price)+'/'+self.unit
 
@@ -47,6 +47,7 @@ class CapManager(models.Model):
     name = models.CharField(max_length=20)
     phonenumber= models.BigIntegerField(blank=False,default = 0)
     address=models.CharField(max_length=30,default='')
+    commission = models.IntegerField(default=0)
 
 
 
@@ -61,6 +62,7 @@ class Captain(models.Model):
     active = models.BooleanField(default = False)
     dis_name = models.CharField(max_length=20,default='',blank = True)
     manager = models.ForeignKey(CapManager,blank=True,on_delete=models.PROTECT)
+    commission = models.IntegerField(default=0)
     
 
 class ZxOrder(models.Model):

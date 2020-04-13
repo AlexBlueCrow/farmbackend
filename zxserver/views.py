@@ -506,12 +506,9 @@ def cap_apply(request):
     address=request.GET.get('address')
     longitude = request.GET.get('lng')
     latitude = request.GET.get('lat')
-    
     dis_name = request.GET.get('disName')
     invitecode = request.GET.get('invitecode')
-
     zxuser = wxlogin(code)
-    
     
     try:
         manager = CapManager.objects.get(invitecode=invitecode)
@@ -547,7 +544,8 @@ def is_captain(request):
 
 
     
-    
+
+
     
 ##用小程序用户code换取openid，返回用户实例
 
