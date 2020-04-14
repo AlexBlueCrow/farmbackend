@@ -112,6 +112,7 @@ class ZxVarify_failed(models.Model):
 
 
 class ZxComments(models.Model):
+    genres=[(1,'comments'),(2,'purches')]
     comment_id = models.AutoField(primary_key = True)
     item_id = models.IntegerField(default=0)
     comment_text = models.CharField(max_length = 100)
@@ -120,6 +121,7 @@ class ZxComments(models.Model):
     user_avatar = models.CharField(max_length=150,blank=True,default='')##头像地址
     user_nickname = models.CharField(max_length=50,blank=False, default='')
     active = models.BooleanField(default=True)
+    genre = models.IntegerField(choices=genres,default=1)
     def __str__(self):
         return self.user_nickname+'-'+self.comment_text
 

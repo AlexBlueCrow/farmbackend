@@ -191,22 +191,12 @@ def post_comment(request):
     secret='3c6eb61f23aeff10038a74ff10aedd11'
     AccTokUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+appid+'&secret='+secret
     accToken = json.loads(requests.get(AccTokUrl).content)['access_token']
-    
-    
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = {'content':comment_text}
-    r = json.loads(requests.post(SensCheckUrl,data=data).content)
-    
-
+    r = json.loads(requests.post(SensCheckUrl,data=json.dumps(data).encode()).content)
     if r['errcode']=='87014':
         return JSONResponse({'code':'sensitive'})
-    wxLoginURL = 'https://api.weixin.qq.com/sns/jscode2session?' +'appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type='+'authorization_code'
-    res = json.loads(requests.get(wxLoginURL).content)
-    if 'errcode' in res:
-        return Response(data={'code':res['errcode'],'msg':res['errmsg']})
-    ##success
-    openid=res['openid']
-    zxuser = ZxUser.objects.get(user_openid=openid)
+    zxuser = wxlogin(code)
     avatarUrl = zxuser.user_avatar
     nickname = zxuser.user_nickname
 
@@ -217,11 +207,7 @@ def post_comment(request):
             item_id=item_id,
             user_avatar = avatarUrl,
             user_nickname =nickname,
-    
         )
-    
-    
-
     return Response(data={'code':'success','msg':'ok','data':{}})
 
 @csrf_exempt 
@@ -400,10 +386,6 @@ def pay_feedback(request):
         item = ZxItem.objects.get(id=prepay_serializer.data['item_id'])
         wxuser = ZxUser.objects.get(user_openid=prepay_serializer.data['openid'])
         item_serializer = ZxItemSerializer(item,many=False)
-        
-        
-        ##
-        
         new_order = ZxOrder.objects.create(
             num = str(prepay_serializer.data['out_trade_no']),
             item = item,
@@ -417,6 +399,14 @@ def pay_feedback(request):
             name_rec = prepay_serializer.data['name_rec'],
             captain_id = prepay_serializer.data['captain_id'],
             deliver_time = prepay_serializer.data['deliver_time'],
+        )
+        comment = ZxComments.objects.create(
+            zxuser=wxuser,
+            comment_text='我刚刚买了'+item.item_name+'!',
+            item_id=item.item_id,
+            user_avatar = wxuser.user_avatar,
+            user_nickname =wxuser.user_nickname,
+            genre = 2,
         )
 
         #print('order created:',new_order)
