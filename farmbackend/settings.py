@@ -24,10 +24,11 @@ SECRET_KEY = 'gar$mpzxvu7ac01ut2saokz^do&ly)td-gwy&vp5x1iadx3v2-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =  True
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 serverip='49.235.138.160'
-ALLOWED_HOSTS = [serverip,'127.0.0.1','www.qingjiao.shop','qingjiao.shop']
+ALLOWED_HOSTS = ['localhost',serverip,'127.0.0.1','www.qingjiao.shop','qingjiao.shop']
 
 
 
@@ -43,12 +44,17 @@ INSTALLED_APPS = [
     'dataserver.apps.DataserverConfig',
     'management.apps.ManagementConfig',
     'rest_framework',
+    'rest_framework.authtoken',
     'werkzeug_debugger_runserver',
     'django_extensions',
-    'zxserver.apps.ZxserverConfig'
+    'zxserver.apps.ZxserverConfig',
+    'corsheaders',
+    'homepage.apps.HomepageConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

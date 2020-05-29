@@ -194,12 +194,13 @@ def post_comment(request):
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = {'content':comment_text}
     r = json.loads(requests.post(SensCheckUrl,data=json.dumps(data).encode()).content)
+    
     if r['errcode']=='87014':
         return JSONResponse({'code':'sensitive'})
     zxuser = wxlogin(code)
     avatarUrl = zxuser.user_avatar
     nickname = zxuser.user_nickname
-
+    print(comment_text)
     if comment_text:
         created = ZxComments.objects.create(
             zxuser=zxuser,
@@ -208,6 +209,8 @@ def post_comment(request):
             user_avatar = avatarUrl,
             user_nickname =nickname,
         )
+        created.save()
+        print('created')
     return Response(data={'code':'success','msg':'ok','data':{}})
 
 @csrf_exempt 
@@ -389,6 +392,7 @@ def pay_feedback(request):
         new_order = ZxOrder.objects.create(
             num = str(prepay_serializer.data['out_trade_no']),
             item = item,
+            farm_name = item.owner.farm_name,
             wxuser = wxuser,
             deliver_address = prepay_serializer.data['deliver_address'],
             price_paid = prepay_serializer.data['fee'],
