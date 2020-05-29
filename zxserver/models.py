@@ -49,6 +49,9 @@ class CapManager(models.Model):
     address=models.CharField(max_length=30,default='')
     commission = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.name
+
 
 
 class Captain(models.Model):
@@ -63,6 +66,9 @@ class Captain(models.Model):
     dis_name = models.CharField(max_length=20,default='',blank = True)
     manager = models.ForeignKey(CapManager,blank=True,on_delete=models.PROTECT)
     commission = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
     
 
 class ZxOrder(models.Model):
