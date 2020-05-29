@@ -129,8 +129,6 @@ def get_orderInfo(request):
             order['item_name']=item.item_name
             order['farm_name']=item.owner.farm_name
             order['effect_time']=order['effect_time'][0:10]
-
-        
         return JSONResponse(orders_serializer.data)
     
     else:
@@ -200,7 +198,6 @@ def post_comment(request):
     zxuser = wxlogin(code)
     avatarUrl = zxuser.user_avatar
     nickname = zxuser.user_nickname
-    print(comment_text)
     if comment_text:
         created = ZxComments.objects.create(
             zxuser=zxuser,
@@ -210,7 +207,6 @@ def post_comment(request):
             user_nickname =nickname,
         )
         created.save()
-        print('created')
     return Response(data={'code':'success','msg':'ok','data':{}})
 
 @csrf_exempt 
