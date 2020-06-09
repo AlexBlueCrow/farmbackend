@@ -31,13 +31,12 @@ def order(request):
 def ZxItem_API(request):
 
     if request.method == 'POST':
-        print(request)
+        
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
         
         contact = request.POST
-        for item in contact:
-            print(item,':',contact[item])
+        
         item_name = request.POST.get('itemname')
         name = request.POST.get('name')
         category = request.POST.get('class')
@@ -61,8 +60,8 @@ def ZxItem_API(request):
             category = category,
             item_price = price,
             unit = size,
-            video_adress = video_file.name,
-            pic_address = pic_file.name
+            video_address = static.video,
+            pic_address = static.pic,
         )
         created.save()
         return HttpResponse('success')
