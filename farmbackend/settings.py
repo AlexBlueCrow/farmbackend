@@ -144,7 +144,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = "/home/static_root/"
 
 STATICFILES_DIRS = [
-    "/home/static_dir"
+    "/home/static_dir",
+    'media/statics'
 ]
 
 
