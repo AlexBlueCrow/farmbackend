@@ -43,18 +43,28 @@ def ZxItem_API(request):
         price = request.POST.get('price')
         size = request.POST.get('size')
         farmname = request.POST.get('farmname')
+
+        
+        pic_file.name='test/rename'
+        
         try:
             farmuser = FarmUser.objects.get(farm_name=farmname)
         except:
             return HttpResponse('该农场不在系统中，请先创建农场')
-        try:
-            static= StaticFiles.objects.create(
-                item_name= item_name,
-                pic = pic_file,
-                video = video_file,
-            )
-        except:
-            return HttpResponse('视频或图片名已被使用，请重命名后再上传')
+        ##rename files with farm_name and item_name
+
+        pic_pf=pic_file.name.split('.')[-1]
+        video_pf=video_file.name.split('.')[-1]
+
+        pic_file.name=farmuser.farm_name+':'+item_name+'.'+pic_pf
+        video_file.name= farmuser.farm_name+':'+item_name+'.'+video_pf
+
+        static= StaticFiles.objects.create(
+            item_name= item_name,
+            pic = pic_file,
+            video = video_file,
+        )
+        
         
         created = ZxItem.objects.create(
             item_name=item_name,
