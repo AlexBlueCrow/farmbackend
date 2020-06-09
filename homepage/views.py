@@ -45,7 +45,7 @@ def ZxItem_API(request):
         farmname = request.POST.get('farmname')
 
         
-        pic_file.name='test/rename'
+    
         
         try:
             farmuser = FarmUser.objects.get(farm_name=farmname)
