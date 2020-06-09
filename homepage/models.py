@@ -7,6 +7,6 @@ class AdminUser(models.Model):
 
 class StaticFiles(models.Model):
     item_name = models.CharField(max_length = 30 )
-    pic = models.FileField(upload_to='statics')
-    video =models.FileField(upload_to='statics')
+    pic = models.FileField(upload_to='statics/pic/',unique= True)
+    video =models.FileField(upload_to='statics/video/',unique=True)
 

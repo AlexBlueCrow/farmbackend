@@ -47,12 +47,14 @@ def ZxItem_API(request):
             farmuser = FarmUser.objects.get(farm_name=farmname)
         except:
             return HttpResponse('该农场不在系统中，请先创建农场')
-        
-        static= StaticFiles.objects.create(
-            item_name= item_name,
-            pic = pic_file,
-            video = video_file,
-        )
+        try:
+            static= StaticFiles.objects.create(
+                item_name= item_name,
+                pic = pic_file,
+                video = video_file,
+            )
+        except:
+            return HttpResponse('视频或图片名已被使用，请重命名后再上传')
         
         created = ZxItem.objects.create(
             item_name=item_name,
@@ -60,8 +62,8 @@ def ZxItem_API(request):
             category = category,
             item_price = price,
             unit = size,
-            video_address = static.video,
-            pic_address = static.pic,
+            video_address = video_file.name,
+            pic_address = pic_file.name,
         )
         created.save()
         return HttpResponse('success')
