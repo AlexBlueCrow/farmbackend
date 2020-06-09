@@ -55,15 +55,17 @@ def ZxItem_API(request):
 
         pic_pf=pic_file.name.split('.')[-1]
         video_pf=video_file.name.split('.')[-1]
-
-        pic_file.name=farmuser.farm_name+'--'+item_name+'.'+pic_pf
-        video_file.name= farmuser.farm_name+'--'+item_name+'.'+video_pf
-
-        static= StaticFiles.objects.create(
-            item_name= item_name,
-            pic = pic_file,
-            video = video_file,
-        )
+        identifier= farmuser.farm_name+'--'+item_name
+        pic_file.name= identifier+'.'+pic_pf
+        video_file.name= identifier+'.'+video_pf
+        try:
+            static= StaticFiles.objects.create(
+                identifier= identifier,
+                pic = pic_file,
+                video = video_file,
+            )
+        except:
+            return HttpResponse('同名商品已存在')
         
         
         created = ZxItem.objects.create(
