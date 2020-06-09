@@ -56,8 +56,8 @@ def ZxItem_API(request):
         pic_pf=pic_file.name.split('.')[-1]
         video_pf=video_file.name.split('.')[-1]
 
-        pic_file.name=farmuser.farm_name+':'+item_name+'.'+pic_pf
-        video_file.name= farmuser.farm_name+':'+item_name+'.'+video_pf
+        pic_file.name=farmuser.farm_name+'--'+item_name+'.'+pic_pf
+        video_file.name= farmuser.farm_name+'--'+item_name+'.'+video_pf
 
         static= StaticFiles.objects.create(
             item_name= item_name,
