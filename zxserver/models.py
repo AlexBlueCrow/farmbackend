@@ -77,7 +77,7 @@ class ZxOrder(models.Model):
     farm_name = models.CharField(max_length=30,default='',blank=True)
     wxuser = models.ForeignKey(ZxUser,on_delete=models.PROTECT,default='')
     deliver_address = models.CharField(max_length = 50,default='',blank=False)
-    effect_time = models.DateTimeField(default=timezone.now)
+    effect_time= models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     price_paid = models.DecimalField(default=0,max_digits=8,decimal_places=2)
     quantity = models.IntegerField(default=1)

@@ -9,8 +9,12 @@ from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from farmbackend.settings import MEDIA_ROOT,MEDIA_URL
-from .models import StaticFiles
+from .models import StaticFiles,AdminUser
+import jwt
+from rest_framework_jwt.settings import api_settings
 # Create your views here.
+
+
 
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
@@ -88,5 +92,19 @@ def ZxItem_API(request):
 def get_csrf_token(request):
     return JsonResponse({})
 
+def login(request):
+    username = request.GET.get('username')
+    password = request.GET.get('password')
+    print(username,password)
+    try:
+        account = AdminUser.objects.get(username=username)
+        if account.password == password:
+             encoded_jwt = jwt.encode({'username':username},'secret_key',algorithm='HS256')
+             return 
+
+        else:
+            return HttpResponse('用户名或密码错误')
+    except:
+        return HttpResponse('用户名或密码错误')
 
 
