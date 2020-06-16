@@ -14,7 +14,7 @@ class AdminUser(models.Model):
         return self.userId
 
 class StaticFiles(models.Model):
-    item_name =models.CharField(max_length=10,default='')
+    
     identifier = models.CharField(max_length = 30,default='',unique=True)
     pic = models.FileField(upload_to='statics/pic/',unique= True)
     video =models.FileField(upload_to='statics/video/',unique=True)
