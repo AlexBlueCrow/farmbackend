@@ -31,7 +31,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 serverip='49.235.138.160'
 ALLOWED_HOSTS = ['localhost',serverip,'127.0.0.1','www.qingjiao.shop','qingjiao.shop']
 
-
+AUTH_USER_MODEL = "homepage.AdminUser"
 
 # Application definition
 
