@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'farmbackend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'backup',
+        'NAME': 'back_up',
         'USER':'havefunz',
         'PASSWORD':'phantomthief+1s',
         'HOST':'sh-cdb-f3ktpy6k.sql.tencentcdb.com',
