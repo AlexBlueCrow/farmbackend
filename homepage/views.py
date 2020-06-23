@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from zxserver.models import ZxOrder,ZxItem
-from dataserver.models import FarmUser
-from zxserver.serializers import ZxOrderSerializer
+from zxserver.models import ZxOrder,ZxItem,Captain,ZxUser,ZxOrder,ZxComments
+from dataserver.models import FarmUser,WxUser,Region,Question,Item,Order,Comments,GiftCode
+from zxserver.serializers import ZxOrderSerializer,ZxItemSerializer
 from django.http import HttpResponse,HttpResponseNotFound
 import json
 from rest_framework.renderers import JSONRenderer
@@ -12,15 +12,14 @@ from farmbackend.settings import MEDIA_ROOT,MEDIA_URL
 from .models import StaticFiles,AdminUser
 import jwt
 from rest_framework_jwt.settings import api_settings
+import csv as csvreader
+from rest_framework.authtoken.models import Token
+from zxserver.views import JSONResponse
+from .serializers import AdminUserSerializer
+
 # Create your views here.
 
 
-
-class JSONResponse(HttpResponse):
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs) 
 
 
 def order(request):
@@ -35,22 +34,15 @@ def order(request):
 def ZxItem_API(request):
 
     if request.method == 'POST':
-        
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
-        
         contact = request.POST
-        
         item_name = request.POST.get('itemname')
         name = request.POST.get('name')
         category = request.POST.get('class')
         price = request.POST.get('price')
         size = request.POST.get('size')
         farmname = request.POST.get('farmname')
-
-        
-    
-        
         try:
             farmuser = FarmUser.objects.get(farm_name=farmname)
         except:
@@ -70,8 +62,6 @@ def ZxItem_API(request):
             )
         except:
             return HttpResponse('同名商品已存在')
-        
-        
         created = ZxItem.objects.create(
             item_name=item_name,
             owner = farmuser,
@@ -83,28 +73,66 @@ def ZxItem_API(request):
         )
         created.save()
         return HttpResponse('success')
-    
-
     return HttpResponse('something is wrong')
+
+    if request.method == 'GET':
+        farmname = request.GET.get('farmname')
+        try:
+            famruser = FarmUser.objects.get(farm_name=farmname)
+            items = ZxItem.objects.filter(owner = farmuser)
+            items_ser = ZxItemSerializer(items,many=true)
+            print(items_ser)
+            return JSONResponse(items_ser.data)
+
+        except:
+            return HttpResponse('农场未创建')
+
     
 
 @ensure_csrf_cookie
 def get_csrf_token(request):
     return JsonResponse({})
 
-def login(request):
-    username = request.GET.get('username')
-    password = request.GET.get('password')
-    print(username,password)
-    try:
-        account = AdminUser.objects.get(username=username)
-        if account.password == password:
-             encoded_jwt = jwt.encode({'username':username},'secret_key',algorithm='HS256')
-             return 
-
-        else:
-            return HttpResponse('用户名或密码错误')
-    except:
-        return HttpResponse('用户名或密码错误')
 
 
+
+    
+@csrf_exempt
+def csv(request):
+    if request.method == 'POST':
+        print('request get')
+        csvfile = request.FILES.get('csvfile')
+        print(csvfile)
+        name = csvfile.name
+        print('name:',name)
+        
+        csv_reader=csvreader.reader(open('homepage/csv/'+name,encoding='utf-8'))
+        print('reader',csv_reader)
+        num=0
+        titles=[]
+        i=0
+        for row in csv_reader:
+            if num==0:
+                print('0000')
+                for item in row:
+                    titles.append(item)
+                for item in titles:
+                    print(item+' = '+'row['+str(i)+'],')
+                    i+=1
+                num+=1
+            else:
+              pass
+               
+                #new = FarmUser.objects.create(
+                    
+                #)
+                #print(new)
+                #new.save()
+
+                
+        return HttpResponse('good')
+    else:
+        print('what?')
+        
+        
+        

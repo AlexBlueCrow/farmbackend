@@ -26,6 +26,9 @@ SECRET_KEY = 'gar$mpzxvu7ac01ut2saokz^do&ly)td-gwy&vp5x1iadx3v2-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =  True
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = 'X-CSRFToken'
+
 
 
 serverip='49.235.138.160'
@@ -51,10 +54,12 @@ INSTALLED_APPS = [
     'zxserver.apps.ZxserverConfig',
     'corsheaders',
     'homepage.apps.HomepageConfig',
+    
 ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -177,5 +182,30 @@ CACHES = {
         }
     }
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'X-Token',
+)
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+    'VIEW',
+)
+CORS_URLS_REGEX = '^.*$'
 
 
