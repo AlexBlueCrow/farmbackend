@@ -137,7 +137,7 @@ def csv(request):
 
                 
         return HttpResponse('good')
-    else:
+  
         
         
 @csrf_exempt    
