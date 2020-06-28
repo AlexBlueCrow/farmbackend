@@ -75,7 +75,7 @@ CSRF_COOKIE_SECURE = True,
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -150,7 +150,8 @@ STATIC_ROOT = "/home/static_root/"
 
 STATICFILES_DIRS = [
     "/home/static_dir",
-    'media/statics/'
+    'media/statics/',
+    os.path.join(BASE_DIR, "dist/static/"),
 ]
 
 

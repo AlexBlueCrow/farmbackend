@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls import url
 from homepage import urls as api_urls
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +25,7 @@ urlpatterns = [
     url(r'manage/',include('management.urls')),
     url(r'zxserver/',include('zxserver.urls')),
     url(r'homepage/',include('homepage.urls')),
-    url(r'api/',include(api_urls))
+    url(r'api/',include(api_urls)),
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
 
 ]

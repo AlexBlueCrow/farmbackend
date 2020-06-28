@@ -81,11 +81,11 @@ def ZxItem_API(request):
         
         try:
             farmuser = FarmUser.objects.get(farm_name=farmname)
-            print(farmuser)
+           
             items = ZxItem.objects.filter(owner = farmuser)
-            print(items)
+            
             items_ser = ZxItemSerializer(items,many=True)
-            print(items_ser.data)
+            
             return JSONResponse({'code':20000,'data':items_ser.data})
 
         except:
@@ -106,24 +106,24 @@ def get_csrf_token(request):
 @csrf_exempt
 def csv(request):
     if request.method == 'POST':
-        print('request get')
+      
         csvfile = request.FILES.get('csvfile')
-        print(csvfile)
+        
         name = csvfile.name
-        print('name:',name)
+       
         
         csv_reader=csvreader.reader(open('homepage/csv/'+name,encoding='utf-8'))
-        print('reader',csv_reader)
+        
         num=0
         titles=[]
         i=0
         for row in csv_reader:
             if num==0:
-                print('0000')
+                
                 for item in row:
                     titles.append(item)
                 for item in titles:
-                    print(item+' = '+'row['+str(i)+'],')
+        
                     i+=1
                 num+=1
             else:
@@ -138,7 +138,7 @@ def csv(request):
                 
         return HttpResponse('good')
     else:
-        print('what?')
+        
         
 @csrf_exempt    
 def Farm_API(request):
@@ -150,7 +150,7 @@ def Farm_API(request):
         return JSONResponse({'code':20000,'data':farm_serializer.data})
     
     if request.method == 'POST':
-        print('farm_api_post')
+   
         farmname = request.POST.get('farmname')
         
         address = request.POST.get('address')
@@ -158,7 +158,7 @@ def Farm_API(request):
         phonenum = request.POST.get('phonenum')
         contact = request.POST.get('contact')
         farm_type = request.POST.get('type')
-        print(farmname,address)
+        
         
         fuser = FarmUser.objects.get(farm_name=farmname)
         fuser.farm_address = address
@@ -169,7 +169,7 @@ def Farm_API(request):
         fuser.save()
         msg1='info_update_success'
         logo = request.FILES.get('logo')
-        print(logo)
+        
 
         
 
@@ -191,11 +191,11 @@ def Farm_API(request):
             except:
                 static = StaticFiles.objects.get(identifier=identifier)
                 static.pic = logo
-                print(static.pic)
+                
                 static.save()
                 msg = '头像更新成功'
                 fuser.farm_logo_address=logo.name
-                print(fuser.farm_logo_address,logo.name)
+                
                 fuser.save()
 
         return JSONResponse({'code':20000,'data':{'res':msg1,'msg':msg},})

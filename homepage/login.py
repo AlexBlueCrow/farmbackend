@@ -59,12 +59,12 @@ def login(request):
         
         username = body['username']
         password = body['password']
-        print(username,password)
+        
         user_obj = AdminUser.objects.filter(username=username,password=password).first()
-        print('user_obj',user_obj)
+        
         if user_obj:
             token = Token.objects.get(user=user_obj)
-            print(token.key)
+           
             return JSONResponse({'code':20000,'token':token.key,'msg':'登录成功'})
         else:
             return HttpResponse('用户名或密码错误')
@@ -72,18 +72,18 @@ def login(request):
 
 @csrf_exempt
 def userInfo(request):
-    print('----------',request.method)
+    
     if request.method == 'GET':
         token = request.GET.get('token')
-        print(token)
+       
         try:
             token_obj = Token.objects.get(key=token)
         except:
             return HttpResponse('身份验证失败')
         user = AdminUser.objects.get(id=token_obj.user_id)
-        print('user',user)
+      
         user_ser = AdminUserSerializer(user).data
-        print('user_ser--------',user_ser)
+        
         return JSONResponse({'code':20000,'data':user_ser})
 
         
