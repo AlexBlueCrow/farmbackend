@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from dataserver.models import FarmUser
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseNotFound
 import json
@@ -28,6 +28,12 @@ def register(request):
     farmname=request.POST.get('farmname')
     name = request.POST.get('name')
     print(username,password,phone_number,farmname,name)
+    try:
+        fuser = Farmuser.objects.get(farm_name=farmname)
+        if fuser:
+            return HttpResponse('农场已创建账号')
+    except:
+        pass
     try:
         new = AdminUser.objects.create(
             username=username,

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from zxserver.models import ZxOrder,ZxItem,Captain,ZxUser,ZxOrder,ZxComments
 from dataserver.models import FarmUser,WxUser,Region,Question,Item,Order,Comments,GiftCode
 from zxserver.serializers import ZxOrderSerializer,ZxItemSerializer
+from dataserver.serializers import FarmUserSerializer
 from django.http import HttpResponse,HttpResponseNotFound
 import json
 from rest_framework.renderers import JSONRenderer
@@ -26,13 +27,13 @@ def order(request):
     start=request.GET.get('date1')
     end=request.GET.get('date2')
     farm_name = request.GET.get('farmname')
-    orders = ZxOrder.objects.filter(effect_time__range=(start,end))
+    
+    orders = ZxOrder.objects.filter(effect_time__range=(start,end),farm_name = farm_name)
     orders_serializer = ZxOrderSerializer(orders,many=True)
     return JSONResponse(orders_serializer.data)
 
 @csrf_exempt
 def ZxItem_API(request):
-
     if request.method == 'POST':
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
@@ -73,19 +74,24 @@ def ZxItem_API(request):
         )
         created.save()
         return HttpResponse('success')
-    return HttpResponse('something is wrong')
 
     if request.method == 'GET':
+        
         farmname = request.GET.get('farmname')
+        
         try:
-            famruser = FarmUser.objects.get(farm_name=farmname)
+            farmuser = FarmUser.objects.get(farm_name=farmname)
+            print(farmuser)
             items = ZxItem.objects.filter(owner = farmuser)
-            items_ser = ZxItemSerializer(items,many=true)
-            print(items_ser)
-            return JSONResponse(items_ser.data)
+            print(items)
+            items_ser = ZxItemSerializer(items,many=True)
+            print(items_ser.data)
+            return JSONResponse({'code':20000,'data':items_ser.data})
 
         except:
             return HttpResponse('农场未创建')
+    
+    return HttpResponse('something is wrong')
 
     
 
@@ -134,5 +140,64 @@ def csv(request):
     else:
         print('what?')
         
+@csrf_exempt    
+def Farm_API(request):
+    if request.method=='GET':
+        farmname = request.GET.get('farmname')
+        farm_obj = FarmUser.objects.get(farm_name = farmname)
+        farm_serializer = FarmUserSerializer(farm_obj,many=False)
+
+        return JSONResponse({'code':20000,'data':farm_serializer.data})
+    
+    if request.method == 'POST':
+        print('farm_api_post')
+        farmname = request.POST.get('farmname')
         
+        address = request.POST.get('address')
+        description = request.POST.get('description')
+        phonenum = request.POST.get('phonenum')
+        contact = request.POST.get('contact')
+        farm_type = request.POST.get('type')
+        print(farmname,address)
+        
+        fuser = FarmUser.objects.get(farm_name=farmname)
+        fuser.farm_address = address
+        fuser.farm_description = description
+        fuser.farm_phonenumber = phonenum
+        fuser.farm_contact = contact
+        fuser.farm_type = farm_type
+        fuser.save()
+        msg1='info_update_success'
+        logo = request.FILES.get('logo')
+        print(logo)
+
+        
+
+        
+        msg = 'no_new_logo'
+        if logo:
+            logo_pf= logo.name.split('.')[-1]
+            logo_fname = farmname+'-logo'+'.'+logo_pf
+            logo.name = logo_fname
+            identifier = farmname+'-logo'
+            try:
+                static= StaticFiles.objects.create(
+                    identifier= identifier,
+                    pic = logo,
+                )
+                msg = '头像创建成功'
+                fuser.farm_log_address=logo_fname
+                fuser.save()
+            except:
+                static = StaticFiles.objects.get(identifier=identifier)
+                static.pic = logo
+                print(static.pic)
+                static.save()
+                msg = '头像更新成功'
+                fuser.farm_logo_address=logo.name
+                print(fuser.farm_logo_address,logo.name)
+                fuser.save()
+
+        return JSONResponse({'code':20000,'data':{'res':msg1,'msg':msg},})
+
         
