@@ -27,7 +27,7 @@ def register(request):
     phone_number=request.POST.get('phone_number')
     farmname=request.POST.get('farmname')
     name = request.POST.get('name')
-    print(username,password,phone_number,farmname,name)
+    
     try:
         fuser = Farmuser.objects.get(farm_name=farmname)
         if fuser:
@@ -45,7 +45,7 @@ def register(request):
         )
         token = Token.objects.create(user=new)
         token.save()
-        print(token)
+        
         return HttpResponse('注册成功')
     except:
         return HttpResponse('用户名或手机号已被注册，请重试')

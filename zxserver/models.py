@@ -38,6 +38,7 @@ class ZxItem(models.Model):
     item_num_sold = models.IntegerField(default=0)
     active = models.BooleanField(default=False)
     unit = models.CharField(max_length=15,default='',blank=False)
+    effect_time= models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.item_name+'--'+str(self.item_price)+'/'+self.unit
 
@@ -130,6 +131,11 @@ class ZxComments(models.Model):
     genre = models.IntegerField(choices=genres,default=1)
     def __str__(self):
         return self.user_nickname+'-'+self.comment_text
+
+
+class ExVideo(models.Model):
+    item = models.ForeignKey(ZxItem,on_delete=models.CASCADE)
+    video =models.FileField(upload_to='statics/video/',unique=True)
 
 
 
