@@ -22,6 +22,18 @@ class StaticFiles(models.Model):
     def __str__(self):
         return self.identifier
 
+class VideoFiles(models.Model):
+    name = models.CharField(max_length = 30,default='',unique=True)
+    video =models.FileField(upload_to='statics/video/',unique=True)
+
+    def __str__(self):
+        return self.name
+
+class PicFiles(models.Model):
+    name = models.CharField(max_length = 30,default='',unique=True)
+    pic =models.FileField(upload_to='statics/video/',unique=True)
+
+
 
 
         

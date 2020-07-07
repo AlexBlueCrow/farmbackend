@@ -40,7 +40,7 @@ class ZxItem(models.Model):
     unit = models.CharField(max_length=15,default='',blank=False)
     effect_time= models.DateTimeField(default=timezone.now)
     def __str__(self):
-        return self.item_name+'--'+str(self.item_price)+'/'+self.unit
+        return str(self.id)+self.item_name+'--'+str(self.item_price)+'/'+self.unit
 
 class CapManager(models.Model):
     id = models.AutoField(primary_key=True)

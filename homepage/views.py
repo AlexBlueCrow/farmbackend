@@ -17,7 +17,8 @@ import csv as csvreader
 from rest_framework.authtoken.models import Token
 from zxserver.views import JSONResponse
 from .serializers import AdminUserSerializer
-
+from .models import VideoFiles,PicFiles
+from django.utils import timezone
 # Create your views here.
 
 
@@ -55,6 +56,7 @@ def ZxItem_API(request):
         identifier= farmuser.farm_name+'--'+item_name
         pic_file.name= identifier+'.'+pic_pf
         video_file.name= identifier+'.'+video_pf
+
         try:
             static= StaticFiles.objects.create(
                 identifier= identifier,
@@ -63,7 +65,8 @@ def ZxItem_API(request):
             )
         except:
             return HttpResponse('同名商品已存在')
-        created = ZxItem.objects.create(
+        
+         created = ZxItem.objects.create(
             item_name=item_name,
             owner = farmuser,
             category = category,
@@ -76,23 +79,41 @@ def ZxItem_API(request):
         return HttpResponse('success')
 
     if request.method == 'GET':
-        
         farmname = request.GET.get('farmname')
-        
         try:
             farmuser = FarmUser.objects.get(farm_name=farmname)
-           
             items = ZxItem.objects.filter(owner = farmuser)
-            
             items_ser = ZxItemSerializer(items,many=True)
-            
             return JSONResponse({'code':20000,'data':items_ser.data})
-
         except:
             return HttpResponse('农场未创建')
-    
     return HttpResponse('something is wrong')
 
+
+    if request.method == 'PUT':
+        item_name = request.PUT.get('itemname')
+        name = request.PUT.get('name')
+        category = request.PUT.get('class')
+        price = request.PUT.get('price')
+        size = request.PUT.get('size')
+        farmname = request.PUT.get('farmname')
+        item_id = request.PUT.get('id')
+        video_file = request.FILES.get('video')
+        pic_file = request.FILES.get('pic')
+
+        if video_file:
+            video_pf=video_file.name.split('.')[-1]
+            video_file.name = identifier + '.' + video_pf  
+        if pic_file:
+            pic_pf=pic_file.name.split('.')[-1]
+            pic_file.name = identifier + '.' + pic_pf + str(timezone.localtime())
+        identifier = farmuser.farm_name + '--' + item_name
+        item = ZxItem.objects.get(id=item_id)
+        static = StaticFiles.objects.get(identifier = identifier)
+        
+        
+        
+        
     
 
 @ensure_csrf_cookie
@@ -106,12 +127,8 @@ def get_csrf_token(request):
 @csrf_exempt
 def csv(request):
     if request.method == 'POST':
-      
         csvfile = request.FILES.get('csvfile')
-        
         name = csvfile.name
-       
-        
         csv_reader=csvreader.reader(open('homepage/csv/'+name,encoding='utf-8'))
         
         num=0
@@ -128,9 +145,7 @@ def csv(request):
                 num+=1
             else:
               pass
-               
                 #new = FarmUser.objects.create(
-                    
                 #)
                 #print(new)
                 #new.save()
