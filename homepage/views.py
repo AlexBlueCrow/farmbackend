@@ -66,7 +66,7 @@ def ZxItem_API(request):
         except:
             return HttpResponse('同名商品已存在')
         
-         created = ZxItem.objects.create(
+        created = ZxItem.objects.create(
             item_name=item_name,
             owner = farmuser,
             category = category,
