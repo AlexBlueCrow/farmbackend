@@ -36,7 +36,7 @@ class FarmUser(models.Model):
     latitude = models.DecimalField(max_digits=8,decimal_places=4,default=0)
 
     def __str__(self):
-        return self.farm_name
+        return str(self.id)+'-'+self.farm_name
 
 
 

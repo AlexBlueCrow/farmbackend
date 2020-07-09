@@ -23,15 +23,22 @@ class StaticFiles(models.Model):
         return self.identifier
 
 class VideoFiles(models.Model):
-    name = models.CharField(max_length = 30,default='',unique=True)
+    itemname = models.CharField(max_length = 50,default='',unique=False)
+    farmname = models.CharField(max_length = 50,default='',unique=False)
     video =models.FileField(upload_to='statics/video/',unique=True)
+    
+    
 
     def __str__(self):
-        return self.name
+        return self.farmname+self.itemname
 
 class PicFiles(models.Model):
-    name = models.CharField(max_length = 30,default='',unique=True)
+    itemname = models.CharField(max_length = 50,default='',unique=False)
+    famrname = models.CharField(max_length = 50,default='',unique=False)
     pic =models.FileField(upload_to='statics/video/',unique=True)
+
+    def __str__(self):
+        return self.farmname+self.itemname
 
 
 

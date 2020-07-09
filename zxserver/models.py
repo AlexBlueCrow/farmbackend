@@ -23,6 +23,7 @@ class ZxUser(models.Model):
         if self.user_nickname =='':
             return '未授权:'+self.user_openid[0:3]
         return self.user_nickname
+        
 
 class ZxItem(models.Model):
     ##id ++

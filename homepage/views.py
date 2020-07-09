@@ -28,7 +28,6 @@ def order(request):
     start=request.GET.get('date1')
     end=request.GET.get('date2')
     farm_name = request.GET.get('farmname')
-    
     orders = ZxOrder.objects.filter(effect_time__range=(start,end),farm_name = farm_name)
     orders_serializer = ZxOrderSerializer(orders,many=True)
     return JSONResponse(orders_serializer.data)
@@ -50,22 +49,12 @@ def ZxItem_API(request):
         except:
             return HttpResponse('该农场不在系统中，请先创建农场')
         ##rename files with farm_name and item_name
-
         pic_pf=pic_file.name.split('.')[-1]
         video_pf=video_file.name.split('.')[-1]
         identifier= farmuser.farm_name+'--'+item_name
-        pic_file.name= identifier+'.'+pic_pf
-        video_file.name= identifier+'.'+video_pf
-
-        try:
-            static= StaticFiles.objects.create(
-                identifier= identifier,
-                pic = pic_file,
-                video = video_file,
-            )
-        except:
-            return HttpResponse('同名商品已存在')
-        
+        timestamp = str(timezone.now())
+        pic_file.name= identifier+timestamp+'.'+pic_pf
+        video_file.name= identifier+timestamp+'.'+video_pf
         created = ZxItem.objects.create(
             item_name=item_name,
             owner = farmuser,
@@ -91,25 +80,54 @@ def ZxItem_API(request):
 
 
     if request.method == 'PUT':
+        item_id = request.PUT.get('id')
         item_name = request.PUT.get('itemname')
-        name = request.PUT.get('name')
         category = request.PUT.get('class')
         price = request.PUT.get('price')
         size = request.PUT.get('size')
         farmname = request.PUT.get('farmname')
-        item_id = request.PUT.get('id')
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
-
+        
+        item = ZxItem.objects.get(id=item_id)
+        item.item_name = item_name
+        item.category = category
+        item.item_price = price
+        item.unit = size
+        item.save()
         if video_file:
             video_pf=video_file.name.split('.')[-1]
-            video_file.name = identifier + '.' + video_pf  
+            video_file.name = farmname +'-'+ item_name + str(timezone.localtime()) + '.' + video_pf
+            newvideo =  VideoFiles.objects.create(
+                itemname = item_name,
+                farmname = farmname,
+                video = video_file
+            )
+            item.video_address = video_file.name
+            item.save()
         if pic_file:
             pic_pf=pic_file.name.split('.')[-1]
-            pic_file.name = identifier + '.' + pic_pf + str(timezone.localtime())
-        identifier = farmuser.farm_name + '--' + item_name
-        item = ZxItem.objects.get(id=item_id)
-        static = StaticFiles.objects.get(identifier = identifier)
+            pic_file.name = farmname +'-'+ item_name + str(timezone.localtime()) + '.' + pic_pf 
+            newpic = PicFiles.objects.create(
+                itemname = item_name,
+                farmname = farmname,
+                pic = pic_file
+            )
+            item.pic_address = pic_file.name
+            item.save()
+        return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
+
+
+        
+
+    if request.method == 'DELETE':
+        try:
+            item_id = request.DELETE.get('id')
+            tme = ZxItem.objects.get(id=item_id)
+            item.delete()
+            return JSONResponse({'code':20000,'data':{'msg':'已删除'},})
+        except:
+            return JSONResponse({'code':20000,'data':{'msg':'该商品目前无法删除'},})
         
         
         
