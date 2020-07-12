@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'csv/',views.csv),
     url(r'getUserInfo/',login.userInfo),
     url(r'itemList/',views.ZxItem_API),
-    url(r'farm/',views.Farm_API)
+    url(r'farm/',views.Farm_API),
+    url(r'ZxItem_update',views.ZxItem_update)
 ]
 

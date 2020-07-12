@@ -34,7 +34,7 @@ class VideoFiles(models.Model):
 
 class PicFiles(models.Model):
     itemname = models.CharField(max_length = 50,default='',unique=False)
-    famrname = models.CharField(max_length = 50,default='',unique=False)
+    farmname = models.CharField(max_length = 50,default='',unique=False)
     pic =models.FileField(upload_to='statics/video/',unique=True)
 
     def __str__(self):

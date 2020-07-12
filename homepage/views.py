@@ -33,8 +33,54 @@ def order(request):
     return JSONResponse(orders_serializer.data)
 
 @csrf_exempt
+def ZxItem_update(request):
+    if request.method == 'POST':
+        item_id = request.POST.get('id')
+        item_name = request.POST.get('itemname')
+        category = request.POST.get('class')
+        price = request.POST.get('price')
+        size = request.POST.get('size')
+        farmname = request.POST.get('farmname')
+        video_file = request.FILES.get('video')
+        pic_file = request.FILES.get('pic')
+        #
+        item = ZxItem.objects.get(id=item_id)
+        item.item_name = item_name
+        item.category = category
+        item.item_price = price
+        item.unit = size
+        item.save()
+        #
+        if video_file:
+            video_pf=video_file.name.split('.')[-1]
+            video_file.name = farmname +'-'+ item_name + str(timezone.localtime()) + '.' + video_pf
+            newvideo =  VideoFiles.objects.create(
+                itemname = item_name,
+                farmname = farmname,
+                video = video_file
+            )
+            item.video_address = video_file.name
+            item.save()
+        if pic_file:
+            pic_pf=pic_file.name.split('.')[-1]
+            pic_file.name = farmname +'-'+ item_name + str(timezone.localtime()) + '.' + pic_pf 
+            newpic = PicFiles.objects.create(
+                itemname = item_name,
+                farmname = farmname,
+                pic = pic_file
+            )
+            item.pic_address = pic_file.name
+            item.save()
+        return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
+    else:
+        print(request)
+        return HttpResponse('error')
+
+
+@csrf_exempt
 def ZxItem_API(request):
     if request.method == 'POST':
+
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
         contact = request.POST
@@ -76,18 +122,25 @@ def ZxItem_API(request):
             return JSONResponse({'code':20000,'data':items_ser.data})
         except:
             return HttpResponse('农场未创建')
-    return HttpResponse('something is wrong')
+    
 
 
     if request.method == 'PUT':
-        item_id = request.PUT.get('id')
-        item_name = request.PUT.get('itemname')
-        category = request.PUT.get('class')
-        price = request.PUT.get('price')
-        size = request.PUT.get('size')
-        farmname = request.PUT.get('farmname')
+        print(request)
+        data = JSONParser().parse(request)
+        print(data)
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
+        print(video_file,pic_file)
+        item_id = request.POST.get('id')
+        item_name = request.POST.get('itemname')
+        category = request.POST.get('class')
+        price = request.POST.get('price')
+        size = request.POST.get('size')
+        farmname = request.POST.get('farmname')
+        video_file = request.FILES.get('video')
+        pic_file = request.FILES.get('pic')
+        print(item_id,item_name)
         
         item = ZxItem.objects.get(id=item_id)
         item.item_name = item_name
@@ -118,17 +171,18 @@ def ZxItem_API(request):
         return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
 
 
-        
+         
 
     if request.method == 'DELETE':
         try:
-            item_id = request.DELETE.get('id')
-            tme = ZxItem.objects.get(id=item_id)
+            item_id = request.GET.get('id') 
+            item = ZxItem.objects.get(id=item_id)
             item.delete()
             return JSONResponse({'code':20000,'data':{'msg':'已删除'},})
         except:
             return JSONResponse({'code':20000,'data':{'msg':'该商品目前无法删除'},})
-        
+
+    return JSONResponse({'code':20000,'data':{'msg':'error'},})
         
         
         
@@ -137,6 +191,8 @@ def ZxItem_API(request):
 @ensure_csrf_cookie
 def get_csrf_token(request):
     return JsonResponse({})
+
+
 
 
 
@@ -185,7 +241,6 @@ def Farm_API(request):
     if request.method == 'POST':
    
         farmname = request.POST.get('farmname')
-        
         address = request.POST.get('address')
         description = request.POST.get('description')
         phonenum = request.POST.get('phonenum')
@@ -202,11 +257,6 @@ def Farm_API(request):
         fuser.save()
         msg1='info_update_success'
         logo = request.FILES.get('logo')
-        
-
-        
-
-        
         msg = 'no_new_logo'
         if logo:
             logo_pf= logo.name.split('.')[-1]
