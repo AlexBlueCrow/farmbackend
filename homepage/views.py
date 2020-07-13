@@ -43,12 +43,16 @@ def ZxItem_update(request):
         farmname = request.POST.get('farmname')
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
+        is_active = request.POST.get('active')
+        print(is_active)
         #
         item = ZxItem.objects.get(id=item_id)
         item.item_name = item_name
         item.category = category
         item.item_price = price
         item.unit = size
+        item.active = is_active
+
         item.save()
         #
         if video_file:
