@@ -16,7 +16,7 @@ from rest_framework_jwt.settings import api_settings
 import csv as csvreader
 from rest_framework.authtoken.models import Token
 from zxserver.views import JSONResponse
-from .serializers import AdminUserSerializer
+from .serializers import AdminUserSerializer,VideoFilesSerializer,PicFilesSerializer,VIMapSerializer
 from .models import VideoFiles,PicFiles
 from django.utils import timezone
 # Create your views here.
@@ -52,7 +52,6 @@ def ZxItem_update(request):
         item.item_price = price
         item.unit = size
         item.active = is_active
-
         item.save()
         #
         if video_file:
@@ -286,5 +285,28 @@ def Farm_API(request):
                 fuser.save()
 
         return JSONResponse({'code':20000,'data':{'res':msg1,'msg':msg},})
+
+def video_API(request):
+    if request.method == 'GET':
+        farmname = request.GET.get('farmname')
+        farm_obj = FarmUser.objects.get(farm_name = farmname)
+        videos = VideoFiles.objects.filter(farmname = farmname)
+        videos_serializer = VideoFilesSerializer(videos,many = True)
+        return JSONResponse({'code':20000,'data':videos_serializer.data})
+
+    if request.method == 'POST':
+        farmname = request.POST.get('farmname')
+        desc = request.POST.get('desc')
+        video = request.FILES.get('video')
+        try:
+            new  = VideoFiles.objects.create(
+                description = desc,
+                farmname = farmname,
+                video = video,
+            )
+            new.save()
+            return JSONResponse({'code':20000,'msg':'上传成功'})
+        except:
+            return JSONResponse({'code':20000,'msg':'上传失败，请尝试重命名视频文件'})
 
         

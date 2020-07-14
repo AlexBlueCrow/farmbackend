@@ -22,7 +22,6 @@ from .serializers import AdminUserSerializer
 @csrf_exempt
 def register(request):
     username = request.POST.get('username')
-    
     password=request.POST.get('password')
     phone_number=request.POST.get('phone_number')
     farmname=request.POST.get('farmname')

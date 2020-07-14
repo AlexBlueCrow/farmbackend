@@ -19,11 +19,11 @@ class StaticFiles(models.Model):
     identifier = models.CharField(max_length = 30,default='',unique=True)
     pic = models.FileField(upload_to='statics/pic/',unique= True)
     video =models.FileField(upload_to='statics/video/',unique=True)
-
     def __str__(self):
         return self.identifier
 
 class VideoFiles(models.Model):
+    name = models.CharField(max_length = 50 , default = '',blank = True)
     description = models.CharField(max_length = 50 , default = '')
     itemname = models.CharField(max_length = 50,default = '',unique = False, blank = True )
     farmname = models.CharField(max_length = 50,default = '',unique = False )
