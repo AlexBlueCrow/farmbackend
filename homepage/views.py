@@ -17,7 +17,7 @@ import csv as csvreader
 from rest_framework.authtoken.models import Token
 from zxserver.views import JSONResponse
 from .serializers import AdminUserSerializer,VideoFilesSerializer,PicFilesSerializer,VIMapSerializer
-from .models import VideoFiles,PicFiles
+from .models import VideoFiles,PicFiles,VIMap
 from django.utils import timezone
 # Create your views here.
 
@@ -28,9 +28,24 @@ def order(request):
     start=request.GET.get('date1')
     end=request.GET.get('date2')
     farm_name = request.GET.get('farmname')
-    orders = ZxOrder.objects.filter(effect_time__range=(start,end),farm_name = farm_name)
-    orders_serializer = ZxOrderSerializer(orders,many=True)
-    return JSONResponse(orders_serializer.data)
+    try:
+        orders = ZxOrder.objects.filter(effect_time__range=(start,end),farm_name = farm_name)
+        orders_serializer = ZxOrderSerializer(orders,many=True)
+        return JSONResponse(orders_serializer.data)
+    except:
+        return JSONResponse({'code':20000,'data':{'msg':'目标范围无数据'},})
+
+def VIMap(request):
+    itemid = request.GET.get('itemid')
+    print(itemid)
+    videoids = request.GET.get('videos')
+    print(videoids)
+    new = VIMap.objects.create(
+        
+    )
+    return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
+
+
 
 @csrf_exempt
 def ZxItem_update(request):
@@ -242,15 +257,12 @@ def Farm_API(request):
         return JSONResponse({'code':20000,'data':farm_serializer.data})
     
     if request.method == 'POST':
-   
         farmname = request.POST.get('farmname')
         address = request.POST.get('address')
         description = request.POST.get('description')
         phonenum = request.POST.get('phonenum')
         contact = request.POST.get('contact')
         farm_type = request.POST.get('type')
-        
-        
         fuser = FarmUser.objects.get(farm_name=farmname)
         fuser.farm_address = address
         fuser.farm_description = description
@@ -277,29 +289,33 @@ def Farm_API(request):
             except:
                 static = StaticFiles.objects.get(identifier=identifier)
                 static.pic = logo
-                
                 static.save()
                 msg = '头像更新成功'
                 fuser.farm_logo_address=logo.name
-                
                 fuser.save()
 
         return JSONResponse({'code':20000,'data':{'res':msg1,'msg':msg},})
 
+@csrf_exempt
 def video_API(request):
     if request.method == 'GET':
         farmname = request.GET.get('farmname')
         farm_obj = FarmUser.objects.get(farm_name = farmname)
-        videos = VideoFiles.objects.filter(farmname = farmname)
-        videos_serializer = VideoFilesSerializer(videos,many = True)
-        return JSONResponse({'code':20000,'data':videos_serializer.data})
+        try:
+            videos = VideoFiles.objects.filter(farmname = farmname)
+            videos_serializer = VideoFilesSerializer(videos,many = True)
+            return JSONResponse({'code':20000,'msg':'请求成功','data':videos_serializer.data})
+        except:
+            return JSONResponse({'code':20000,'msg':'无视频','data':''})
 
     if request.method == 'POST':
         farmname = request.POST.get('farmname')
         desc = request.POST.get('desc')
         video = request.FILES.get('video')
+        name = request.POST.get('name')
         try:
             new  = VideoFiles.objects.create(
+                name = name,
                 description = desc,
                 farmname = farmname,
                 video = video,

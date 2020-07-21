@@ -28,8 +28,8 @@ def register(request):
     name = request.POST.get('name')
     
     try:
-        fuser = Farmuser.objects.get(farm_name=farmname)
-        if fuser:
+        adminUser = AdminUser.objects.get(farm=farmname)
+        if adminUser:
             return HttpResponse('农场已创建账号')
     except:
         pass
@@ -52,18 +52,14 @@ def register(request):
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
-        
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        
         username = body['username']
         password = body['password']
-        
         user_obj = AdminUser.objects.filter(username=username,password=password).first()
         
         if user_obj:
             token = Token.objects.get(user=user_obj)
-           
             return JSONResponse({'code':20000,'token':token.key,'msg':'登录成功'})
         else:
             return HttpResponse('用户名或密码错误')

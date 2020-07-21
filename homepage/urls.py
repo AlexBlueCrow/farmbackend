@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'itemList/',views.ZxItem_API),
     url(r'farm/',views.Farm_API),
     url(r'ZxItem_update',views.ZxItem_update),
-    url(r'video/',views.video_API)
+    url(r'video/',views.video_API),
+    url(r'VIMap/',views.VIMap)
 ]
 
