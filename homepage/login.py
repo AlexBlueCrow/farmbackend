@@ -32,7 +32,9 @@ def register(request):
         if adminUser:
             return HttpResponse('农场已创建账号')
     except:
-        pass
+        farm = FarmUser.objects.create(
+            farm_name = farmname
+        )
     try:
         new = AdminUser.objects.create(
             username=username,
