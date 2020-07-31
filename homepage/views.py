@@ -39,14 +39,13 @@ def VIMap_update(request):
     print(request.body)
     itemid = request.POST.get('itemid')
     farmname = request.POST.get('farmname')
-    item = ZxItem.objects.get(id=itemid)
-    links = VIMap.objects.filter(item=item)
-    i = 0 
+    links = VIMap.objects.filter(item_id=itemid)
     new_ids = []
     old_ids = []
-    print(links)
+    farm = FarmUser.objects.get(farm_name=farmname)
     for link in links:
-        old_ids.append(link.video.id)
+        old_ids.append(link.video_id)
+    i = 0
     while True:
         vid = request.POST.get('videoids['+ str(i) +']')
         if vid:
@@ -58,8 +57,16 @@ def VIMap_update(request):
     print(new_ids,old_ids)
     for id in old_ids:
         if id not in new_ids:
-            link = VIMap.objects.get()
-   
+            link = VIMap.objects.get(item_id=itemid,video_id=id)
+            link.delete()
+    for id in new_ids:
+        if id not in old_ids:
+            link = VIMap.objects.create(
+                farm = farm,
+                item_id = itemid,
+                video_id = id
+            )
+        print(id,link)
     return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
 
 

@@ -41,7 +41,7 @@ class PicFiles(models.Model):
         return self.farmname+self.itemname
 
 class VIMap(models.Model):
-    name = models.CharField(max_length = 50)
+    name = models.CharField(max_length = 50,default='')
     farm = models.ForeignKey(FarmUser, on_delete = models.CASCADE)
     item_id = models.IntegerField(blank=False,default=-1)
     video_id = models.IntegerField(blank=False,default=-1)
