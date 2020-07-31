@@ -34,15 +34,32 @@ def order(request):
         return JSONResponse(orders_serializer.data)
     except:
         return JSONResponse({'code':20000,'data':{'msg':'目标范围无数据'},})
-
-def VIMap(request):
-    itemid = request.GET.get('itemid')
-    print(itemid)
-    videoids = request.GET.get('videos')
-    print(videoids)
-    new = VIMap.objects.create(
+@csrf_exempt
+def VIMap_update(request):
+    print(request.body)
+    itemid = request.POST.get('itemid')
+    farmname = request.POST.get('farmname')
+    item = ZxItem.objects.get(id=itemid)
+    links = VIMap.objects.filter(item=item)
+    i = 0 
+    new_ids = []
+    old_ids = []
+    print(links)
+    for link in links:
+        old_ids.append(link.video.id)
+    while True:
+        vid = request.POST.get('videoids['+ str(i) +']')
+        if vid:
+            new_ids.append(vid)
+            i+=1
+        else:
+            break
         
-    )
+    print(new_ids,old_ids)
+    for id in old_ids:
+        if id not in new_ids:
+            link = VIMap.objects.get()
+   
     return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
 
 
