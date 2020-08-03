@@ -43,6 +43,7 @@ def VIMap_update(request):
     new_ids = []
     old_ids = []
     farm = FarmUser.objects.get(farm_name=farmname)
+    item = ZxItem.object.get(id = itemid)
     for link in links:
         old_ids.append(link.video_id)
     i = 0
@@ -64,7 +65,8 @@ def VIMap_update(request):
             link = VIMap.objects.create(
                 farm = farm,
                 item_id = itemid,
-                video_id = id
+                video_id = id,
+                name = item.itme_name+'---'+str(id)
             )
         print(id,link)
     return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
@@ -216,13 +218,13 @@ def ZxItem_API(request):
          
 
     if request.method == 'DELETE':
+        item_id = request.GET.get('id') 
         try:
-            item_id = request.GET.get('id') 
             item = ZxItem.objects.get(id=item_id)
             item.delete()
             return JSONResponse({'code':20000,'data':{'msg':'已删除'},})
         except:
-            return JSONResponse({'code':20000,'data':{'msg':'该商品目前无法删除'},})
+            return JSONResponse({'code':20000,'data':{'msg':'删除失败'},})
 
     return JSONResponse({'code':20000,'data':{'msg':'error'},})
         
