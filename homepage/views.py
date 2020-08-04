@@ -36,7 +36,7 @@ def order(request):
         return JSONResponse({'code':20000,'data':{'msg':'目标范围无数据'},})
 @csrf_exempt
 def VIMap_update(request):
-    print(request.body)
+    
     itemid = request.POST.get('itemid')
     farmname = request.POST.get('farmname')
     links = VIMap.objects.filter(item_id=itemid)
@@ -54,8 +54,6 @@ def VIMap_update(request):
             i+=1
         else:
             break
-        
-    print(new_ids,old_ids)
     for id in old_ids:
         if id not in new_ids:
             link = VIMap.objects.get(item_id=itemid,video_id=id)
@@ -68,7 +66,6 @@ def VIMap_update(request):
                 video_id = id,
                 name = item.itme_name+'---'+str(id)
             )
-        print(id,link)
     return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
 
 
@@ -85,7 +82,7 @@ def ZxItem_update(request):
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
         is_active = request.POST.get('active')
-        print(is_active)
+       
         #
         item = ZxItem.objects.get(id=item_id)
         item.item_name = item_name
@@ -117,7 +114,7 @@ def ZxItem_update(request):
             item.save()
         return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
     else:
-        print(request)
+        
         return HttpResponse('error')
 
 
@@ -170,12 +167,12 @@ def ZxItem_API(request):
 
 
     if request.method == 'PUT':
-        print(request)
+        
         data = JSONParser().parse(request)
-        print(data)
+    
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
-        print(video_file,pic_file)
+        
         item_id = request.POST.get('id')
         item_name = request.POST.get('itemname')
         category = request.POST.get('class')
@@ -184,7 +181,7 @@ def ZxItem_API(request):
         farmname = request.POST.get('farmname')
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
-        print(item_id,item_name)
+        
         
         item = ZxItem.objects.get(id=item_id)
         item.item_name = item_name
