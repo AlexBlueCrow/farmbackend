@@ -28,6 +28,7 @@ class VideoFiles(models.Model):
     itemname = models.CharField(max_length = 50,default = '',unique = False, blank = True )
     farmname = models.CharField(max_length = 50,default = '',unique = False )
     video = models.FileField(upload_to = 'statics/video/',unique = True )
+    cover = models.CharField(max_length = 50,default = '')
     def __str__(self):
         return self.farmname+self.itemname
 
@@ -45,7 +46,7 @@ class VIMap(models.Model):
     farm = models.ForeignKey(FarmUser, on_delete = models.CASCADE)
     item_id = models.IntegerField(blank=False,default=-1)
     video_id = models.IntegerField(blank=False,default=-1)
-
+    
     def __str__(self):
         return self.name
 

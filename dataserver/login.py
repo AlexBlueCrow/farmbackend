@@ -13,7 +13,6 @@ from .serializers import WxUserSerializer
 
 @api_view(['POST'])
 @authentication_classes([]) # 添加
-
 def wx_login(request):
     print('request',request)
     appid= 'wxd647f4c25673f368'
@@ -43,8 +42,6 @@ def wx_login(request):
     sha.update(openid.encode())
     sha.update(session_key.encode())
     digest = sha.hexdigest()
- 
-
        #存入缓存，有效期2小时
     conn = get_redis_connection('default')
     conn.set(digest, user_str, ex=2*60*60)

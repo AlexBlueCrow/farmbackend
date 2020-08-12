@@ -27,7 +27,7 @@ class ZxUser(models.Model):
 
 class ZxItem(models.Model):
     ##id ++
-    
+    modes = [(0,'all'),(1,'foster'),(2,'selling')]
     item_name = models.CharField(max_length = 100,blank=False,default='')
     owner = models.ForeignKey(FarmUser,on_delete=models.PROTECT)
     category = models.CharField(max_length= 100,blank=False,default='')
@@ -40,6 +40,7 @@ class ZxItem(models.Model):
     active = models.BooleanField(default=False)
     unit = models.CharField(max_length=15,default='',blank=False)
     effect_time= models.DateTimeField(default=timezone.now)
+    mode = models.IntegerField(choices=modes, default=0)
     def __str__(self):
         return str(self.id)+self.item_name+'--'+str(self.item_price)+'/'+self.unit
 
@@ -68,6 +69,7 @@ class Captain(models.Model):
     dis_name = models.CharField(max_length=20,default='',blank = True)
     manager = models.ForeignKey(CapManager,blank=True,on_delete=models.PROTECT)
     commission = models.IntegerField(default=0)
+    
 
     def __str__(self):
         return self.name
@@ -89,6 +91,8 @@ class ZxOrder(models.Model):
     name_rec = models.CharField(max_length =20,default = '', blank = True )
     captain_id = models.IntegerField(blank=True,default=-1)
     deliver_time = models.CharField(max_length = 30,default = '')
+
+    completed  = models.BooleanField(default=False)
     def __str__(self):
         return self.wxuser.user_nickname+'--'+str(self.price_paid)+'--'+self.item.item_name+'/'+str(self.captain_id)
         
